@@ -1,0 +1,49 @@
+# Metabase - Analytics Dashboard
+# Accessible at: analytics.kartikey54.com
+services:
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=metabase
+      - MB_DB_PORT=5432
+      - MB_DB_USER=metabase
+      - MB_DB_PASS=${METABASE_DB_PASSWORD:-change_me}
+      - MB_DB_HOST=postgres
+      - JAVA_TIMEZONE=UTC
+      - MB_SITE_NAME=Analytics Dashboard
+      - MB_SITE_URL=https://analytics.kartikey54.com
+    volumes:
+      - metabase_data:/metabase-data
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: metabase-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=metabase
+      - POSTGRES_PASSWORD=${METABASE_DB_PASSWORD:-change_me}
+      - POSTGRES_DB=metabase
+    volumes:
+      - metabase_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U metabase"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  metabase_data:
+  metabase_postgres_data:
+
