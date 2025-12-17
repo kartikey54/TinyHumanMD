@@ -21,6 +21,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./MCC.png:/usr/share/nginx/html/logo.png:ro
+      - ./favicon.png:/usr/share/nginx/html/favicon.png:ro
       - ./data/upload:/usr/share/nginx/html/upload:ro
     depends_on:
       - uptime-kuma
