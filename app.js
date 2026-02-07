@@ -358,41 +358,55 @@
 
   /* ── Navigation ─────────────────────────────────────────────── */
   function setupNav(){
-    // Desktop smooth scroll
-    $$('.nav-link').forEach(function(link){
+    // Desktop dropdown — hover is handled by CSS, but also handle click on trigger
+    var ddParent=$('#navDropdown');
+    var ddTrigger=$('#navDdTrigger');
+    if(ddTrigger){
+      ddTrigger.addEventListener('click',function(e){
+        e.preventDefault();
+        var target=document.querySelector('#schedule');
+        if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    }
+    // Desktop dropdown links — smooth scroll to section
+    $$('.nav-dd-link').forEach(function(link){
       link.addEventListener('click',function(e){
         e.preventDefault();
+        if(ddParent) ddParent.classList.remove('is-open');
         var target=document.querySelector(link.getAttribute('href'));
         if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
-        $$('.nav-link').forEach(function(l){l.classList.remove('is-active');});
-        link.classList.add('is-active');
       });
     });
+    // Desktop tool links — normal <a> navigation, no JS needed
+
     // Mobile menu
     var overlay=$('#mobileNavOverlay');
-    var list=$('#mobileNavList');
-    // Populate mobile nav from desktop nav
-    $$('#navList a').forEach(function(a){
-      var li=document.createElement('li');
-      var link=document.createElement('a');
-      link.href=a.getAttribute('href');link.textContent=a.textContent;
-      link.addEventListener('click',function(e){
-        e.preventDefault();closeMobileNav();
-        var target=document.querySelector(link.getAttribute('href'));
-        if(target) setTimeout(function(){target.scrollIntoView({behavior:'smooth',block:'start'});},300);
-      });
-      li.appendChild(link);list.appendChild(li);
-    });
-    $('#mobileMenuBtn').addEventListener('click',function(){
-      overlay.classList.add('is-open');overlay.setAttribute('aria-hidden','false');
-      this.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';
-    });
     function closeMobileNav(){
       overlay.classList.remove('is-open');overlay.setAttribute('aria-hidden','true');
       $('#mobileMenuBtn').setAttribute('aria-expanded','false');document.body.style.overflow='';
     }
+    $('#mobileMenuBtn').addEventListener('click',function(){
+      overlay.classList.add('is-open');overlay.setAttribute('aria-hidden','false');
+      this.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';
+    });
     $('#mobileNavClose').addEventListener('click',closeMobileNav);
     overlay.addEventListener('click',function(e){if(e.target===overlay)closeMobileNav();});
+
+    // Mobile anchor links (vaccine sections) — scroll + close
+    $$('.mobile-nav-sub-grid a').forEach(function(link){
+      link.addEventListener('click',function(e){
+        var href=link.getAttribute('href');
+        if(href && href.charAt(0)==='#'){
+          e.preventDefault();closeMobileNav();
+          var target=document.querySelector(href);
+          if(target) setTimeout(function(){target.scrollIntoView({behavior:'smooth',block:'start'});},300);
+        }
+      });
+    });
+    // Mobile page links — just close the menu, let browser navigate
+    $$('#mobileNavList > li > a').forEach(function(link){
+      link.addEventListener('click',function(){closeMobileNav();});
+    });
   }
 
   /* ── Init ───────────────────────────────────────────────────── */

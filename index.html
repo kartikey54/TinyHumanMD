@@ -48,18 +48,26 @@
       </a>
       <nav class="nav" aria-label="Main navigation">
         <ul class="nav-list" role="list" id="navList">
-          <li><a href="#schedule" class="nav-link is-active" data-section="schedule">Schedule</a></li>
-          <li><a href="#catchup" class="nav-link" data-section="catchup">Catch-up</a></li>
-          <li><a href="#timeline" class="nav-link" data-section="timeline">Timeline</a></li>
-          <li><a href="#vaccines" class="nav-link" data-section="vaccines">Vaccines</a></li>
-          <li><a href="#adults" class="nav-link" data-section="adults">Adults</a></li>
-          <li><a href="#pregnancy" class="nav-link" data-section="pregnancy">Pregnancy</a></li>
-          <li><a href="#travel" class="nav-link" data-section="travel">Travel</a></li>
-          <li><a href="#mpox" class="nav-link" data-section="mpox">Mpox</a></li>
-          <li class="nav-divider" style="width:1px;height:20px;background:var(--c-border);margin:0 4px"></li>
+          <li class="nav-dropdown" id="navDropdown">
+            <a href="#schedule" class="nav-link is-active" id="navDdTrigger">
+              Vaccines
+              <svg class="nav-chev" width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <div class="nav-dd-panel">
+              <a href="#schedule" class="nav-dd-link" data-section="schedule">Schedule by Age</a>
+              <a href="#catchup" class="nav-dd-link" data-section="catchup">Catch-up Schedule</a>
+              <a href="#timeline" class="nav-dd-link" data-section="timeline">Visual Timeline</a>
+              <a href="#vaccines" class="nav-dd-link" data-section="vaccines">Vaccine Reference</a>
+              <a href="#adults" class="nav-dd-link" data-section="adults">Adult Vaccines</a>
+              <a href="#pregnancy" class="nav-dd-link" data-section="pregnancy">Pregnancy</a>
+              <a href="#travel" class="nav-dd-link" data-section="travel">Travel</a>
+              <a href="#mpox" class="nav-dd-link" data-section="mpox">Mpox</a>
+            </div>
+          </li>
           <li><a href="/growth/" class="nav-link">Growth</a></li>
           <li><a href="/bili/" class="nav-link">Bilirubin</a></li>
           <li><a href="/ga-calc/" class="nav-link">GA Calc</a></li>
+          <li><a href="/catch-up/" class="nav-link">Catch-Up</a></li>
           <li><a href="/dosing/" class="nav-link">Dosing</a></li>
         </ul>
       </nav>
@@ -75,7 +83,26 @@
       <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
-      <ul class="mobile-nav-list" id="mobileNavList" role="list"></ul>
+      <ul class="mobile-nav-list" id="mobileNavList" role="list">
+        <li class="mobile-nav-label">Vaccine Schedules</li>
+        <li class="mobile-nav-sub-grid">
+          <a href="#schedule" data-section="schedule">Schedule by Age</a>
+          <a href="#catchup" data-section="catchup">Catch-up</a>
+          <a href="#timeline" data-section="timeline">Timeline</a>
+          <a href="#vaccines" data-section="vaccines">Reference</a>
+          <a href="#adults" data-section="adults">Adults</a>
+          <a href="#pregnancy" data-section="pregnancy">Pregnancy</a>
+          <a href="#travel" data-section="travel">Travel</a>
+          <a href="#mpox" data-section="mpox">Mpox</a>
+        </li>
+        <li class="mobile-nav-divider"></li>
+        <li class="mobile-nav-label">Clinical Tools</li>
+        <li><a href="/growth/">Growth Charts</a></li>
+        <li><a href="/bili/">Bilirubin Calculator</a></li>
+        <li><a href="/ga-calc/">Gestational Age</a></li>
+        <li><a href="/catch-up/">Catch-Up Calculator</a></li>
+        <li><a href="/dosing/">Dosing Calculator</a></li>
+      </ul>
     </div>
   </div>
 
