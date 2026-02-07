@@ -3,40 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Immunization Schedule | Birth to 18 Years</title>
+  <title>Vaccines Made Easy | Immunization Schedule, Birth to 18 Years</title>
+  <meta name="description" content="Interactive CDC immunization schedule for children, adolescents, adults, pregnancy, and travel. A clinical decision support tool." />
+  <meta name="keywords" content="immunization schedule, vaccine schedule, CDC vaccines, child vaccines, adult vaccines, travel vaccines, pregnancy vaccines" />
+  <link rel="canonical" href="https://kartikey54.github.io/Docassist-/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- ============ HEADER ============ -->
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="logo">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6.5V12c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5V6.5L12 2z" fill="var(--accent)" opacity=".12" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v8M8 12h8" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/></svg>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- ======== HEADER ======== -->
+  <header class="header" role="banner">
+    <div class="header-inner container">
+      <a href="#" class="logo" aria-label="Vaccines Made Easy home">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L4 6.5V12c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5V6.5L12 2z" fill="var(--c-primary)" opacity=".15" stroke="var(--c-primary)" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8.5v7M8.5 12h7" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round"/></svg>
         <span>Vaccines Made Easy</span>
-      </div>
-      <nav class="header-nav">
-        <a href="#schedule" class="nav-link active">Schedule</a>
-        <a href="#catchup" class="nav-link">Catch-up</a>
-        <a href="#timeline" class="nav-link">Timeline</a>
-        <a href="#vaccines" class="nav-link">Vaccines</a>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <ul class="nav-list" role="list" id="navList">
+          <li><a href="#schedule" class="nav-link is-active" data-section="schedule">Schedule</a></li>
+          <li><a href="#catchup" class="nav-link" data-section="catchup">Catch-up</a></li>
+          <li><a href="#timeline" class="nav-link" data-section="timeline">Timeline</a></li>
+          <li><a href="#vaccines" class="nav-link" data-section="vaccines">Vaccines</a></li>
+          <li><a href="#adults" class="nav-link" data-section="adults">Adults</a></li>
+          <li><a href="#pregnancy" class="nav-link" data-section="pregnancy">Pregnancy</a></li>
+          <li><a href="#travel" class="nav-link" data-section="travel">Travel</a></li>
+          <li><a href="#mpox" class="nav-link" data-section="mpox">Mpox</a></li>
+        </ul>
       </nav>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
     </div>
   </header>
 
-  <!-- ============ HERO ============ -->
-  <section class="hero">
-    <div class="hero-inner">
-      <p class="hero-eyebrow">CDC Recommended &middot; 2025</p>
-      <h1 class="hero-title">Child &amp; Adolescent<br/>Immunization Schedule</h1>
-      <p class="hero-subtitle">A clearer way to see what vaccines are recommended from birth through age 18, designed for healthcare providers.</p>
+  <!-- Mobile nav overlay -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay" aria-hidden="true">
+    <div class="mobile-nav-panel">
+      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <ul class="mobile-nav-list" id="mobileNavList" role="list"></ul>
+    </div>
+  </div>
 
-      <div class="age-picker" id="agePicker">
-        <label class="age-label" for="ageSelect">Show vaccines for age</label>
-        <div class="select-wrap">
-          <select id="ageSelect">
+  <main id="main-content">
+
+    <!-- ======== HERO ======== -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <span class="badge badge-blue">CDC Recommended &middot; 2025</span>
+        <h1 class="hero-title">Child &amp; Adolescent<br/>Immunization Schedule</h1>
+        <p class="hero-sub">A clearer way to see what vaccines are recommended from birth through age 18, designed for parents and healthcare providers.</p>
+      </div>
+    </section>
+
+    <!-- ======== TOOLBAR ======== -->
+    <section class="toolbar" id="toolbar">
+      <div class="container toolbar-inner">
+        <div class="search-box">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" id="globalSearch" class="search-input" placeholder="Search vaccines..." aria-label="Search vaccines" autocomplete="off" />
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="ageFilter">Age</label>
+          <select id="ageFilter" class="filter-select" aria-label="Filter by age">
             <option value="all">All ages</option>
             <option value="birth">Birth</option>
             <option value="1mo">1 month</option>
@@ -47,131 +81,148 @@
             <option value="12mo">12 months</option>
             <option value="15mo">15 months</option>
             <option value="18mo">18 months</option>
-            <option value="2yr">2 &ndash; 3 years</option>
-            <option value="4yr">4 &ndash; 6 years</option>
-            <option value="7yr">7 &ndash; 10 years</option>
-            <option value="11yr">11 &ndash; 12 years</option>
-            <option value="13yr">13 &ndash; 15 years</option>
+            <option value="2yr">2-3 years</option>
+            <option value="4yr">4-6 years</option>
+            <option value="7yr">7-10 years</option>
+            <option value="11yr">11-12 years</option>
+            <option value="13yr">13-15 years</option>
             <option value="16yr">16 years</option>
-            <option value="17yr">17 &ndash; 18 years</option>
+            <option value="17yr">17-18 years</option>
           </select>
-          <svg class="select-chevron" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="typeFilter">Type</label>
+          <select id="typeFilter" class="filter-select" aria-label="Filter by recommendation type">
+            <option value="all">All types</option>
+            <option value="rec">Recommended</option>
+            <option value="catch">Catch-up</option>
+            <option value="risk">High-risk</option>
+            <option value="shared">Shared decision</option>
+          </select>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ============ LEGEND ============ -->
-  <section class="legend-bar">
-    <div class="legend-inner">
-      <div class="legend-item"><span class="legend-dot dot-recommended"></span> Recommended</div>
-      <div class="legend-item"><span class="legend-dot dot-catchup"></span> Catch-up</div>
-      <div class="legend-item"><span class="legend-dot dot-highrisk"></span> High-risk / Special</div>
-      <div class="legend-item"><span class="legend-dot dot-shared"></span> Shared decision</div>
-    </div>
-  </section>
-
-  <!-- ============ SCHEDULE TABLE ============ -->
-  <section class="section" id="schedule">
-    <div class="section-inner">
-      <h2 class="section-title">Schedule by Age</h2>
-      <p class="section-desc">Scroll horizontally to see all age groups. Tap a cell for details.</p>
-      <div class="table-container" id="tableContainer">
-        <table class="schedule-table" id="scheduleTable">
-          <thead id="tableHead"></thead>
-          <tbody id="tableBody"></tbody>
-        </table>
+      <!-- Active filter chips -->
+      <div class="container">
+        <div class="chip-bar" id="chipBar" aria-live="polite"></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ============ CATCH-UP SCHEDULE ============ -->
-  <section class="section section-alt" id="catchup">
-    <div class="section-inner">
-      <h2 class="section-title">Catch-up Schedule</h2>
-      <p class="section-desc">Minimum ages and intervals for children whose vaccinations have been delayed. A series does not need to be restarted regardless of time elapsed.</p>
-      <div class="catchup-tabs">
-        <button class="catchup-tab active" data-group="young">4 months &ndash; 6 years</button>
-        <button class="catchup-tab" data-group="older">7 &ndash; 18 years</button>
+    <!-- Legend -->
+    <div class="container legend" aria-label="Legend">
+      <span class="legend-item"><span class="dot dot-rec" aria-hidden="true"></span> Recommended</span>
+      <span class="legend-item"><span class="dot dot-catch" aria-hidden="true"></span> Catch-up</span>
+      <span class="legend-item"><span class="dot dot-risk" aria-hidden="true"></span> High-risk</span>
+      <span class="legend-item"><span class="dot dot-shared" aria-hidden="true"></span> Shared decision</span>
+    </div>
+
+    <!-- ======== SCHEDULE TABLE ======== -->
+    <section class="section" id="schedule">
+      <div class="container">
+        <h2 class="section-heading">Schedule by Age</h2>
+        <p class="section-sub">Scroll horizontally to see all age groups. Tap any cell for full details.</p>
+        <div class="table-wrap" id="tableWrap">
+          <table class="tbl" id="scheduleTable" role="grid">
+            <thead id="tableHead"></thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+        <p class="table-empty" id="tableEmpty" hidden>No vaccines match your current filters.</p>
+        <!-- Mobile card view -->
+        <div class="mobile-cards" id="mobileCards"></div>
       </div>
-      <div class="table-container" id="catchupTableContainer">
-        <table class="schedule-table catchup-table" id="catchupTable">
-          <thead id="catchupHead"></thead>
-          <tbody id="catchupBody"></tbody>
-        </table>
+    </section>
+
+    <!-- ======== CATCH-UP ======== -->
+    <section class="section section-alt" id="catchup">
+      <div class="container">
+        <h2 class="section-heading">Catch-up Schedule</h2>
+        <p class="section-sub">Minimum ages and intervals for children whose vaccinations have been delayed. A series never needs to be restarted.</p>
+        <div class="tab-bar" role="tablist" aria-label="Catch-up age groups">
+          <button class="tab is-active" role="tab" aria-selected="true" data-group="young" id="tab-young" aria-controls="catchupPanel">4 months &ndash; 6 years</button>
+          <button class="tab" role="tab" aria-selected="false" data-group="older" id="tab-older" aria-controls="catchupPanel">7 &ndash; 18 years</button>
+        </div>
+        <div class="table-wrap" id="catchupPanel" role="tabpanel" aria-labelledby="tab-young">
+          <table class="tbl catchup-tbl" id="catchupTable">
+            <thead id="catchupHead"></thead>
+            <tbody id="catchupBody"></tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ============ TIMELINE ============ -->
-  <section class="section section-alt" id="timeline">
-    <div class="section-inner">
-      <h2 class="section-title">Visual Timeline</h2>
-      <p class="section-desc">Each row is a vaccine. Dots mark individual doses across the age axis.</p>
-      <div class="timeline-container" id="timelineContainer"></div>
-    </div>
-  </section>
+    <!-- ======== TIMELINE ======== -->
+    <section class="section" id="timeline">
+      <div class="container">
+        <h2 class="section-heading">Visual Timeline</h2>
+        <p class="section-sub">Each row is a vaccine. Dots mark individual doses across the age axis.</p>
+        <div class="timeline-wrap" id="timelineContainer"></div>
+      </div>
+    </section>
 
-  <!-- ============ VACCINE CARDS ============ -->
-  <section class="section" id="vaccines">
-    <div class="section-inner">
-      <h2 class="section-title">Vaccine Reference Cards</h2>
-      <p class="section-desc">Everything about each vaccine in one place: schedule, notes, and contraindications.</p>
-      <div class="cards-grid" id="cardsGrid"></div>
-    </div>
-  </section>
+    <!-- ======== VACCINE CARDS ======== -->
+    <section class="section section-alt" id="vaccines">
+      <div class="container">
+        <h2 class="section-heading">Vaccine Reference Cards</h2>
+        <p class="section-sub">Everything about each vaccine in one place: schedule, notes, and contraindications.</p>
+        <div class="card-grid" id="cardsGrid"></div>
+      </div>
+    </section>
 
-  <!-- ============ ADULT VACCINES ============ -->
-  <section class="section" id="adults">
-    <div class="section-inner">
-      <h2 class="section-title">Adult Vaccines</h2>
-      <p class="section-desc">Routine vaccines recommended for adults aged 19 and older. Source: <a href="https://www.cdc.gov/vaccines-adults/index.html" target="_blank" rel="noopener">CDC</a></p>
-      <div class="info-grid" id="adultGrid"></div>
-    </div>
-  </section>
+    <!-- ======== ADULT VACCINES ======== -->
+    <section class="section" id="adults">
+      <div class="container">
+        <h2 class="section-heading">Adult Vaccines</h2>
+        <p class="section-sub">Routine vaccines recommended for adults 19 and older. <a href="https://www.cdc.gov/vaccines-adults/index.html" target="_blank" rel="noopener">CDC source</a></p>
+        <div class="card-grid" id="adultGrid"></div>
+      </div>
+    </section>
 
-  <!-- ============ PREGNANCY ============ -->
-  <section class="section section-alt" id="pregnancy">
-    <div class="section-inner">
-      <h2 class="section-title">Pregnancy &amp; Vaccination</h2>
-      <p class="section-desc">Getting vaccinated while pregnant creates protective antibodies you pass to your baby. Source: <a href="https://www.cdc.gov/vaccines-pregnancy/index.html" target="_blank" rel="noopener">CDC</a></p>
-      <div class="preg-columns" id="pregGrid"></div>
-      <p class="preg-footer">Family members and caregivers should also be up to date on Tdap, flu, and COVID-19 vaccines to create a protective circle around the newborn.</p>
-    </div>
-  </section>
+    <!-- ======== PREGNANCY ======== -->
+    <section class="section section-alt" id="pregnancy">
+      <div class="container">
+        <h2 class="section-heading">Pregnancy &amp; Vaccination</h2>
+        <p class="section-sub">Getting vaccinated during pregnancy passes protective antibodies to your baby. <a href="https://www.cdc.gov/vaccines-pregnancy/index.html" target="_blank" rel="noopener">CDC source</a></p>
+        <div class="preg-cols" id="pregGrid"></div>
+        <div class="callout callout-blue">Family members and caregivers should also be up to date on Tdap, flu, and COVID-19 vaccines to protect the newborn.</div>
+      </div>
+    </section>
 
-  <!-- ============ TRAVEL VACCINES ============ -->
-  <section class="section" id="travel">
-    <div class="section-inner">
-      <h2 class="section-title">Travel Vaccines</h2>
-      <p class="section-desc">Plan ahead: see a travel health provider 4 to 6 weeks before your trip. Source: <a href="https://wwwnc.cdc.gov/travel/page/travel-vaccines" target="_blank" rel="noopener">CDC Travelers' Health</a></p>
-      <div class="travel-tip"><strong>Step 1:</strong> Make sure you are up to date with all routine vaccines. <strong>Step 2:</strong> Check the CDC destination page for your country. <strong>Step 3:</strong> See a travel health provider at least 4-6 weeks before departure.</div>
-      <div class="info-grid" id="travelGrid"></div>
-      <p class="travel-note">Malaria prevention requires prescription antimalarial medication, not a vaccine. Consult a travel health provider for your destination.</p>
-    </div>
-  </section>
+    <!-- ======== TRAVEL ======== -->
+    <section class="section" id="travel">
+      <div class="container">
+        <h2 class="section-heading">Travel Vaccines</h2>
+        <p class="section-sub">See a travel health provider 4 to 6 weeks before your trip. <a href="https://wwwnc.cdc.gov/travel/page/travel-vaccines" target="_blank" rel="noopener">CDC Travelers' Health</a></p>
+        <div class="callout callout-blue"><strong>Step 1:</strong> Ensure routine vaccines are current. <strong>Step 2:</strong> Check the CDC destination page. <strong>Step 3:</strong> Visit a travel health provider 4-6 weeks before departure.</div>
+        <div class="card-grid" id="travelGrid"></div>
+        <div class="callout callout-amber">Malaria prevention requires prescription antimalarial medication, not a vaccine. Consult a travel health provider for your destination.</div>
+      </div>
+    </section>
 
-  <!-- ============ MPOX VACCINE ============ -->
-  <section class="section section-alt" id="mpox">
-    <div class="section-inner">
-      <h2 class="section-title">Mpox (Monkeypox) Vaccine</h2>
-      <p class="section-desc">JYNNEOS vaccine for monkeypox prevention. Source: <a href="https://www.cdc.gov/monkeypox/hcp/vaccine-considerations/" target="_blank" rel="noopener">CDC</a></p>
-      <div class="mpox-grid" id="mpoxGrid"></div>
-    </div>
-  </section>
+    <!-- ======== MPOX ======== -->
+    <section class="section section-alt" id="mpox">
+      <div class="container">
+        <h2 class="section-heading">Mpox (Monkeypox) Vaccine</h2>
+        <p class="section-sub">JYNNEOS vaccine for monkeypox prevention. <a href="https://www.cdc.gov/monkeypox/hcp/vaccine-considerations/" target="_blank" rel="noopener">CDC source</a></p>
+        <div class="card-grid card-grid-lg" id="mpoxGrid"></div>
+      </div>
+    </section>
 
-  <!-- ============ FOOTER ============ -->
-  <footer class="site-footer">
-    <div class="footer-inner">
+  </main>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
       <p>Data sourced from the <a href="https://www.cdc.gov/vaccines/hcp/imz-schedules/child-adolescent-age.html" target="_blank" rel="noopener">CDC Immunization Schedule</a> and <a href="https://www.cdc.gov/vaccines/hcp/imz-schedules/child-adolescent-catch-up.html" target="_blank" rel="noopener">Catch-up Schedule</a> (2025).</p>
-      <p class="footer-disclaimer">Built to support, not replace, clinical judgment. By <a href="mailto:owner@kartikey54.com">Dr Yashita Arora</a> &amp; <a href="mailto:hi@kartikey54.com">Kartikey Sharma</a>.</p>
+      <p class="footer-credit">Built to support, not replace, clinical judgment. By <a href="mailto:owner@kartikey54.com">Dr Yashita Arora</a> &amp; <a href="mailto:hi@kartikey54.com">Kartikey Sharma</a>.</p>
     </div>
   </footer>
 
-  <!-- ============ DETAIL MODAL ============ -->
-  <div class="modal-overlay" id="modalOverlay">
+  <!-- ======== MODAL ======== -->
+  <div class="modal-overlay" id="modalOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Vaccine details">
     <div class="modal" id="modal">
-      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+      <button class="modal-close" id="modalClose" aria-label="Close dialog">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
       <div id="modalContent"></div>
     </div>
   </div>

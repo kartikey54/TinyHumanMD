@@ -1,860 +1,385 @@
 /* ================================================================
-   Vaccines Made Easy | Immunization Schedule Application
+   Vaccines Made Easy | Application
+   Premium clinical-grade immunization schedule
    ================================================================ */
-
 (function () {
   'use strict';
 
-  /* -------- Data -------- */
-  const AGE_COLS = [
-    { key: 'birth', label: 'Birth' },
-    { key: '1mo',   label: '1 mo' },
-    { key: '2mo',   label: '2 mos' },
-    { key: '4mo',   label: '4 mos' },
-    { key: '6mo',   label: '6 mos' },
-    { key: '9mo',   label: '9 mos' },
-    { key: '12mo',  label: '12 mos' },
-    { key: '15mo',  label: '15 mos' },
-    { key: '18mo',  label: '18 mos' },
-    { key: '2yr',   label: '2-3 yrs' },
-    { key: '4yr',   label: '4-6 yrs' },
-    { key: '7yr',   label: '7-10 yrs' },
-    { key: '11yr',  label: '11-12 yrs' },
-    { key: '13yr',  label: '13-15 yrs' },
-    { key: '16yr',  label: '16 yrs' },
-    { key: '17yr',  label: '17-18 yrs' },
+  /* ── Data ───────────────────────────────────────────────────── */
+  var AGE_COLS = [
+    {key:'birth',label:'Birth'},{key:'1mo',label:'1 mo'},{key:'2mo',label:'2 mos'},
+    {key:'4mo',label:'4 mos'},{key:'6mo',label:'6 mos'},{key:'9mo',label:'9 mos'},
+    {key:'12mo',label:'12 mos'},{key:'15mo',label:'15 mos'},{key:'18mo',label:'18 mos'},
+    {key:'2yr',label:'2-3 yrs'},{key:'4yr',label:'4-6 yrs'},{key:'7yr',label:'7-10 yrs'},
+    {key:'11yr',label:'11-12 yrs'},{key:'13yr',label:'13-15 yrs'},{key:'16yr',label:'16 yrs'},
+    {key:'17yr',label:'17-18 yrs'}
   ];
 
-  // Catch-up interval columns
-  const CU_COLS = ['Minimum Age', 'Dose 1 to 2', 'Dose 2 to 3', 'Dose 3 to 4', 'Dose 4 to 5'];
-
-  // type: rec = recommended, catch = catch-up, risk = high-risk, shared = shared decision, note = see notes
-  const VACCINES = [
-    {
-      id: 'hepb',
-      name: 'Hepatitis B',
-      abbr: 'HepB',
-      doses: 3,
-      description: 'Protects against hepatitis B virus infection, which can cause chronic liver disease and liver cancer.',
-      notes: 'Administer monovalent HepB vaccine to all newborns within 24 hours of birth. The 2nd dose should be given at age 1 month and the 3rd dose at 6-18 months (minimum age for the 3rd dose is 24 weeks).',
-      contraindications: 'Severe allergic reaction (anaphylaxis) after a previous dose or to a vaccine component.',
-      schedule: {
-        birth:  { type: 'rec', label: '1st' },
-        '1mo':  { type: 'rec', label: '2nd' },
-        '6mo':  { type: 'rec', label: '3rd' },
-        '2mo':  { type: 'catch', label: '2nd' },
-        '4mo':  { type: 'catch', label: '2nd-3rd' },
-        '9mo':  { type: 'catch', label: '3rd' },
-        '12mo': { type: 'catch', label: '3rd' },
-        '15mo': { type: 'catch', label: '3rd' },
-        '18mo': { type: 'catch', label: '3rd' },
-      },
-      catchup: {
-        group: 'young',
-        minAge: 'Birth',
-        intervals: [
-          { interval: '4 weeks' },
-          { interval: '8 weeks', detail: 'and at least 16 weeks after first dose. Minimum age for the final dose is 24 weeks.' },
-        ],
-      },
-      catchupOlder: {
-        group: 'older',
-        minAge: 'N/A',
-        intervals: [
-          { interval: '4 weeks' },
-          { interval: '8 weeks', detail: 'and at least 16 weeks after first dose.' },
-        ],
-      },
-    },
-    {
-      id: 'rv',
-      name: 'Rotavirus',
-      abbr: 'RV',
-      doses: 3,
-      description: 'Prevents severe rotavirus gastroenteritis in infants and young children.',
-      notes: 'RV1 is a 2-dose series at 2 and 4 months. RV5 is a 3-dose series at 2, 4, and 6 months. Do not administer after age 8 months 0 days.',
-      contraindications: 'Severe allergic reaction after previous dose. History of intussusception. Severe combined immunodeficiency (SCID).',
-      schedule: {
-        '2mo': { type: 'rec', label: '1st' },
-        '4mo': { type: 'rec', label: '2nd' },
-        '6mo': { type: 'rec', label: '3rd' },
-      },
-      catchup: {
-        group: 'young',
-        minAge: '6 weeks',
-        minAgeDetail: 'Maximum age for first dose is 14 weeks 6 days.',
-        intervals: [
-          { interval: '4 weeks' },
-          { interval: '4 weeks', detail: 'Maximum age for final dose is 8 months 0 days.' },
-        ],
-      },
-    },
-    {
-      id: 'dtap',
-      name: 'Diphtheria, Tetanus & Pertussis',
-      abbr: 'DTaP',
-      doses: 5,
-      description: 'Protects against diphtheria, tetanus (lockjaw), and pertussis (whooping cough). For children under 7 years.',
-      notes: 'The 4th dose may be given as early as 12 months if at least 6 months have elapsed since the 3rd dose. The 5th dose is not necessary if the 4th dose was administered at age 4 years or older.',
-      contraindications: 'Severe allergic reaction after a previous dose. Encephalopathy within 7 days of a previous dose.',
-      schedule: {
-        '2mo':  { type: 'rec', label: '1st' },
-        '4mo':  { type: 'rec', label: '2nd' },
-        '6mo':  { type: 'rec', label: '3rd' },
-        '15mo': { type: 'rec', label: '4th' },
-        '18mo': { type: 'rec', label: '4th' },
-        '4yr':  { type: 'rec', label: '5th' },
-      },
-      catchup: {
-        group: 'young',
-        minAge: '6 weeks',
-        intervals: [
-          { interval: '4 weeks' },
-          { interval: '4 weeks' },
-          { interval: '6 months' },
-          { interval: '6 months', detail: 'A 5th dose is not necessary if the 4th dose was given at age 4+ and at least 6 months after dose 3.' },
-        ],
-      },
-    },
-    {
-      id: 'hib',
-      name: 'Haemophilus influenzae type b',
-      abbr: 'Hib',
-      doses: 4,
-      description: 'Prevents invasive Hib disease including meningitis, epiglottitis, and pneumonia.',
-      notes: 'Number of doses depends on vaccine type. PRP-OMP (PedvaxHIB) requires a 2-dose primary series; all others require 3 doses plus a booster.',
-      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component. Age less than 6 weeks.',
-      schedule: {
-        '2mo':  { type: 'rec', label: '1st' },
-        '4mo':  { type: 'rec', label: '2nd' },
-        '6mo':  { type: 'note', label: 'See notes' },
-        '12mo': { type: 'rec', label: '3rd/4th' },
-        '15mo': { type: 'rec', label: '3rd/4th' },
-      },
-      catchup: {
-        group: 'young',
-        minAge: '6 weeks',
-        intervals: [
-          { interval: '4 weeks', detail: 'if 1st dose given before 1st birthday. 8 weeks (as final dose) if 1st dose at 12-14 months. No further doses if 1st dose at 15+ months.' },
-          { interval: '4-8 weeks', detail: 'Depends on current age, age at 1st dose, and vaccine type. See CDC notes for full guidance.' },
-          { interval: '8 weeks', detail: 'As final dose. Only needed for children 12-59 months who received 3 doses before 1st birthday.' },
-        ],
-      },
-    },
-    {
-      id: 'pcv',
-      name: 'Pneumococcal Conjugate',
-      abbr: 'PCV',
-      doses: 4,
-      description: 'Protects against pneumococcal diseases including pneumonia, meningitis, and bloodstream infections.',
-      notes: 'PCV15 or PCV20 may be used. 1 dose of PCV20 or 1 dose of PCV15 followed by PPSV23 is recommended for certain at-risk children aged 2-18 years.',
-      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component.',
-      schedule: {
-        '2mo':  { type: 'rec', label: '1st' },
-        '4mo':  { type: 'rec', label: '2nd' },
-        '6mo':  { type: 'rec', label: '3rd' },
-        '12mo': { type: 'rec', label: '4th' },
-        '15mo': { type: 'rec', label: '4th' },
-      },
-      catchup: {
-        group: 'young',
-        minAge: '6 weeks',
-        intervals: [
-          { interval: '4 weeks', detail: 'if 1st dose before 1st birthday. 8 weeks (as final dose for healthy children) if 1st dose at 1st birthday or after. No further doses if healthy child and 1st dose at 24+ months.' },
-          { interval: '4-8 weeks', detail: 'Depends on current age and age at prior doses. See CDC notes.' },
-          { interval: '8 weeks', detail: 'As final dose. Only for children 12-59 months who received 3 doses before 12 months.' },
-        ],
-      },
-    },
-    {
-      id: 'ipv',
-      name: 'Inactivated Poliovirus',
-      abbr: 'IPV',
-      doses: 4,
-      description: 'Provides protection against poliovirus, which can cause paralysis and death.',
-      notes: 'The final dose should be administered at age 4-6 years, regardless of the number of previous doses, and should be given at least 6 months after the previous dose.',
-      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component (streptomycin, polymyxin B, or neomycin).',
-      schedule: {
-        '2mo':  { type: 'rec', label: '1st' },
-        '4mo':  { type: 'rec', label: '2nd' },
-        '6mo':  { type: 'rec', label: '3rd' },
-        '12mo': { type: 'catch', label: '3rd' },
-        '18mo': { type: 'catch', label: '3rd' },
-        '4yr':  { type: 'rec', label: '4th' },
-        '7yr':  { type: 'note', label: 'See notes' },
-      },
-      catchup: {
-        group: 'young',
-        minAge: '6 weeks',
-        intervals: [
-          { interval: '4 weeks' },
-          { interval: '4 weeks', detail: 'if current age is under 4 years. 6 months (as final dose) if current age is 4+ years.' },
-          { interval: '6 months', detail: 'Minimum age 4 years for final dose.' },
-        ],
-      },
-      catchupOlder: {
-        group: 'older',
-        minAge: 'N/A',
-        intervals: [
-          { interval: '4 weeks' },
-          { interval: '6 months', detail: 'A 4th dose is not necessary if the 3rd dose was given at age 4+ and at least 6 months after previous dose.' },
-          { interval: '6 months', detail: 'A 4th dose of IPV is indicated if all previous doses were given before age 4 or if the 3rd dose was less than 6 months after the 2nd.' },
-        ],
-      },
-    },
-    {
-      id: 'flu',
-      name: 'Influenza',
-      abbr: 'IIV / LAIV',
-      doses: null,
-      description: 'Annual influenza vaccination for all persons aged 6 months and older. IIV and LAIV are available formulations.',
-      notes: 'Administer annually. Children aged 6 months through 8 years who need 2 doses should receive the first dose as soon as vaccine is available. LAIV (nasal spray) is approved for ages 2 years and older.',
-      contraindications: 'Severe allergic reaction to any component or after previous dose. LAIV: immunocompromised, pregnancy, children 2-4 with asthma.',
-      schedule: {
-        '6mo':  { type: 'rec', label: '1-2/yr' },
-        '9mo':  { type: 'rec', label: '1-2/yr' },
-        '12mo': { type: 'rec', label: '1-2/yr' },
-        '15mo': { type: 'rec', label: '1-2/yr' },
-        '18mo': { type: 'rec', label: '1-2/yr' },
-        '2yr':  { type: 'rec', label: '1/yr' },
-        '4yr':  { type: 'rec', label: '1/yr' },
-        '7yr':  { type: 'rec', label: '1/yr' },
-        '11yr': { type: 'rec', label: '1/yr' },
-        '13yr': { type: 'rec', label: '1/yr' },
-        '16yr': { type: 'rec', label: '1/yr' },
-        '17yr': { type: 'rec', label: '1/yr' },
-      },
-    },
-    {
-      id: 'mmr',
-      name: 'Measles, Mumps, Rubella',
-      abbr: 'MMR',
-      doses: 2,
-      description: 'Protects against measles, mumps, and rubella (German measles), all highly contagious viral diseases.',
-      notes: 'Administer 1st dose at 12-15 months and 2nd dose at 4-6 years. Can be administered before age 12 months for international travel (dose before 12 months does not count toward the routine series).',
-      contraindications: 'Severe allergic reaction after previous dose or to a component. Pregnancy. Known severe immunodeficiency.',
-      schedule: {
-        '12mo': { type: 'rec', label: '1st' },
-        '15mo': { type: 'rec', label: '1st' },
-        '4yr':  { type: 'rec', label: '2nd' },
-        '7yr':  { type: 'catch', label: '2nd' },
-      },
-      catchup: {
-        group: 'young',
-        minAge: '12 months',
-        intervals: [
-          { interval: '4 weeks' },
-        ],
-      },
-      catchupOlder: {
-        group: 'older',
-        minAge: 'N/A',
-        intervals: [
-          { interval: '4 weeks' },
-        ],
-      },
-    },
-    {
-      id: 'var',
-      name: 'Varicella',
-      abbr: 'VAR',
-      doses: 2,
-      description: 'Prevents chickenpox (varicella), a highly contagious disease that causes an itchy rash and can lead to serious complications.',
-      notes: 'Administer 1st dose at 12-15 months and 2nd dose at 4-6 years. The 2nd dose can be given as early as 3 months after the 1st dose.',
-      contraindications: 'Severe allergic reaction after previous dose. Pregnancy. Known severe immunodeficiency.',
-      schedule: {
-        '12mo': { type: 'rec', label: '1st' },
-        '15mo': { type: 'rec', label: '1st' },
-        '4yr':  { type: 'rec', label: '2nd' },
-        '7yr':  { type: 'catch', label: '2nd' },
-      },
-      catchup: {
-        group: 'young',
-        minAge: '12 months',
-        intervals: [
-          { interval: '3 months' },
-        ],
-      },
-      catchupOlder: {
-        group: 'older',
-        minAge: 'N/A',
-        intervals: [
-          { interval: '3 months', detail: 'if younger than 13 years. 4 weeks if age 13 years or older.' },
-        ],
-      },
-    },
-    {
-      id: 'hepa',
-      name: 'Hepatitis A',
-      abbr: 'HepA',
-      doses: 2,
-      description: 'Protects against hepatitis A, a liver infection caused by the hepatitis A virus. Transmitted via contaminated food or water.',
-      notes: '2-dose series beginning at 12 months. The 2 doses should be separated by 6-18 months. Catch-up is recommended for anyone 2 years and older who has not been vaccinated.',
-      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component.',
-      schedule: {
-        '12mo': { type: 'rec', label: '1st' },
-        '15mo': { type: 'rec', label: '1st' },
-        '18mo': { type: 'rec', label: '2nd' },
-        '2yr':  { type: 'catch', label: '1st-2nd' },
-      },
-      catchup: {
-        group: 'young',
-        minAge: '12 months',
-        intervals: [
-          { interval: '6 months' },
-        ],
-      },
-      catchupOlder: {
-        group: 'older',
-        minAge: 'N/A',
-        intervals: [
-          { interval: '6 months' },
-        ],
-      },
-    },
-    {
-      id: 'menacwy',
-      name: 'Meningococcal ACWY',
-      abbr: 'MenACWY',
-      doses: 2,
-      description: 'Protects against meningococcal serogroups A, C, W, and Y, which cause bacterial meningitis and bloodstream infections.',
-      notes: 'Administer 1st dose at 11-12 years with booster at age 16. For children at increased risk, a series can begin as early as 2 months.',
-      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component.',
-      schedule: {
-        '2mo':  { type: 'risk', label: 'High risk' },
-        '11yr': { type: 'rec', label: '1st' },
-        '16yr': { type: 'rec', label: '2nd' },
-      },
-      catchup: {
-        group: 'young',
-        minAge: '2 months (CRM), 2 years (TT)',
-        intervals: [
-          { interval: '8 weeks' },
-          { interval: 'See Notes', detail: 'Depends on indication and age.' },
-        ],
-      },
-      catchupOlder: {
-        group: 'older',
-        minAge: 'N/A',
-        intervals: [
-          { interval: '8 weeks' },
-        ],
-      },
-    },
-    {
-      id: 'tdap',
-      name: 'Tetanus, Diphtheria & Pertussis',
-      abbr: 'Tdap',
-      doses: 1,
-      description: 'Booster for older children and adolescents. Replaces Td booster with added pertussis protection.',
-      notes: 'Administer 1 dose of Tdap at age 11-12 years. Tdap can be administered regardless of interval since last tetanus- or diphtheria-containing vaccine.',
-      contraindications: 'Severe allergic reaction after a previous dose. Encephalopathy within 7 days of a previous pertussis-containing vaccine.',
-      schedule: {
-        '11yr': { type: 'rec', label: '1 dose' },
-        '13yr': { type: 'catch', label: '1 dose' },
-      },
-      catchupOlder: {
-        group: 'older',
-        minAge: '7 years',
-        intervals: [
-          { interval: '4 weeks' },
-          { interval: '4 weeks', detail: 'if 1st dose of DTaP/DT was before 1st birthday. 6 months (as final dose) if 1st dose was at or after 1st birthday.' },
-          { interval: '6 months', detail: 'if 1st dose of DTaP/DT was before 1st birthday.' },
-        ],
-      },
-    },
-    {
-      id: 'hpv',
-      name: 'Human Papillomavirus',
-      abbr: 'HPV',
-      doses: 2,
-      description: 'Prevents HPV infections that cause cervical, anal, oropharyngeal, and other cancers, as well as genital warts.',
-      notes: 'Routine vaccination at 11-12 years (can begin at age 9). If started before 15, 2-dose series (0, 6-12 months). If started at 15 or older, 3-dose series (0, 1-2, 6 months).',
-      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component (including yeast).',
-      schedule: {
-        '9mo':  { type: 'shared', label: 'Can begin' },
-        '11yr': { type: 'rec', label: '1st' },
-        '13yr': { type: 'rec', label: '2nd' },
-        '16yr': { type: 'catch', label: '1st-2nd' },
-        '17yr': { type: 'catch', label: '1st-3rd' },
-      },
-      catchupOlder: {
-        group: 'older',
-        minAge: '9 years',
-        intervals: [
-          { interval: 'Routine dosing intervals are recommended.' },
-        ],
-      },
-    },
-    {
-      id: 'menb',
-      name: 'Meningococcal B',
-      abbr: 'MenB',
-      doses: 2,
-      description: 'Protects against meningococcal serogroup B disease. Recommended based on shared clinical decision-making for adolescents.',
-      notes: 'Based on shared clinical decision-making for 16-23 year olds (preferred age 16-18). A 2-dose series of MenB-4C or a 2- or 3-dose series of MenB-FHbp.',
-      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component.',
-      schedule: {
-        '16yr': { type: 'shared', label: '2-3 doses' },
-        '17yr': { type: 'shared', label: '2-3 doses' },
-      },
-    },
-    {
-      id: 'rsv',
-      name: 'RSV (Nirsevimab)',
-      abbr: 'RSV-mAb',
-      doses: 1,
-      description: 'Monoclonal antibody for passive immunization against respiratory syncytial virus in infants.',
-      notes: 'Administer 1 dose to infants born during or entering their first RSV season. A second season dose is recommended for children 8-19 months at increased risk.',
-      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component.',
-      schedule: {
-        birth:  { type: 'rec', label: '1 dose' },
-        '1mo':  { type: 'rec', label: '1 dose' },
-        '2mo':  { type: 'rec', label: '1 dose' },
-        '4mo':  { type: 'rec', label: '1 dose' },
-        '6mo':  { type: 'rec', label: '1 dose' },
-        '9mo':  { type: 'risk', label: '2nd season' },
-        '12mo': { type: 'risk', label: '2nd season' },
-        '15mo': { type: 'risk', label: '2nd season' },
-        '18mo': { type: 'risk', label: '2nd season' },
-      },
-    },
-    {
-      id: 'covid',
-      name: 'COVID-19',
-      abbr: 'COVID',
-      doses: null,
-      description: 'Protects against SARS-CoV-2 infection. Updated vaccines are recommended seasonally.',
-      notes: 'See current CDC guidance for updated COVID-19 vaccine recommendations, which may change based on circulating variants. Available for ages 6 months and older.',
-      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component (including PEG or polysorbate).',
-      schedule: {
-        '6mo':  { type: 'note', label: 'See notes' },
-        '9mo':  { type: 'note', label: 'See notes' },
-        '12mo': { type: 'note', label: 'See notes' },
-        '15mo': { type: 'note', label: 'See notes' },
-        '18mo': { type: 'note', label: 'See notes' },
-        '2yr':  { type: 'note', label: 'See notes' },
-        '4yr':  { type: 'note', label: 'See notes' },
-        '7yr':  { type: 'note', label: 'See notes' },
-        '11yr': { type: 'note', label: 'See notes' },
-        '13yr': { type: 'note', label: 'See notes' },
-        '16yr': { type: 'note', label: 'See notes' },
-        '17yr': { type: 'note', label: 'See notes' },
-      },
-    },
-    {
-      id: 'dengue',
-      name: 'Dengue',
-      abbr: 'DEN4CYD',
-      doses: 3,
-      description: 'Prevents dengue disease in seropositive individuals living in endemic areas. For ages 9-16 years.',
-      notes: 'Only for children aged 9-16 years with laboratory-confirmed previous dengue infection living in endemic dengue areas.',
-      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component. Seronegative individuals.',
-      schedule: {
-        '11yr': { type: 'risk', label: 'Seropositive' },
-        '13yr': { type: 'risk', label: 'Seropositive' },
-        '16yr': { type: 'risk', label: 'Seropositive' },
-      },
-      catchupOlder: {
-        group: 'older',
-        minAge: '9 years',
-        intervals: [
-          { interval: '6 months' },
-          { interval: '6 months' },
-        ],
-      },
-    },
+  var VACCINES = [
+    {id:'hepb',name:'Hepatitis B',abbr:'HepB',desc:'Protects against hepatitis B virus infection, which can cause chronic liver disease and liver cancer.',notes:'Administer monovalent HepB vaccine to all newborns within 24 hours of birth. The 2nd dose at 1 month and the 3rd at 6-18 months (min age for 3rd dose is 24 weeks).',contra:'Severe allergic reaction (anaphylaxis) after a previous dose or to a vaccine component.',schedule:{birth:{t:'rec',l:'1st'},'1mo':{t:'rec',l:'2nd'},'6mo':{t:'rec',l:'3rd'},'2mo':{t:'catch',l:'2nd'},'4mo':{t:'catch',l:'2nd-3rd'},'9mo':{t:'catch',l:'3rd'},'12mo':{t:'catch',l:'3rd'},'15mo':{t:'catch',l:'3rd'},'18mo':{t:'catch',l:'3rd'}},cu:{g:'young',min:'Birth',int:[{i:'4 weeks'},{i:'8 weeks',d:'and at least 16 weeks after first dose. Min age for final dose is 24 weeks.'}]},cuO:{g:'older',min:'N/A',int:[{i:'4 weeks'},{i:'8 weeks',d:'and at least 16 weeks after first dose.'}]}},
+    {id:'rv',name:'Rotavirus',abbr:'RV',desc:'Prevents severe rotavirus gastroenteritis in infants and young children.',notes:'RV1: 2-dose series at 2 and 4 months. RV5: 3-dose series at 2, 4, and 6 months. Do not administer after 8 months 0 days.',contra:'Severe allergic reaction after previous dose. History of intussusception. SCID.',schedule:{'2mo':{t:'rec',l:'1st'},'4mo':{t:'rec',l:'2nd'},'6mo':{t:'rec',l:'3rd'}},cu:{g:'young',min:'6 weeks',minD:'Max age for 1st dose is 14 weeks 6 days.',int:[{i:'4 weeks'},{i:'4 weeks',d:'Max age for final dose is 8 months 0 days.'}]}},
+    {id:'dtap',name:'Diphtheria, Tetanus & Pertussis',abbr:'DTaP',desc:'Protects against diphtheria, tetanus, and pertussis. For children under 7.',notes:'4th dose may be given as early as 12 months if 6+ months since 3rd dose. 5th dose not needed if 4th was at age 4+ years.',contra:'Severe allergic reaction after a previous dose. Encephalopathy within 7 days of a previous dose.',schedule:{'2mo':{t:'rec',l:'1st'},'4mo':{t:'rec',l:'2nd'},'6mo':{t:'rec',l:'3rd'},'15mo':{t:'rec',l:'4th'},'18mo':{t:'rec',l:'4th'},'4yr':{t:'rec',l:'5th'}},cu:{g:'young',min:'6 weeks',int:[{i:'4 weeks'},{i:'4 weeks'},{i:'6 months'},{i:'6 months',d:'5th dose not needed if 4th at age 4+ and 6+ months after dose 3.'}]}},
+    {id:'hib',name:'Haemophilus influenzae type b',abbr:'Hib',desc:'Prevents invasive Hib disease including meningitis, epiglottitis, and pneumonia.',notes:'Number of doses depends on vaccine type. PRP-OMP requires a 2-dose primary series; others require 3 doses plus a booster.',contra:'Severe allergic reaction after a previous dose or to a vaccine component. Age less than 6 weeks.',schedule:{'2mo':{t:'rec',l:'1st'},'4mo':{t:'rec',l:'2nd'},'6mo':{t:'note',l:'See notes'},'12mo':{t:'rec',l:'3rd/4th'},'15mo':{t:'rec',l:'3rd/4th'}},cu:{g:'young',min:'6 weeks',int:[{i:'4 weeks',d:'if 1st dose before 1st birthday. 8 wks if at 12-14 mo. None if 15+ mo.'},{i:'4-8 weeks',d:'Depends on age, 1st dose age, and vaccine type.'},{i:'8 weeks',d:'Final dose. Only for 12-59 mo who got 3 doses before 1st birthday.'}]}},
+    {id:'pcv',name:'Pneumococcal Conjugate',abbr:'PCV',desc:'Protects against pneumococcal diseases: pneumonia, meningitis, and bloodstream infections.',notes:'PCV15 or PCV20 may be used. Additional doses for at-risk children aged 2-18.',contra:'Severe allergic reaction after a previous dose or to a vaccine component.',schedule:{'2mo':{t:'rec',l:'1st'},'4mo':{t:'rec',l:'2nd'},'6mo':{t:'rec',l:'3rd'},'12mo':{t:'rec',l:'4th'},'15mo':{t:'rec',l:'4th'}},cu:{g:'young',min:'6 weeks',int:[{i:'4 weeks',d:'if 1st dose before 1st birthday. 8 wks if at/after 1st birthday.'},{i:'4-8 weeks',d:'Depends on age and prior doses.'},{i:'8 weeks',d:'Final dose for 12-59 mo who got 3 doses before 12 months.'}]}},
+    {id:'ipv',name:'Inactivated Poliovirus',abbr:'IPV',desc:'Protection against poliovirus, which can cause paralysis and death.',notes:'Final dose at 4-6 years regardless of previous doses, at least 6 months after previous dose.',contra:'Severe allergic reaction after a previous dose or to a vaccine component.',schedule:{'2mo':{t:'rec',l:'1st'},'4mo':{t:'rec',l:'2nd'},'6mo':{t:'rec',l:'3rd'},'12mo':{t:'catch',l:'3rd'},'18mo':{t:'catch',l:'3rd'},'4yr':{t:'rec',l:'4th'},'7yr':{t:'note',l:'See notes'}},cu:{g:'young',min:'6 weeks',int:[{i:'4 weeks'},{i:'4 weeks',d:'if under 4 yrs. 6 months if 4+ yrs.'},{i:'6 months',d:'Min age 4 years for final dose.'}]},cuO:{g:'older',min:'N/A',int:[{i:'4 weeks'},{i:'6 months',d:'4th dose not needed if 3rd was at 4+ yrs and 6+ mo after previous.'}]}},
+    {id:'flu',name:'Influenza',abbr:'IIV/LAIV',desc:'Annual influenza vaccination for all persons 6 months and older.',notes:'Administer annually. Children 6 mo through 8 yrs who need 2 doses should start as soon as vaccine is available. LAIV for ages 2+.',contra:'Severe allergic reaction to any component. LAIV: immunocompromised, pregnancy, children 2-4 with asthma.',schedule:{'6mo':{t:'rec',l:'1-2/yr'},'9mo':{t:'rec',l:'1-2/yr'},'12mo':{t:'rec',l:'1-2/yr'},'15mo':{t:'rec',l:'1-2/yr'},'18mo':{t:'rec',l:'1-2/yr'},'2yr':{t:'rec',l:'1/yr'},'4yr':{t:'rec',l:'1/yr'},'7yr':{t:'rec',l:'1/yr'},'11yr':{t:'rec',l:'1/yr'},'13yr':{t:'rec',l:'1/yr'},'16yr':{t:'rec',l:'1/yr'},'17yr':{t:'rec',l:'1/yr'}}},
+    {id:'mmr',name:'Measles, Mumps, Rubella',abbr:'MMR',desc:'Protects against measles, mumps, and rubella, all highly contagious viral diseases.',notes:'1st dose at 12-15 months, 2nd at 4-6 years. Can give before 12 mo for international travel (does not count toward routine series).',contra:'Severe allergic reaction after previous dose. Pregnancy. Known severe immunodeficiency.',schedule:{'12mo':{t:'rec',l:'1st'},'15mo':{t:'rec',l:'1st'},'4yr':{t:'rec',l:'2nd'},'7yr':{t:'catch',l:'2nd'}},cu:{g:'young',min:'12 months',int:[{i:'4 weeks'}]},cuO:{g:'older',min:'N/A',int:[{i:'4 weeks'}]}},
+    {id:'var',name:'Varicella',abbr:'VAR',desc:'Prevents chickenpox, a highly contagious disease that can lead to serious complications.',notes:'1st dose at 12-15 months, 2nd at 4-6 years. 2nd dose can be as early as 3 months after 1st.',contra:'Severe allergic reaction after previous dose. Pregnancy. Known severe immunodeficiency.',schedule:{'12mo':{t:'rec',l:'1st'},'15mo':{t:'rec',l:'1st'},'4yr':{t:'rec',l:'2nd'},'7yr':{t:'catch',l:'2nd'}},cu:{g:'young',min:'12 months',int:[{i:'3 months'}]},cuO:{g:'older',min:'N/A',int:[{i:'3 months',d:'if under 13. 4 weeks if 13+.'}]}},
+    {id:'hepa',name:'Hepatitis A',abbr:'HepA',desc:'Protects against hepatitis A, a liver infection transmitted via contaminated food or water.',notes:'2-dose series starting at 12 months. Doses separated by 6-18 months. Catch-up for anyone 2+ who is unvaccinated.',contra:'Severe allergic reaction after a previous dose or to a vaccine component.',schedule:{'12mo':{t:'rec',l:'1st'},'15mo':{t:'rec',l:'1st'},'18mo':{t:'rec',l:'2nd'},'2yr':{t:'catch',l:'1st-2nd'}},cu:{g:'young',min:'12 months',int:[{i:'6 months'}]},cuO:{g:'older',min:'N/A',int:[{i:'6 months'}]}},
+    {id:'menacwy',name:'Meningococcal ACWY',abbr:'MenACWY',desc:'Protects against meningococcal serogroups A, C, W, and Y: bacterial meningitis and bloodstream infections.',notes:'1st dose at 11-12 years, booster at 16. High-risk children can start as early as 2 months.',contra:'Severe allergic reaction after a previous dose or to a vaccine component.',schedule:{'2mo':{t:'risk',l:'High risk'},'11yr':{t:'rec',l:'1st'},'16yr':{t:'rec',l:'2nd'}},cu:{g:'young',min:'2 mo (CRM), 2 yr (TT)',int:[{i:'8 weeks'},{i:'See notes',d:'Depends on indication and age.'}]},cuO:{g:'older',min:'N/A',int:[{i:'8 weeks'}]}},
+    {id:'tdap',name:'Tetanus, Diphtheria & Pertussis',abbr:'Tdap',desc:'Booster for older children and adolescents with added pertussis protection.',notes:'1 dose at 11-12 years. Can be given regardless of interval since last tetanus-containing vaccine.',contra:'Severe allergic reaction after a previous dose. Encephalopathy within 7 days of a pertussis-containing vaccine.',schedule:{'11yr':{t:'rec',l:'1 dose'},'13yr':{t:'catch',l:'1 dose'}},cuO:{g:'older',min:'7 years',int:[{i:'4 weeks'},{i:'4 weeks',d:'if 1st DTaP/DT before 1st birthday. 6 mo if at/after 1st birthday.'},{i:'6 months',d:'if 1st DTaP/DT before 1st birthday.'}]}},
+    {id:'hpv',name:'Human Papillomavirus',abbr:'HPV',desc:'Prevents HPV infections causing cervical, anal, oropharyngeal cancers and genital warts.',notes:'Routine at 11-12 (can start at 9). Before 15: 2-dose series. At 15+: 3-dose series.',contra:'Severe allergic reaction after a previous dose or to a vaccine component.',schedule:{'9mo':{t:'shared',l:'Can begin'},'11yr':{t:'rec',l:'1st'},'13yr':{t:'rec',l:'2nd'},'16yr':{t:'catch',l:'1st-2nd'},'17yr':{t:'catch',l:'1st-3rd'}},cuO:{g:'older',min:'9 years',int:[{i:'Routine dosing intervals recommended.'}]}},
+    {id:'menb',name:'Meningococcal B',abbr:'MenB',desc:'Protects against serogroup B meningococcal disease. Based on shared clinical decision-making.',notes:'Shared decision-making for 16-23 yr olds (preferred 16-18). 2-dose MenB-4C or 2-3 dose MenB-FHbp.',contra:'Severe allergic reaction after a previous dose or to a vaccine component.',schedule:{'16yr':{t:'shared',l:'2-3 doses'},'17yr':{t:'shared',l:'2-3 doses'}}},
+    {id:'rsv',name:'RSV (Nirsevimab)',abbr:'RSV-mAb',desc:'Monoclonal antibody for passive immunization against respiratory syncytial virus in infants.',notes:'1 dose for infants in/entering first RSV season. 2nd season dose for 8-19 mo at increased risk.',contra:'Severe allergic reaction after a previous dose or to a vaccine component.',schedule:{birth:{t:'rec',l:'1 dose'},'1mo':{t:'rec',l:'1 dose'},'2mo':{t:'rec',l:'1 dose'},'4mo':{t:'rec',l:'1 dose'},'6mo':{t:'rec',l:'1 dose'},'9mo':{t:'risk',l:'2nd season'},'12mo':{t:'risk',l:'2nd season'},'15mo':{t:'risk',l:'2nd season'},'18mo':{t:'risk',l:'2nd season'}}},
+    {id:'covid',name:'COVID-19',abbr:'COVID',desc:'Protects against SARS-CoV-2 infection. Updated vaccines recommended seasonally.',notes:'See current CDC guidance. Available for ages 6 months and older.',contra:'Severe allergic reaction after a previous dose or to a vaccine component.',schedule:{'6mo':{t:'note',l:'See notes'},'9mo':{t:'note',l:'See notes'},'12mo':{t:'note',l:'See notes'},'15mo':{t:'note',l:'See notes'},'18mo':{t:'note',l:'See notes'},'2yr':{t:'note',l:'See notes'},'4yr':{t:'note',l:'See notes'},'7yr':{t:'note',l:'See notes'},'11yr':{t:'note',l:'See notes'},'13yr':{t:'note',l:'See notes'},'16yr':{t:'note',l:'See notes'},'17yr':{t:'note',l:'See notes'}}},
+    {id:'dengue',name:'Dengue',abbr:'DEN4CYD',desc:'Prevents dengue in seropositive individuals in endemic areas, ages 9-16.',notes:'Only for 9-16 yr olds with lab-confirmed previous dengue in endemic areas.',contra:'Severe allergic reaction. Seronegative individuals.',schedule:{'11yr':{t:'risk',l:'Endemic'},'13yr':{t:'risk',l:'Endemic'},'16yr':{t:'risk',l:'Endemic'}},cuO:{g:'older',min:'9 years',int:[{i:'6 months'},{i:'6 months'}]}}
   ];
 
-  /* -------- Helpers -------- */
-  const $ = (s, p) => (p || document).querySelector(s);
-  const $$ = (s, p) => [...(p || document).querySelectorAll(s)];
+  /* ── Helpers ────────────────────────────────────────────────── */
+  var $ = function(s,p){return (p||document).querySelector(s);};
+  var $$ = function(s,p){return Array.from((p||document).querySelectorAll(s));};
+  var PCLS = {rec:'pill-rec',catch:'pill-catch',risk:'pill-risk',shared:'pill-shared',note:'pill-note'};
 
-  const PILL_CLASS = { rec: 'pill-rec', catch: 'pill-catch', risk: 'pill-risk', shared: 'pill-shared', note: 'pill-note' };
-
-  function pillHTML(cell, vaccineId) {
-    if (!cell) return '';
-    const cls = PILL_CLASS[cell.type] || 'pill-note';
-    return `<span class="cell-pill ${cls}" data-vaccine="${vaccineId}">${cell.label}</span>`;
+  function pill(c,vid){
+    if(!c) return '';
+    return '<button class="pill '+(PCLS[c.t]||'pill-note')+'" data-vid="'+vid+'" aria-label="'+c.l+', click for details">'+c.l+'</button>';
   }
 
-  /* -------- Build Schedule Table -------- */
-  function buildTable() {
-    const head = $('#tableHead');
-    const body = $('#tableBody');
-    let hRow = '<tr><th>Vaccine</th>';
-    AGE_COLS.forEach(c => { hRow += `<th data-age="${c.key}">${c.label}</th>`; });
-    hRow += '</tr>';
-    head.innerHTML = hRow;
+  function debounce(fn,ms){var t;return function(){clearTimeout(t);var a=arguments,c=this;t=setTimeout(function(){fn.apply(c,a);},ms);};}
 
-    let bRows = '';
-    VACCINES.forEach(v => {
-      const ages = Object.keys(v.schedule);
-      bRows += `<tr data-ages="${ages.join(',')}" data-vid="${v.id}">`;
-      bRows += `<td>${v.name} <span style="opacity:.45;font-weight:400;">(${v.abbr})</span></td>`;
-      AGE_COLS.forEach(c => {
-        const cell = v.schedule[c.key];
-        bRows += `<td data-age="${c.key}">${pillHTML(cell, v.id)}</td>`;
-      });
-      bRows += '</tr>';
+  /* ── State ──────────────────────────────────────────────────── */
+  var filters = {search:'',age:'all',type:'all'};
+
+  /* ── Schedule Table ─────────────────────────────────────────── */
+  function buildTable(){
+    var head=$('#tableHead'),body=$('#tableBody');
+    var h='<tr><th>Vaccine</th>';
+    AGE_COLS.forEach(function(c){h+='<th>'+c.label+'</th>';});
+    head.innerHTML=h+'</tr>';
+    var r='';
+    VACCINES.forEach(function(v){
+      var ages=Object.keys(v.schedule);
+      r+='<tr data-ages="'+ages.join(',')+'" data-name="'+v.name.toLowerCase()+' '+v.abbr.toLowerCase()+'" data-types="'+ages.map(function(a){return v.schedule[a].t;}).join(',')+'">';
+      r+='<td>'+v.name+' <span style="opacity:.4;font-weight:400">('+v.abbr+')</span></td>';
+      AGE_COLS.forEach(function(c){r+='<td>'+pill(v.schedule[c.key],v.id)+'</td>';});
+      r+='</tr>';
     });
-    body.innerHTML = bRows;
-
-    $$('.cell-pill', body).forEach(el => {
-      el.addEventListener('click', () => {
-        const vid = el.dataset.vaccine;
-        const vac = VACCINES.find(v => v.id === vid);
-        if (vac) openModal(vac);
-      });
+    body.innerHTML=r;
+    $$('.pill',body).forEach(function(el){
+      el.addEventListener('click',function(){var v=VACCINES.find(function(x){return x.id===el.dataset.vid;});if(v)openModal(v);});
     });
   }
 
-  /* -------- Age Filter -------- */
-  function setupAgeFilter() {
-    const sel = $('#ageSelect');
-    sel.addEventListener('change', () => {
-      const val = sel.value;
-      $$('#tableBody tr').forEach(tr => {
-        if (val === 'all') {
-          tr.classList.remove('hidden-row');
-        } else {
-          const ages = tr.dataset.ages.split(',');
-          tr.classList.toggle('hidden-row', !ages.includes(val));
-        }
-      });
-    });
-  }
-
-  /* -------- Build Catch-up Table -------- */
-  function buildCatchupTable(group) {
-    const head = $('#catchupHead');
-    const body = $('#catchupBody');
-    const maxIntervals = group === 'young' ? 4 : 3;
-
-    let hRow = '<tr><th>Vaccine</th><th>Min. Age</th>';
-    for (let i = 0; i < maxIntervals; i++) {
-      const from = i + 1;
-      const to = i + 2;
-      hRow += `<th>Dose ${from} to ${to}</th>`;
-    }
-    hRow += '</tr>';
-    head.innerHTML = hRow;
-
-    let bRows = '';
-    VACCINES.forEach(v => {
-      const cu = group === 'young' ? v.catchup : v.catchupOlder;
-      if (!cu) return;
-
-      bRows += `<tr>`;
-      bRows += `<td>${v.name} <span style="opacity:.45;font-weight:400;">(${v.abbr})</span></td>`;
-
-      // Min age cell
-      let minAgeHTML = `<span class="cu-minage">${cu.minAge}</span>`;
-      if (cu.minAgeDetail) {
-        minAgeHTML += `<span class="cu-detail">${cu.minAgeDetail}</span>`;
-      }
-      bRows += `<td>${minAgeHTML}</td>`;
-
-      // Interval cells
-      for (let i = 0; i < maxIntervals; i++) {
-        const intv = cu.intervals[i];
-        if (intv) {
-          let cellHTML = `<span class="cu-interval">${intv.interval}</span>`;
-          if (intv.detail) {
-            cellHTML += `<span class="cu-detail">${intv.detail}</span>`;
-          }
-          bRows += `<td>${cellHTML}</td>`;
-        } else {
-          bRows += `<td></td>`;
-        }
-      }
-      bRows += '</tr>';
-    });
-    body.innerHTML = bRows;
-  }
-
-  function setupCatchupTabs() {
-    const tabs = $$('.catchup-tab');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        buildCatchupTable(tab.dataset.group);
-      });
-    });
-    // Build default
-    buildCatchupTable('young');
-  }
-
-  /* -------- Build Timeline -------- */
-  function buildTimeline() {
-    const container = $('#timelineContainer');
-    const AGE_POS = {
-      birth: 0, '1mo': 3, '2mo': 6, '4mo': 10, '6mo': 14, '9mo': 18,
-      '12mo': 22, '15mo': 26, '18mo': 30, '2yr': 38, '4yr': 48,
-      '7yr': 58, '11yr': 68, '13yr': 76, '16yr': 86, '17yr': 94,
-    };
-    const COLORS = {
-      rec: 'var(--accent)', catch: 'var(--green)', risk: 'var(--purple)', shared: 'var(--orange)', note: '#aaa',
-    };
-
-    let html = '';
-    VACCINES.forEach(v => {
-      const entries = Object.entries(v.schedule);
-      if (!entries.length) return;
-      const positions = entries.map(([age]) => AGE_POS[age] ?? 0);
-      const minP = Math.min(...positions);
-      const maxP = Math.max(...positions);
-      const mainColor = COLORS[entries[0][1].type] || COLORS.rec;
-
-      html += `<div class="timeline-row">`;
-      html += `<div class="timeline-label">${v.abbr}</div>`;
-      html += `<div class="timeline-track">`;
-      html += `<div class="timeline-bar" style="left:${minP}%;width:${maxP - minP}%;background:${mainColor};"></div>`;
-      entries.forEach(([age, cell]) => {
-        const pos = AGE_POS[age] ?? 0;
-        const col = COLORS[cell.type] || COLORS.rec;
-        const ageLabel = AGE_COLS.find(a => a.key === age)?.label || age;
-        html += `<div class="timeline-dot" style="left:${pos}%;color:${col};background:${col};" data-vaccine="${v.id}"><span class="dot-tooltip">${cell.label} | ${ageLabel}</span></div>`;
-      });
-      html += `</div></div>`;
-    });
-
-    // Axis
-    html += `<div class="timeline-axis"><div class="timeline-axis-spacer"></div><div class="timeline-axis-track">`;
-    const axisLabels = [
-      { key: 'birth', label: 'Birth' }, { key: '2mo', label: '2m' }, { key: '4mo', label: '4m' },
-      { key: '6mo', label: '6m' }, { key: '12mo', label: '1yr' }, { key: '18mo', label: '18m' },
-      { key: '2yr', label: '2yr' }, { key: '4yr', label: '4yr' }, { key: '7yr', label: '7yr' },
-      { key: '11yr', label: '11yr' }, { key: '13yr', label: '13yr' }, { key: '16yr', label: '16yr' },
-      { key: '17yr', label: '18yr' },
-    ];
-    axisLabels.forEach(a => {
-      const pos = AGE_POS[a.key] ?? 0;
-      html += `<span class="timeline-axis-label" style="left:${pos}%">${a.label}</span>`;
-    });
-    html += `</div></div>`;
-
-    container.innerHTML = html;
-
-    $$('.timeline-dot', container).forEach(el => {
-      el.addEventListener('click', () => {
-        const vid = el.dataset.vaccine;
-        const vac = VACCINES.find(v => v.id === vid);
-        if (vac) openModal(vac);
-      });
-    });
-  }
-
-  /* -------- Build Vaccine Cards -------- */
-  function buildCards() {
-    const grid = $('#cardsGrid');
-    let html = '';
-    VACCINES.forEach(v => {
-      html += `<div class="vaccine-card">`;
-      html += `<div class="card-header"><div class="card-name">${v.name}</div><div class="card-abbr">${v.abbr}</div></div>`;
-      html += `<div class="card-desc">${v.description}</div>`;
-      html += `<div class="card-doses">`;
-      const doseAges = Object.entries(v.schedule).filter(([, c]) => c.type === 'rec');
-      if (doseAges.length) {
-        doseAges.forEach(([age, cell]) => {
-          const ageLabel = AGE_COLS.find(a => a.key === age)?.label || age;
-          html += `<span class="dose-chip active-dose">${cell.label} | ${ageLabel}</span>`;
-        });
-      } else {
-        html += `<span class="dose-chip">See current guidance</span>`;
-      }
-      html += `</div>`;
-
-      // Catch-up summary
-      const cu = v.catchup || v.catchupOlder;
-      if (cu) {
-        html += `<div style="margin-bottom:12px;">`;
-        html += `<span class="dose-chip" style="background:var(--green-light);color:#1a7a32;">Catch-up: min age ${cu.minAge}</span>`;
-        html += `</div>`;
-      }
-
-      html += `<button class="card-detail-toggle" data-vid="${v.id}">More details <svg width="14" height="14" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
-      html += `<div class="card-details" id="details-${v.id}">`;
-      html += `<p><strong>Notes:</strong> ${v.notes}</p>`;
-      html += `<p style="margin-top:8px"><strong>Contraindications:</strong> ${v.contraindications}</p>`;
-      if (cu && cu.intervals.length) {
-        html += `<p style="margin-top:8px"><strong>Catch-up intervals:</strong></p><ul style="margin:4px 0 0 16px;">`;
-        cu.intervals.forEach((intv, i) => {
-          html += `<li>Dose ${i + 1} to ${i + 2}: <strong>${intv.interval}</strong>`;
-          if (intv.detail) html += ` <span style="color:var(--text-secondary)">${intv.detail}</span>`;
-          html += `</li>`;
-        });
-        html += `</ul>`;
-      }
-      html += `</div>`;
-      html += `</div>`;
-    });
-    grid.innerHTML = html;
-
-    $$('.card-detail-toggle', grid).forEach(btn => {
-      btn.addEventListener('click', () => {
-        const details = $(`#details-${btn.dataset.vid}`);
-        details.classList.toggle('show');
-        btn.classList.toggle('open');
-      });
-    });
-  }
-
-  /* -------- Modal -------- */
-  function openModal(vaccine) {
-    const overlay = $('#modalOverlay');
-    const content = $('#modalContent');
-    const doseEntries = Object.entries(vaccine.schedule)
-      .map(([age, cell]) => {
-        const ageLabel = AGE_COLS.find(a => a.key === age)?.label || age;
-        return `<span class="dose-chip" style="margin:2px">${cell.label} | ${ageLabel}</span>`;
+  /* ── Mobile Cards ───────────────────────────────────────────── */
+  function buildMobileCards(){
+    var wrap=$('#mobileCards');
+    var html='';
+    VACCINES.forEach(function(v){
+      var ages=Object.keys(v.schedule);
+      var chips=Object.entries(v.schedule).filter(function(e){return e[1].t==='rec';}).map(function(e){
+        var al=(AGE_COLS.find(function(a){return a.key===e[0];})||{}).label||e[0];
+        return '<span class="card-chip">'+e[1].l+' | '+al+'</span>';
       }).join('');
-
-    const cu = vaccine.catchup || vaccine.catchupOlder;
-    let catchupHTML = '';
-    if (cu) {
-      catchupHTML = `
-        <p style="margin-top:16px"><strong>Catch-up guidance</strong></p>
-        <p style="margin-top:4px">Minimum age: <strong>${cu.minAge}</strong>${cu.minAgeDetail ? ' (' + cu.minAgeDetail + ')' : ''}</p>
-        <ul style="margin:6px 0 0 16px;">
-          ${cu.intervals.map((intv, i) => `<li>Dose ${i + 1} to ${i + 2}: <strong>${intv.interval}</strong>${intv.detail ? ' <span style="color:var(--text-secondary)">' + intv.detail + '</span>' : ''}</li>`).join('')}
-        </ul>
-      `;
-    }
-
-    content.innerHTML = `
-      <h3>${vaccine.name} <span style="font-weight:400;opacity:.5;">(${vaccine.abbr})</span></h3>
-      <p class="modal-sub">${vaccine.description}</p>
-      <div class="modal-body">
-        <p><strong>Dose schedule</strong></p>
-        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0 16px;">${doseEntries}</div>
-        <p><strong>Clinical notes</strong><br/>${vaccine.notes}</p>
-        <p style="margin-top:12px"><strong>Contraindications</strong><br/>${vaccine.contraindications}</p>
-        ${catchupHTML}
-      </div>
-    `;
-    overlay.classList.add('open');
+      html+='<div class="card mobile-card" data-ages="'+ages.join(',')+'" data-name="'+v.name.toLowerCase()+' '+v.abbr.toLowerCase()+'" data-types="'+ages.map(function(a){return v.schedule[a].t;}).join(',')+'">';
+      html+='<div class="card-top"><div class="card-title">'+v.name+'</div><span class="card-abbr">'+v.abbr+'</span></div>';
+      html+='<div class="card-body">'+v.desc+'</div>';
+      if(chips) html+='<div class="card-chips">'+chips+'</div>';
+      html+='</div>';
+    });
+    wrap.innerHTML=html;
   }
 
-  function setupModal() {
-    const overlay = $('#modalOverlay');
-    const closeBtn = $('#modalClose');
-    const close = () => overlay.classList.remove('open');
-    closeBtn.addEventListener('click', close);
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  /* ── Filtering ──────────────────────────────────────────────── */
+  function applyFilters(){
+    var s=filters.search.toLowerCase(), a=filters.age, t=filters.type;
+    var anyVisible=false;
+    // Desktop table rows
+    $$('#tableBody tr').forEach(function(tr){
+      var nameMatch=!s||tr.dataset.name.indexOf(s)!==-1;
+      var ageMatch=a==='all'||tr.dataset.ages.split(',').indexOf(a)!==-1;
+      var typeMatch=t==='all'||tr.dataset.types.split(',').indexOf(t)!==-1;
+      var show=nameMatch&&ageMatch&&typeMatch;
+      tr.classList.toggle('is-hidden',!show);
+      if(show) anyVisible=true;
+    });
+    // Mobile cards
+    $$('.mobile-card').forEach(function(c){
+      var nameMatch=!s||c.dataset.name.indexOf(s)!==-1;
+      var ageMatch=a==='all'||c.dataset.ages.split(',').indexOf(a)!==-1;
+      var typeMatch=t==='all'||c.dataset.types.split(',').indexOf(t)!==-1;
+      c.style.display=(nameMatch&&ageMatch&&typeMatch)?'':'none';
+    });
+    var empty=$('#tableEmpty');
+    if(empty) empty.hidden=anyVisible;
+    renderChips();
   }
 
-  /* -------- Smooth-scroll nav -------- */
-  function setupNav() {
-    $$('.nav-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        $$('.nav-link').forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
+  function renderChips(){
+    var bar=$('#chipBar'); if(!bar) return;
+    var chips=[];
+    if(filters.search) chips.push({key:'search',label:'Search: "'+filters.search+'"'});
+    if(filters.age!=='all'){var al=(AGE_COLS.find(function(a){return a.key===filters.age;})||{}).label||filters.age;chips.push({key:'age',label:'Age: '+al});}
+    if(filters.type!=='all'){var labels={rec:'Recommended',catch:'Catch-up',risk:'High-risk',shared:'Shared decision'};chips.push({key:'type',label:labels[filters.type]||filters.type});}
+    var html=chips.map(function(c){
+      return '<button class="chip" data-clear="'+c.key+'" aria-label="Remove filter: '+c.label+'">'+c.label+' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>';
+    }).join('');
+    if(chips.length>1) html+='<button class="chip-clear" id="clearAll">Clear all</button>';
+    bar.innerHTML=html;
+    $$('.chip',bar).forEach(function(ch){
+      ch.addEventListener('click',function(){
+        var k=ch.dataset.clear;
+        if(k==='search'){filters.search='';$('#globalSearch').value='';}
+        if(k==='age'){filters.age='all';$('#ageFilter').value='all';}
+        if(k==='type'){filters.type='all';$('#typeFilter').value='all';}
+        applyFilters();
+      });
+    });
+    var ca=$('#clearAll',bar);
+    if(ca) ca.addEventListener('click',function(){
+      filters={search:'',age:'all',type:'all'};
+      $('#globalSearch').value='';$('#ageFilter').value='all';$('#typeFilter').value='all';
+      applyFilters();
+    });
+  }
+
+  function setupFilters(){
+    var searchInput=$('#globalSearch');
+    var ageSelect=$('#ageFilter');
+    var typeSelect=$('#typeFilter');
+    searchInput.addEventListener('input',debounce(function(){filters.search=searchInput.value;applyFilters();},150));
+    ageSelect.addEventListener('change',function(){filters.age=ageSelect.value;applyFilters();});
+    typeSelect.addEventListener('change',function(){filters.type=typeSelect.value;applyFilters();});
+  }
+
+  /* ── Catch-up ───────────────────────────────────────────────── */
+  function buildCatchup(group){
+    var head=$('#catchupHead'),body=$('#catchupBody');
+    var mx=group==='young'?4:3;
+    var h='<tr><th>Vaccine</th><th>Min. Age</th>';
+    for(var i=0;i<mx;i++) h+='<th>Dose '+(i+1)+' to '+(i+2)+'</th>';
+    head.innerHTML=h+'</tr>';
+    var r='';
+    VACCINES.forEach(function(v){
+      var cu=group==='young'?v.cu:v.cuO;if(!cu)return;
+      r+='<tr><td>'+v.name+' <span style="opacity:.4;font-weight:400">('+v.abbr+')</span></td>';
+      r+='<td><span class="cu-badge">'+cu.min+'</span>'+(cu.minD?'<span class="cu-muted">'+cu.minD+'</span>':'')+'</td>';
+      for(var i=0;i<mx;i++){var iv=cu.int[i];
+        r+=iv?'<td><span class="cu-bold">'+iv.i+'</span>'+(iv.d?'<span class="cu-muted">'+iv.d+'</span>':'')+'</td>':'<td></td>';
+      }
+      r+='</tr>';
+    });
+    body.innerHTML=r;
+  }
+  function setupCatchupTabs(){
+    $$('.tab').forEach(function(tab){
+      tab.addEventListener('click',function(){
+        $$('.tab').forEach(function(t){t.classList.remove('is-active');t.setAttribute('aria-selected','false');});
+        tab.classList.add('is-active');tab.setAttribute('aria-selected','true');
+        $('#catchupPanel').setAttribute('aria-labelledby',tab.id);
+        buildCatchup(tab.dataset.group);
+      });
+    });
+    buildCatchup('young');
+  }
+
+  /* ── Timeline ───────────────────────────────────────────────── */
+  function buildTimeline(){
+    var c=$('#timelineContainer');
+    var POS={birth:0,'1mo':3,'2mo':6,'4mo':10,'6mo':14,'9mo':18,'12mo':22,'15mo':26,'18mo':30,'2yr':38,'4yr':48,'7yr':58,'11yr':68,'13yr':76,'16yr':86,'17yr':94};
+    var COL={rec:'var(--c-primary)',catch:'var(--c-green)',risk:'var(--c-purple)',shared:'var(--c-amber)',note:'#bbb'};
+    var html='';
+    VACCINES.forEach(function(v){
+      var entries=Object.entries(v.schedule);if(!entries.length)return;
+      var positions=entries.map(function(e){return POS[e[0]]||0;});
+      var minP=Math.min.apply(null,positions),maxP=Math.max.apply(null,positions);
+      var mc=COL[entries[0][1].t]||COL.rec;
+      html+='<div class="tl-row"><div class="tl-label">'+v.abbr+'</div><div class="tl-track">';
+      html+='<div class="tl-bar" style="left:'+minP+'%;width:'+(maxP-minP)+'%;background:'+mc+'"></div>';
+      entries.forEach(function(e){
+        var pos=POS[e[0]]||0,col=COL[e[1].t]||COL.rec;
+        var al=(AGE_COLS.find(function(a){return a.key===e[0];})||{}).label||e[0];
+        html+='<div class="tl-dot" style="left:'+pos+'%;color:'+col+';background:'+col+'" data-vid="'+v.id+'" tabindex="0" role="button" aria-label="'+v.abbr+' '+e[1].l+' at '+al+'"><span class="tl-tooltip">'+e[1].l+' | '+al+'</span></div>';
+      });
+      html+='</div></div>';
+    });
+    html+='<div class="tl-axis"><div class="tl-axis-spacer"></div><div class="tl-axis-track">';
+    [{k:'birth',l:'Birth'},{k:'2mo',l:'2m'},{k:'4mo',l:'4m'},{k:'6mo',l:'6m'},{k:'12mo',l:'1yr'},{k:'18mo',l:'18m'},{k:'2yr',l:'2yr'},{k:'4yr',l:'4yr'},{k:'7yr',l:'7yr'},{k:'11yr',l:'11yr'},{k:'13yr',l:'13yr'},{k:'16yr',l:'16yr'},{k:'17yr',l:'18yr'}].forEach(function(a){
+      html+='<span class="tl-axis-label" style="left:'+(POS[a.k]||0)+'%">'+a.l+'</span>';
+    });
+    html+='</div></div>';
+    c.innerHTML=html;
+    $$('.tl-dot',c).forEach(function(el){
+      function go(){var v=VACCINES.find(function(x){return x.id===el.dataset.vid;});if(v)openModal(v);}
+      el.addEventListener('click',go);
+      el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+    });
+  }
+
+  /* ── Vaccine Cards ──────────────────────────────────────────── */
+  function buildCards(){
+    var grid=$('#cardsGrid');var html='';
+    VACCINES.forEach(function(v){
+      var doseAges=Object.entries(v.schedule).filter(function(e){return e[1].t==='rec';});
+      var chips=doseAges.length?doseAges.map(function(e){
+        var al=(AGE_COLS.find(function(a){return a.key===e[0];})||{}).label||e[0];
+        return '<span class="card-chip">'+e[1].l+' | '+al+'</span>';
+      }).join(''):'<span class="card-chip" style="background:var(--c-border-light)">See guidance</span>';
+      var cu=v.cu||v.cuO;
+      html+='<div class="card"><div class="card-top"><div class="card-title">'+v.name+'</div><span class="card-abbr">'+v.abbr+'</span></div>';
+      html+='<div class="card-body">'+v.desc+'</div>';
+      html+='<div class="card-chips">'+chips+'</div>';
+      if(cu) html+='<div class="card-chips"><span class="card-chip card-chip-green">Catch-up: min age '+cu.min+'</span></div>';
+      html+='<button class="card-toggle" data-vid="'+v.id+'" aria-expanded="false">More details <svg width="14" height="14" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+      html+='<div class="card-detail" id="det-'+v.id+'"><p><strong>Notes:</strong> '+v.notes+'</p><p style="margin-top:8px"><strong>Contraindications:</strong> '+v.contra+'</p>';
+      if(cu&&cu.int.length){html+='<p style="margin-top:8px"><strong>Catch-up intervals:</strong></p><ul>';cu.int.forEach(function(iv,i){html+='<li>Dose '+(i+1)+' to '+(i+2)+': <strong>'+iv.i+'</strong>'+(iv.d?' <span style="color:var(--c-text-secondary)">'+iv.d+'</span>':'')+'</li>';});html+='</ul>';}
+      html+='</div></div>';
+    });
+    grid.innerHTML=html;
+    $$('.card-toggle',grid).forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var det=$('#det-'+btn.dataset.vid);
+        var open=det.classList.toggle('is-open');
+        btn.classList.toggle('is-open',open);
+        btn.setAttribute('aria-expanded',open?'true':'false');
       });
     });
   }
 
-  /* -------- Build Adult Vaccines -------- */
-  function buildAdult() {
-    var grid = $('#adultGrid');
-    if (!grid) return;
-    var items = [
-      { badge: 'Annual', cls: 'badge-annual', name: 'Influenza (Flu)', body: 'One dose every flu season for all adults. High-dose or adjuvanted formulations recommended for adults 65+.' },
-      { badge: 'Seasonal', cls: 'badge-annual', name: 'COVID-19', body: 'Updated COVID-19 vaccine recommended for all adults. Stay up to date per current CDC guidance as formulations change with circulating variants.' },
-      { badge: 'Every 10 yrs', cls: 'badge-routine', name: 'Td / Tdap', body: 'Td booster every 10 years. One dose should be Tdap (includes pertussis). Tdap is especially important for adults around newborns.' },
-      { badge: '50+', cls: 'badge-age', name: 'Shingles (Zoster)', body: 'Shingrix: 2-dose series for adults 50 and older, or adults 19+ who are immunocompromised. Doses given 2 to 6 months apart.' },
-      { badge: '65+', cls: 'badge-age', name: 'Pneumococcal', body: 'PCV20 (single dose) or PCV15 followed by PPSV23 for adults 65+, or younger adults with certain risk factors (chronic heart, lung, or liver disease, diabetes, smoking).' },
-      { badge: 'At risk', cls: 'badge-risk', name: 'Hepatitis B', body: 'Recommended for all adults 19-59. Adults 60+ with risk factors (healthcare workers, chronic liver disease, sexual exposure risk, injection drug use) should also be vaccinated.' },
-      { badge: 'At risk', cls: 'badge-risk', name: 'Hepatitis A', body: '2-dose series for adults with risk factors: travel to endemic areas, chronic liver disease, men who have sex with men, injection drug use, or anyone wanting protection.' },
-      { badge: 'If not immune', cls: 'badge-routine', name: 'MMR', body: 'Adults born in 1957 or later without evidence of immunity need at least 1 dose. Healthcare workers and international travelers may need 2 doses.' },
-      { badge: 'If not immune', cls: 'badge-routine', name: 'Varicella', body: '2-dose series for adults without evidence of immunity to chickenpox. Doses given 4 to 8 weeks apart.' },
-      { badge: '60+', cls: 'badge-age', name: 'RSV', body: 'Single dose of RSV vaccine for adults 75+, or adults 60-74 at increased risk. Shared clinical decision-making with healthcare provider.' },
+  /* ── Adult, Pregnancy, Travel, Mpox ─────────────────────────── */
+  function buildAdult(){
+    var grid=$('#adultGrid');if(!grid)return;
+    var items=[
+      {b:'Annual',bc:'badge-blue',n:'Influenza (Flu)',d:'One dose every flu season for all adults. High-dose or adjuvanted for 65+.'},
+      {b:'Seasonal',bc:'badge-blue',n:'COVID-19',d:'Updated vaccine recommended for all adults per current CDC guidance.'},
+      {b:'Every 10 yrs',bc:'badge-neutral',n:'Td / Tdap',d:'Td booster every 10 years. One dose should be Tdap. Especially important around newborns.'},
+      {b:'50+',bc:'badge-purple',n:'Shingles (Zoster)',d:'Shingrix: 2-dose series for adults 50+, or 19+ if immunocompromised. Doses 2-6 months apart.'},
+      {b:'65+',bc:'badge-purple',n:'Pneumococcal',d:'PCV20 (single dose) or PCV15+PPSV23 for 65+, or younger with risk factors.'},
+      {b:'At risk',bc:'badge-amber',n:'Hepatitis B',d:'Recommended for all adults 19-59. Adults 60+ with risk factors should also be vaccinated.'},
+      {b:'At risk',bc:'badge-amber',n:'Hepatitis A',d:'2-dose series for adults with risk factors: travel, chronic liver disease, MSM, injection drug use.'},
+      {b:'If not immune',bc:'badge-neutral',n:'MMR',d:'Adults born 1957+ without immunity need at least 1 dose. HCWs and travelers may need 2.'},
+      {b:'If not immune',bc:'badge-neutral',n:'Varicella',d:'2-dose series for adults without evidence of chickenpox immunity. 4-8 weeks apart.'},
+      {b:'60+',bc:'badge-purple',n:'RSV',d:'Single dose for adults 75+, or 60-74 at increased risk. Shared clinical decision-making.'}
     ];
-    grid.innerHTML = items.map(function(i) {
-      return '<div class="info-card"><div class="info-badge ' + i.cls + '">' + i.badge + '</div><h3 class="info-title">' + i.name + '</h3><p class="info-body">' + i.body + '</p></div>';
+    grid.innerHTML=items.map(function(i){
+      return '<div class="card"><span class="badge '+i.bc+'" style="margin-bottom:12px">'+i.b+'</span><div class="card-title" style="margin-bottom:6px">'+i.n+'</div><div class="card-body" style="margin-bottom:0">'+i.d+'</div></div>';
     }).join('');
   }
 
-  /* -------- Build Pregnancy -------- */
-  function buildPregnancy() {
-    var grid = $('#pregGrid');
-    if (!grid) return;
-    var rec = [
-      { name: 'Tdap', detail: 'One dose during each pregnancy, preferably during weeks 27 through 36 (early third trimester). Passes whooping cough antibodies to the baby before birth.' },
-      { name: 'Influenza (Flu)', detail: 'Inactivated flu vaccine (IIV) is safe during any trimester. Protects both the mother and the newborn (who cannot be vaccinated until 6 months).' },
-      { name: 'COVID-19', detail: 'Updated COVID-19 vaccine is recommended for pregnant individuals. Can be given at any point during pregnancy.' },
-      { name: 'RSV (Abrysvo)', detail: 'Seasonal. Single dose during weeks 32 through 36 of pregnancy (September through January). Protects infant from severe RSV disease in their first months of life.' },
-    ];
-    var avoid = [
-      { name: 'MMR', detail: 'Live vaccine. Get vaccinated at least 4 weeks before becoming pregnant if not immune.' },
-      { name: 'Varicella', detail: 'Live vaccine. Complete the series before pregnancy. Wait at least 4 weeks after vaccination before conceiving.' },
-      { name: 'LAIV (Nasal Flu Spray)', detail: 'Live vaccine. Use the inactivated injectable flu vaccine instead during pregnancy.' },
-      { name: 'Shingrix', detail: 'Not recommended during pregnancy due to insufficient safety data. Defer until after delivery.' },
-    ];
-    function renderCol(title, items, cls) {
-      var h = '<div class="preg-col ' + cls + '"><h3 class="preg-col-title">' + title + '</h3>';
-      items.forEach(function(i) { h += '<div class="preg-item"><div class="preg-name">' + i.name + '</div><div class="preg-detail">' + i.detail + '</div></div>'; });
-      return h + '</div>';
+  function buildPregnancy(){
+    var grid=$('#pregGrid');if(!grid)return;
+    var rec=[{n:'Tdap',d:'One dose each pregnancy, weeks 27-36. Passes whooping cough antibodies to baby.'},{n:'Influenza',d:'Inactivated flu vaccine safe any trimester. Protects mother and newborn.'},{n:'COVID-19',d:'Updated vaccine recommended. Can be given any point during pregnancy.'},{n:'RSV (Abrysvo)',d:'Single dose weeks 32-36 (Sep-Jan). Protects infant from severe RSV.'}];
+    var avoid=[{n:'MMR',d:'Live vaccine. Vaccinate at least 4 weeks before becoming pregnant.'},{n:'Varicella',d:'Live vaccine. Complete series before pregnancy.'},{n:'LAIV (Nasal Spray)',d:'Live vaccine. Use inactivated injectable flu vaccine instead.'},{n:'Shingrix',d:'Insufficient pregnancy safety data. Defer until after delivery.'}];
+    function col(title,items,cls){
+      var h='<div class="preg-col '+cls+'"><h3 class="preg-col-title">'+title+'</h3>';
+      items.forEach(function(i){h+='<div class="preg-item"><div class="preg-name">'+i.n+'</div><div class="preg-desc">'+i.d+'</div></div>';});
+      return h+'</div>';
     }
-    grid.innerHTML = renderCol('Recommended During Pregnancy', rec, 'preg-recommended') + renderCol('Avoid During Pregnancy', avoid, 'preg-avoid');
+    grid.innerHTML=col('Recommended During Pregnancy',rec,'preg-col-rec')+col('Avoid During Pregnancy',avoid,'preg-col-avoid');
   }
 
-  /* -------- Build Travel -------- */
-  function buildTravel() {
-    var grid = $('#travelGrid');
-    if (!grid) return;
-    var items = [
-      { name: 'Hepatitis A', body: 'Transmitted through contaminated food/water. Recommended for most international travel destinations. 2-dose series.' },
-      { name: 'Hepatitis B', body: 'Spread through blood and body fluids. Recommended for travelers who may have medical procedures, tattoos, or sexual contact abroad. 3-dose series.' },
-      { name: 'Typhoid', body: 'Common in South Asia, Africa, and Latin America. Available as an oral (4-dose) or injectable (single dose) vaccine. Get vaccinated at least 2 weeks before travel.' },
-      { name: 'Yellow Fever', body: 'Required for entry to certain countries in Africa and South America. Single dose provides lifelong protection. Must be given at an authorized vaccine center.' },
-      { name: 'Japanese Encephalitis', body: 'Found in rural parts of Asia and the Western Pacific. 2-dose series completed at least 1 week before travel. Recommended for longer trips or rural stays.' },
-      { name: 'Rabies', body: 'Risk in many developing countries, especially with animal contact. Pre-exposure 2-dose series. Critical for adventure travelers, veterinary workers, and long-term stays.' },
-      { name: 'Cholera', body: 'Risk in areas with unsafe water and sanitation. Single-dose oral vaccine (Vaxchora) for adults 2-64. Take at least 10 days before travel.' },
-      { name: 'Meningococcal', body: 'Required for travel to the "meningitis belt" of sub-Saharan Africa and for Hajj pilgrimage. MenACWY vaccine recommended.' },
-      { name: 'Polio', body: 'Adult booster (IPV) recommended for travel to countries with active poliovirus circulation. One lifetime booster dose if previously vaccinated.' },
-      { name: 'Tick-borne Encephalitis', body: 'Risk in forested areas of Europe and Asia. 3-dose series. Recommended for outdoor enthusiasts, hikers, and campers traveling to endemic regions.' },
+  function buildTravel(){
+    var grid=$('#travelGrid');if(!grid)return;
+    var items=[
+      {n:'Hepatitis A',d:'Contaminated food/water. Most international destinations. 2-dose series.'},
+      {n:'Hepatitis B',d:'Blood/body fluids. Medical procedures, tattoos, or sexual contact abroad. 3 doses.'},
+      {n:'Typhoid',d:'South Asia, Africa, Latin America. Oral (4-dose) or injectable (1 dose). 2 weeks before travel.'},
+      {n:'Yellow Fever',d:'Required for certain African/South American countries. Single dose, lifelong. Authorized centers only.'},
+      {n:'Japanese Encephalitis',d:'Rural Asia and Western Pacific. 2-dose series, 1 week before travel.'},
+      {n:'Rabies',d:'Developing countries with animal contact risk. Pre-exposure 2-dose series.'},
+      {n:'Cholera',d:'Unsafe water/sanitation areas. Single oral dose (Vaxchora). 10 days before travel.'},
+      {n:'Meningococcal',d:'Sub-Saharan Africa "meningitis belt" and Hajj pilgrimage. MenACWY.'},
+      {n:'Polio',d:'Countries with active poliovirus. One lifetime adult booster if previously vaccinated.'},
+      {n:'Tick-borne Encephalitis',d:'Forested areas of Europe and Asia. 3-dose series for hikers/campers.'}
     ];
-    grid.innerHTML = items.map(function(i) {
-      return '<div class="info-card travel-card"><h3 class="info-title">' + i.name + '</h3><p class="info-body">' + i.body + '</p></div>';
+    grid.innerHTML=items.map(function(i){
+      return '<div class="card" style="border-left:3px solid var(--c-primary)"><div class="card-title" style="margin-bottom:6px">'+i.n+'</div><div class="card-body" style="margin-bottom:0">'+i.d+'</div></div>';
     }).join('');
   }
 
-  /* -------- Build Mpox -------- */
-  function buildMpox() {
-    var grid = $('#mpoxGrid');
-    if (!grid) return;
-    grid.innerHTML = '<div class="mpox-block"><h3 class="mpox-heading">Vaccine: JYNNEOS</h3><p>Live, attenuated, non-replicating orthopoxvirus vaccine. Approved for prevention of both monkeypox and smallpox. Commercially available in the U.S. since April 2024.</p></div>'
-    + '<div class="mpox-block"><h3 class="mpox-heading">Schedule</h3><div class="mpox-schedule"><div class="mpox-dose"><span class="mpox-dose-num">Dose 1</span><span class="mpox-dose-detail">0.5 mL subcutaneous</span></div><div class="mpox-arrow"><span>28 days</span></div><div class="mpox-dose"><span class="mpox-dose-num">Dose 2</span><span class="mpox-dose-detail">0.5 mL subcutaneous</span></div></div><p style="margin-top:12px;font-size:13px;color:var(--text-secondary);">Alternative intradermal regimen (0.1 mL) is available for adults 18+ under EUA. Regimens are interchangeable between doses.</p></div>'
-    + '<div class="mpox-block"><h3 class="mpox-heading">Who Should Get Vaccinated</h3><ul class="mpox-list"><li>Gay, bisexual, and other men who have sex with men, transgender or nonbinary people with recent sexual risk factors</li><li>Sexual partners of the above</li><li>People who anticipate the above risk factors</li><li>Research lab personnel working with orthopoxviruses</li><li>Travelers to affected countries with anticipated sexual contact risk</li></ul><p style="margin-top:8px;font-size:13px;color:var(--text-secondary);">Routine vaccination is <strong>not</strong> recommended for the general public or healthcare personnel unless sexual risk factors are present.</p></div>'
-    + '<div class="mpox-block"><h3 class="mpox-heading">Effectiveness</h3><div class="mpox-stats"><div class="mpox-stat"><span class="mpox-stat-num">75%</span><span class="mpox-stat-label">After 1 dose</span></div><div class="mpox-stat"><span class="mpox-stat-num">86%</span><span class="mpox-stat-label">After 2 doses</span></div></div><p style="margin-top:12px;font-size:13px;color:var(--text-secondary);">Breakthrough infections after 2 doses are rare (&lt;1%) and typically milder. Peak immunity reached 14 days after dose 2. Protection does not appear to wane for at least 5 years.</p></div>'
-    + '<div class="mpox-block"><h3 class="mpox-heading">Post-Exposure Prophylaxis</h3><p>Can be given after known or presumed exposure. Ideally within <strong>4 days</strong> of exposure. Administration 4 to 14 days after exposure may still provide some protection. No boosters recommended for the general population at this time.</p></div>'
-    + '<div class="mpox-block"><h3 class="mpox-heading">Special Populations</h3><ul class="mpox-list"><li><strong>Under 18:</strong> Available under EUA, subcutaneous only</li><li><strong>Pregnant/breastfeeding:</strong> Can be offered with shared clinical decision-making</li><li><strong>Immunocompromised:</strong> Administer 0.5 mL subcutaneous (standard 2-dose series)</li><li><strong>Prior smallpox vaccination:</strong> Still recommended; prior immunity may not be lifelong</li></ul></div>';
+  function buildMpox(){
+    var grid=$('#mpoxGrid');if(!grid)return;
+    grid.innerHTML=
+      '<div class="card"><div class="card-title" style="margin-bottom:8px">Vaccine: JYNNEOS</div><div class="card-body" style="margin-bottom:0">Live, attenuated, non-replicating orthopoxvirus vaccine. Approved for monkeypox and smallpox prevention. Commercially available in the U.S. since April 2024.</div></div>'
+    + '<div class="card"><div class="card-title" style="margin-bottom:8px">Schedule</div><div class="mpox-schedule"><div class="mpox-dose"><span class="mpox-dose-num">Dose 1</span><span class="mpox-dose-sub">0.5 mL subcut</span></div><div class="mpox-arrow">28 days</div><div class="mpox-dose"><span class="mpox-dose-num">Dose 2</span><span class="mpox-dose-sub">0.5 mL subcut</span></div></div><p style="margin-top:12px;font-size:13px;color:var(--c-text-secondary)">Alternative intradermal (0.1 mL) available for 18+ under EUA. Regimens interchangeable.</p></div>'
+    + '<div class="card"><div class="card-title" style="margin-bottom:8px">Who Should Be Vaccinated</div><ul class="card-detail" style="display:block;border:none;padding:0;margin:0 0 0 16px;color:var(--c-text)"><li>MSM, transgender/nonbinary people with recent sexual risk factors</li><li>Sexual partners of the above</li><li>People anticipating the above risk factors</li><li>Lab personnel working with orthopoxviruses</li><li>Travelers to affected countries with anticipated sexual contact risk</li></ul><p style="margin-top:8px;font-size:13px;color:var(--c-text-secondary)">Routine vaccination is <strong>not</strong> recommended for the general public.</p></div>'
+    + '<div class="card"><div class="card-title" style="margin-bottom:8px">Effectiveness</div><div class="mpox-stats"><div><span class="mpox-stat-num">75%</span><span class="mpox-stat-label">After 1 dose</span></div><div><span class="mpox-stat-num">86%</span><span class="mpox-stat-label">After 2 doses</span></div></div><p style="font-size:13px;color:var(--c-text-secondary)">Breakthrough after 2 doses: &lt;1%, typically milder. Peak immunity 14 days after dose 2. No waning observed for 5+ years.</p></div>'
+    + '<div class="card"><div class="card-title" style="margin-bottom:8px">Post-Exposure Prophylaxis</div><div class="card-body" style="margin-bottom:0">Ideally within <strong>4 days</strong> of exposure. 4-14 days may still help. No boosters recommended for the general population.</div></div>'
+    + '<div class="card"><div class="card-title" style="margin-bottom:8px">Special Populations</div><ul class="card-detail" style="display:block;border:none;padding:0;margin:0 0 0 16px;color:var(--c-text)"><li><strong>Under 18:</strong> EUA, subcutaneous only</li><li><strong>Pregnant/breastfeeding:</strong> Shared clinical decision-making</li><li><strong>Immunocompromised:</strong> Standard 2-dose subcut series</li><li><strong>Prior smallpox vaccine:</strong> Still recommended</li></ul></div>';
   }
 
-  /* -------- Init -------- */
-  function init() {
-    buildTable();
-    setupAgeFilter();
-    setupCatchupTabs();
-    buildTimeline();
-    buildCards();
-    buildAdult();
-    buildPregnancy();
-    buildTravel();
-    buildMpox();
-    setupModal();
-    setupNav();
+  /* ── Modal ──────────────────────────────────────────────────── */
+  function openModal(v){
+    var ov=$('#modalOverlay'),ct=$('#modalContent');
+    var doses=Object.entries(v.schedule).map(function(e){
+      var al=(AGE_COLS.find(function(a){return a.key===e[0];})||{}).label||e[0];
+      return '<span class="card-chip" style="margin:2px">'+e[1].l+' | '+al+'</span>';
+    }).join('');
+    var cu=v.cu||v.cuO;var cuH='';
+    if(cu){
+      cuH='<p style="margin-top:16px"><strong>Catch-up guidance</strong></p><p style="margin-top:4px">Min age: <strong>'+cu.min+'</strong>'+(cu.minD?' ('+cu.minD+')':'')+'</p><ul style="margin:6px 0 0 16px">';
+      cu.int.forEach(function(iv,i){cuH+='<li>Dose '+(i+1)+' to '+(i+2)+': <strong>'+iv.i+'</strong>'+(iv.d?' <span style="color:var(--c-text-secondary)">'+iv.d+'</span>':'')+'</li>';});
+      cuH+='</ul>';
+    }
+    ct.innerHTML='<h3>'+v.name+' <span style="font-weight:400;opacity:.5">('+v.abbr+')</span></h3><p class="modal-sub">'+v.desc+'</p><div class="modal-body"><p><strong>Dose schedule</strong></p><div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0 16px">'+doses+'</div><p><strong>Clinical notes</strong><br>'+v.notes+'</p><p style="margin-top:12px"><strong>Contraindications</strong><br>'+v.contra+'</p>'+cuH+'</div>';
+    ov.classList.add('is-open');ov.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+    $('#modalClose').focus();
+  }
+  function closeModal(){
+    var ov=$('#modalOverlay');ov.classList.remove('is-open');ov.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+  function setupModal(){
+    $('#modalClose').addEventListener('click',closeModal);
+    $('#modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+  /* ── Navigation ─────────────────────────────────────────────── */
+  function setupNav(){
+    // Desktop smooth scroll
+    $$('.nav-link').forEach(function(link){
+      link.addEventListener('click',function(e){
+        e.preventDefault();
+        var target=document.querySelector(link.getAttribute('href'));
+        if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+        $$('.nav-link').forEach(function(l){l.classList.remove('is-active');});
+        link.classList.add('is-active');
+      });
+    });
+    // Mobile menu
+    var overlay=$('#mobileNavOverlay');
+    var list=$('#mobileNavList');
+    // Populate mobile nav from desktop nav
+    $$('#navList a').forEach(function(a){
+      var li=document.createElement('li');
+      var link=document.createElement('a');
+      link.href=a.getAttribute('href');link.textContent=a.textContent;
+      link.addEventListener('click',function(e){
+        e.preventDefault();closeMobileNav();
+        var target=document.querySelector(link.getAttribute('href'));
+        if(target) setTimeout(function(){target.scrollIntoView({behavior:'smooth',block:'start'});},300);
+      });
+      li.appendChild(link);list.appendChild(li);
+    });
+    $('#mobileMenuBtn').addEventListener('click',function(){
+      overlay.classList.add('is-open');overlay.setAttribute('aria-hidden','false');
+      this.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';
+    });
+    function closeMobileNav(){
+      overlay.classList.remove('is-open');overlay.setAttribute('aria-hidden','true');
+      $('#mobileMenuBtn').setAttribute('aria-expanded','false');document.body.style.overflow='';
+    }
+    $('#mobileNavClose').addEventListener('click',closeMobileNav);
+    overlay.addEventListener('click',function(e){if(e.target===overlay)closeMobileNav();});
   }
+
+  /* ── Init ───────────────────────────────────────────────────── */
+  function init(){
+    buildTable();buildMobileCards();setupFilters();setupCatchupTabs();
+    buildTimeline();buildCards();buildAdult();buildPregnancy();buildTravel();buildMpox();
+    setupModal();setupNav();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+  else init();
 })();
