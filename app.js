@@ -1,5 +1,5 @@
 /* ================================================================
-   Vaccines Made Easy | Application
+   TinyHumanMD | Application
    Premium clinical-grade immunization schedule
    ================================================================ */
 (function () {
