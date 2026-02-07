@@ -1,5 +1,5 @@
 /* ================================================================
-   DocAssist | Immunization Schedule Application
+   Vaccines Made Easy | Immunization Schedule Application
    ================================================================ */
 
 (function () {
