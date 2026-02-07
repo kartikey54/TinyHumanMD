@@ -1,0 +1,95 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "provider": {
+    "vllm": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "vLLM (Windows GPU)",
+      "options": {
+        "baseURL": "http://WINDOWS_IP:8000/v1",
+        "apiKey": "sk-local"
+      },
+      "models": {
+        "coder": {
+          "name": "Qwen2.5-Coder-14B (local)",
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        }
+      }
+    }
+  },
+
+  "model": "vllm/coder",
+  "small_model": "vllm/coder",
+
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "model": "vllm/coder",
+      "description": "Full development agent with all tools. Implements features, fixes bugs, writes code.",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true
+      }
+    },
+    "plan": {
+      "mode": "primary",
+      "model": "vllm/coder",
+      "description": "Read-only planning agent. Analyzes code, designs architecture, creates implementation plans.",
+      "permission": {
+        "edit": "deny",
+        "bash": "ask"
+      }
+    },
+    "reviewer": {
+      "description": "Code review specialist. Finds bugs, security issues, and suggests improvements. Read-only.",
+      "mode": "subagent",
+      "model": "vllm/coder",
+      "temperature": 0.1,
+      "tools": {
+        "write": false,
+        "edit": false
+      }
+    },
+    "tester": {
+      "description": "Test writing specialist. Generates unit tests, integration tests, and edge case coverage.",
+      "mode": "subagent",
+      "model": "vllm/coder",
+      "temperature": 0.2
+    },
+    "refactorer": {
+      "description": "Refactoring specialist. Improves code structure, reduces duplication, optimizes performance.",
+      "mode": "subagent",
+      "model": "vllm/coder",
+      "temperature": 0.1
+    },
+    "debugger": {
+      "description": "Debugging specialist. Investigates errors, traces issues, and proposes fixes with evidence.",
+      "mode": "subagent",
+      "model": "vllm/coder",
+      "temperature": 0.0
+    },
+    "docs": {
+      "description": "Documentation writer. Creates READMEs, docstrings, API docs, and inline comments.",
+      "mode": "subagent",
+      "model": "vllm/coder",
+      "temperature": 0.3,
+      "tools": {
+        "bash": false
+      }
+    }
+  },
+
+  "permission": {
+    "edit": "allow",
+    "bash": "allow"
+  },
+
+  "compaction": {
+    "auto": true,
+    "prune": true
+  }
+}
