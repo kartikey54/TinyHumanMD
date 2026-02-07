@@ -1,5 +1,5 @@
 /* ================================================================
-   DocAssist — Stripe / Apple–level immunization schedule UI
+   DocAssist | Stripe / Apple level immunization schedule UI
    ================================================================ */
 
 /* ---------- Reset & Base ---------- */
@@ -294,6 +294,64 @@ a:hover { text-decoration: underline; }
 /* hide rows based on filter */
 .schedule-table tbody tr.hidden-row { display: none; }
 .age-hidden { display: none !important; }
+
+/* ---------- Catch-up Tabs ---------- */
+.catchup-tabs {
+  display: inline-flex;
+  gap: 4px;
+  background: #f0f0f5;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+.catchup-tab {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 9px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+.catchup-tab:hover { color: var(--text); }
+.catchup-tab.active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Catch-up table specifics */
+.catchup-table td:not(:first-child) {
+  white-space: normal;
+  min-width: 160px;
+  max-width: 240px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  text-align: left;
+  vertical-align: top;
+}
+.catchup-table .cu-interval {
+  font-weight: 700;
+  color: var(--text);
+}
+.catchup-table .cu-detail {
+  font-weight: 400;
+  color: var(--text-secondary);
+  display: block;
+  margin-top: 2px;
+}
+.catchup-table .cu-minage {
+  display: inline-flex;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--accent-light);
+  color: #0055b3;
+  font-weight: 600;
+  font-size: 12px;
+}
 
 /* ---------- Timeline ---------- */
 .timeline-container {

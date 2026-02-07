@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Immunization Schedule &mdash; Birth to 18 Years</title>
+  <title>Immunization Schedule | Birth to 18 Years</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -14,11 +14,12 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="logo">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 8v4l3 3"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6.5V12c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5V6.5L12 2z" fill="var(--accent)" opacity=".12" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v8M8 12h8" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/></svg>
         <span>DocAssist</span>
       </div>
       <nav class="header-nav">
         <a href="#schedule" class="nav-link active">Schedule</a>
+        <a href="#catchup" class="nav-link">Catch-up</a>
         <a href="#timeline" class="nav-link">Timeline</a>
         <a href="#vaccines" class="nav-link">Vaccines</a>
       </nav>
@@ -30,7 +31,7 @@
     <div class="hero-inner">
       <p class="hero-eyebrow">CDC Recommended &middot; 2025</p>
       <h1 class="hero-title">Child &amp; Adolescent<br/>Immunization Schedule</h1>
-      <p class="hero-subtitle">A clearer way to see what vaccines are recommended from birth through age 18 &mdash; designed for healthcare providers.</p>
+      <p class="hero-subtitle">A clearer way to see what vaccines are recommended from birth through age 18, designed for healthcare providers.</p>
 
       <div class="age-picker" id="agePicker">
         <label class="age-label" for="ageSelect">Show vaccines for age</label>
@@ -84,6 +85,24 @@
     </div>
   </section>
 
+  <!-- ============ CATCH-UP SCHEDULE ============ -->
+  <section class="section section-alt" id="catchup">
+    <div class="section-inner">
+      <h2 class="section-title">Catch-up Schedule</h2>
+      <p class="section-desc">Minimum ages and intervals for children whose vaccinations have been delayed. A series does not need to be restarted regardless of time elapsed.</p>
+      <div class="catchup-tabs">
+        <button class="catchup-tab active" data-group="young">4 months &ndash; 6 years</button>
+        <button class="catchup-tab" data-group="older">7 &ndash; 18 years</button>
+      </div>
+      <div class="table-container" id="catchupTableContainer">
+        <table class="schedule-table catchup-table" id="catchupTable">
+          <thead id="catchupHead"></thead>
+          <tbody id="catchupBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ TIMELINE ============ -->
   <section class="section section-alt" id="timeline">
     <div class="section-inner">
@@ -97,7 +116,7 @@
   <section class="section" id="vaccines">
     <div class="section-inner">
       <h2 class="section-title">Vaccine Reference Cards</h2>
-      <p class="section-desc">Everything about each vaccine in one place &mdash; schedule, notes, and contraindications.</p>
+      <p class="section-desc">Everything about each vaccine in one place: schedule, notes, and contraindications.</p>
       <div class="cards-grid" id="cardsGrid"></div>
     </div>
   </section>
@@ -105,7 +124,7 @@
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
     <div class="footer-inner">
-      <p>Data sourced from the <a href="https://www.cdc.gov/vaccines/hcp/imz-schedules/child-adolescent-age.html" target="_blank" rel="noopener">CDC Immunization Schedule</a> (Oct 2025). This tool is for informational purposes only&hairsp;&mdash;&hairsp;always consult the full CDC guidance.</p>
+      <p>Data sourced from the <a href="https://www.cdc.gov/vaccines/hcp/imz-schedules/child-adolescent-age.html" target="_blank" rel="noopener">CDC Immunization Schedule</a> and <a href="https://www.cdc.gov/vaccines/hcp/imz-schedules/child-adolescent-catch-up.html" target="_blank" rel="noopener">Catch-up Schedule</a> (2025). For informational purposes only. Always consult the full CDC guidance.</p>
       <p class="footer-copy">&copy; 2025 DocAssist &middot; Built for healthcare providers</p>
     </div>
   </footer>

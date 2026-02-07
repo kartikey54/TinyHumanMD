@@ -1,5 +1,5 @@
 /* ================================================================
-   DocAssist — Immunization Schedule Application
+   DocAssist | Immunization Schedule Application
    ================================================================ */
 
 (function () {
@@ -25,8 +25,10 @@
     { key: '17yr',  label: '17-18 yrs' },
   ];
 
+  // Catch-up interval columns
+  const CU_COLS = ['Minimum Age', 'Dose 1 to 2', 'Dose 2 to 3', 'Dose 3 to 4', 'Dose 4 to 5'];
+
   // type: rec = recommended, catch = catch-up, risk = high-risk, shared = shared decision, note = see notes
-  // label: short dose text shown in cell
   const VACCINES = [
     {
       id: 'hepb',
@@ -47,6 +49,22 @@
         '15mo': { type: 'catch', label: '3rd' },
         '18mo': { type: 'catch', label: '3rd' },
       },
+      catchup: {
+        group: 'young',
+        minAge: 'Birth',
+        intervals: [
+          { interval: '4 weeks' },
+          { interval: '8 weeks', detail: 'and at least 16 weeks after first dose. Minimum age for the final dose is 24 weeks.' },
+        ],
+      },
+      catchupOlder: {
+        group: 'older',
+        minAge: 'N/A',
+        intervals: [
+          { interval: '4 weeks' },
+          { interval: '8 weeks', detail: 'and at least 16 weeks after first dose.' },
+        ],
+      },
     },
     {
       id: 'rv',
@@ -60,6 +78,15 @@
         '2mo': { type: 'rec', label: '1st' },
         '4mo': { type: 'rec', label: '2nd' },
         '6mo': { type: 'rec', label: '3rd' },
+      },
+      catchup: {
+        group: 'young',
+        minAge: '6 weeks',
+        minAgeDetail: 'Maximum age for first dose is 14 weeks 6 days.',
+        intervals: [
+          { interval: '4 weeks' },
+          { interval: '4 weeks', detail: 'Maximum age for final dose is 8 months 0 days.' },
+        ],
       },
     },
     {
@@ -78,6 +105,16 @@
         '18mo': { type: 'rec', label: '4th' },
         '4yr':  { type: 'rec', label: '5th' },
       },
+      catchup: {
+        group: 'young',
+        minAge: '6 weeks',
+        intervals: [
+          { interval: '4 weeks' },
+          { interval: '4 weeks' },
+          { interval: '6 months' },
+          { interval: '6 months', detail: 'A 5th dose is not necessary if the 4th dose was given at age 4+ and at least 6 months after dose 3.' },
+        ],
+      },
     },
     {
       id: 'hib',
@@ -94,6 +131,15 @@
         '12mo': { type: 'rec', label: '3rd/4th' },
         '15mo': { type: 'rec', label: '3rd/4th' },
       },
+      catchup: {
+        group: 'young',
+        minAge: '6 weeks',
+        intervals: [
+          { interval: '4 weeks', detail: 'if 1st dose given before 1st birthday. 8 weeks (as final dose) if 1st dose at 12-14 months. No further doses if 1st dose at 15+ months.' },
+          { interval: '4-8 weeks', detail: 'Depends on current age, age at 1st dose, and vaccine type. See CDC notes for full guidance.' },
+          { interval: '8 weeks', detail: 'As final dose. Only needed for children 12-59 months who received 3 doses before 1st birthday.' },
+        ],
+      },
     },
     {
       id: 'pcv',
@@ -109,6 +155,15 @@
         '6mo':  { type: 'rec', label: '3rd' },
         '12mo': { type: 'rec', label: '4th' },
         '15mo': { type: 'rec', label: '4th' },
+      },
+      catchup: {
+        group: 'young',
+        minAge: '6 weeks',
+        intervals: [
+          { interval: '4 weeks', detail: 'if 1st dose before 1st birthday. 8 weeks (as final dose for healthy children) if 1st dose at 1st birthday or after. No further doses if healthy child and 1st dose at 24+ months.' },
+          { interval: '4-8 weeks', detail: 'Depends on current age and age at prior doses. See CDC notes.' },
+          { interval: '8 weeks', detail: 'As final dose. Only for children 12-59 months who received 3 doses before 12 months.' },
+        ],
       },
     },
     {
@@ -127,6 +182,24 @@
         '18mo': { type: 'catch', label: '3rd' },
         '4yr':  { type: 'rec', label: '4th' },
         '7yr':  { type: 'note', label: 'See notes' },
+      },
+      catchup: {
+        group: 'young',
+        minAge: '6 weeks',
+        intervals: [
+          { interval: '4 weeks' },
+          { interval: '4 weeks', detail: 'if current age is under 4 years. 6 months (as final dose) if current age is 4+ years.' },
+          { interval: '6 months', detail: 'Minimum age 4 years for final dose.' },
+        ],
+      },
+      catchupOlder: {
+        group: 'older',
+        minAge: 'N/A',
+        intervals: [
+          { interval: '4 weeks' },
+          { interval: '6 months', detail: 'A 4th dose is not necessary if the 3rd dose was given at age 4+ and at least 6 months after previous dose.' },
+          { interval: '6 months', detail: 'A 4th dose of IPV is indicated if all previous doses were given before age 4 or if the 3rd dose was less than 6 months after the 2nd.' },
+        ],
       },
     },
     {
@@ -157,7 +230,7 @@
       name: 'Measles, Mumps, Rubella',
       abbr: 'MMR',
       doses: 2,
-      description: 'Protects against measles, mumps, and rubella (German measles) — all highly contagious viral diseases.',
+      description: 'Protects against measles, mumps, and rubella (German measles), all highly contagious viral diseases.',
       notes: 'Administer 1st dose at 12-15 months and 2nd dose at 4-6 years. Can be administered before age 12 months for international travel (dose before 12 months does not count toward the routine series).',
       contraindications: 'Severe allergic reaction after previous dose or to a component. Pregnancy. Known severe immunodeficiency.',
       schedule: {
@@ -165,6 +238,20 @@
         '15mo': { type: 'rec', label: '1st' },
         '4yr':  { type: 'rec', label: '2nd' },
         '7yr':  { type: 'catch', label: '2nd' },
+      },
+      catchup: {
+        group: 'young',
+        minAge: '12 months',
+        intervals: [
+          { interval: '4 weeks' },
+        ],
+      },
+      catchupOlder: {
+        group: 'older',
+        minAge: 'N/A',
+        intervals: [
+          { interval: '4 weeks' },
+        ],
       },
     },
     {
@@ -181,6 +268,20 @@
         '4yr':  { type: 'rec', label: '2nd' },
         '7yr':  { type: 'catch', label: '2nd' },
       },
+      catchup: {
+        group: 'young',
+        minAge: '12 months',
+        intervals: [
+          { interval: '3 months' },
+        ],
+      },
+      catchupOlder: {
+        group: 'older',
+        minAge: 'N/A',
+        intervals: [
+          { interval: '3 months', detail: 'if younger than 13 years. 4 weeks if age 13 years or older.' },
+        ],
+      },
     },
     {
       id: 'hepa',
@@ -196,18 +297,70 @@
         '18mo': { type: 'rec', label: '2nd' },
         '2yr':  { type: 'catch', label: '1st-2nd' },
       },
+      catchup: {
+        group: 'young',
+        minAge: '12 months',
+        intervals: [
+          { interval: '6 months' },
+        ],
+      },
+      catchupOlder: {
+        group: 'older',
+        minAge: 'N/A',
+        intervals: [
+          { interval: '6 months' },
+        ],
+      },
+    },
+    {
+      id: 'menacwy',
+      name: 'Meningococcal ACWY',
+      abbr: 'MenACWY',
+      doses: 2,
+      description: 'Protects against meningococcal serogroups A, C, W, and Y, which cause bacterial meningitis and bloodstream infections.',
+      notes: 'Administer 1st dose at 11-12 years with booster at age 16. For children at increased risk, a series can begin as early as 2 months.',
+      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component.',
+      schedule: {
+        '2mo':  { type: 'risk', label: 'High risk' },
+        '11yr': { type: 'rec', label: '1st' },
+        '16yr': { type: 'rec', label: '2nd' },
+      },
+      catchup: {
+        group: 'young',
+        minAge: '2 months (CRM), 2 years (TT)',
+        intervals: [
+          { interval: '8 weeks' },
+          { interval: 'See Notes', detail: 'Depends on indication and age.' },
+        ],
+      },
+      catchupOlder: {
+        group: 'older',
+        minAge: 'N/A',
+        intervals: [
+          { interval: '8 weeks' },
+        ],
+      },
     },
     {
       id: 'tdap',
       name: 'Tetanus, Diphtheria & Pertussis',
       abbr: 'Tdap',
       doses: 1,
-      description: 'Booster for older children/adolescents. Replaces Td booster with added pertussis protection.',
+      description: 'Booster for older children and adolescents. Replaces Td booster with added pertussis protection.',
       notes: 'Administer 1 dose of Tdap at age 11-12 years. Tdap can be administered regardless of interval since last tetanus- or diphtheria-containing vaccine.',
       contraindications: 'Severe allergic reaction after a previous dose. Encephalopathy within 7 days of a previous pertussis-containing vaccine.',
       schedule: {
         '11yr': { type: 'rec', label: '1 dose' },
         '13yr': { type: 'catch', label: '1 dose' },
+      },
+      catchupOlder: {
+        group: 'older',
+        minAge: '7 years',
+        intervals: [
+          { interval: '4 weeks' },
+          { interval: '4 weeks', detail: 'if 1st dose of DTaP/DT was before 1st birthday. 6 months (as final dose) if 1st dose was at or after 1st birthday.' },
+          { interval: '6 months', detail: 'if 1st dose of DTaP/DT was before 1st birthday.' },
+        ],
       },
     },
     {
@@ -225,19 +378,12 @@
         '16yr': { type: 'catch', label: '1st-2nd' },
         '17yr': { type: 'catch', label: '1st-3rd' },
       },
-    },
-    {
-      id: 'menacwy',
-      name: 'Meningococcal ACWY',
-      abbr: 'MenACWY',
-      doses: 2,
-      description: 'Protects against meningococcal serogroups A, C, W, and Y, which cause bacterial meningitis and bloodstream infections.',
-      notes: 'Administer 1st dose at 11-12 years with booster at age 16. For children at increased risk, a series can begin as early as 2 months.',
-      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component.',
-      schedule: {
-        '2mo':  { type: 'risk', label: 'High risk' },
-        '11yr': { type: 'rec', label: '1st' },
-        '16yr': { type: 'rec', label: '2nd' },
+      catchupOlder: {
+        group: 'older',
+        minAge: '9 years',
+        intervals: [
+          { interval: 'Routine dosing intervals are recommended.' },
+        ],
       },
     },
     {
@@ -296,6 +442,28 @@
         '17yr': { type: 'note', label: 'See notes' },
       },
     },
+    {
+      id: 'dengue',
+      name: 'Dengue',
+      abbr: 'DEN4CYD',
+      doses: 3,
+      description: 'Prevents dengue disease in seropositive individuals living in endemic areas. For ages 9-16 years.',
+      notes: 'Only for children aged 9-16 years with laboratory-confirmed previous dengue infection living in endemic dengue areas.',
+      contraindications: 'Severe allergic reaction after a previous dose or to a vaccine component. Seronegative individuals.',
+      schedule: {
+        '11yr': { type: 'risk', label: 'Seropositive' },
+        '13yr': { type: 'risk', label: 'Seropositive' },
+        '16yr': { type: 'risk', label: 'Seropositive' },
+      },
+      catchupOlder: {
+        group: 'older',
+        minAge: '9 years',
+        intervals: [
+          { interval: '6 months' },
+          { interval: '6 months' },
+        ],
+      },
+    },
   ];
 
   /* -------- Helpers -------- */
@@ -332,7 +500,6 @@
     });
     body.innerHTML = bRows;
 
-    // Pill click → modal
     $$('.cell-pill', body).forEach(el => {
       el.addEventListener('click', () => {
         const vid = el.dataset.vaccine;
@@ -347,7 +514,6 @@
     const sel = $('#ageSelect');
     sel.addEventListener('change', () => {
       const val = sel.value;
-      // Rows
       $$('#tableBody tr').forEach(tr => {
         if (val === 'all') {
           tr.classList.remove('hidden-row');
@@ -356,17 +522,73 @@
           tr.classList.toggle('hidden-row', !ages.includes(val));
         }
       });
-      // Column highlight (optional subtle bg)
-      $$('#scheduleTable th, #scheduleTable td').forEach(td => {
-        td.classList.remove('age-highlighted');
+    });
+  }
+
+  /* -------- Build Catch-up Table -------- */
+  function buildCatchupTable(group) {
+    const head = $('#catchupHead');
+    const body = $('#catchupBody');
+    const maxIntervals = group === 'young' ? 4 : 3;
+
+    let hRow = '<tr><th>Vaccine</th><th>Min. Age</th>';
+    for (let i = 0; i < maxIntervals; i++) {
+      const from = i + 1;
+      const to = i + 2;
+      hRow += `<th>Dose ${from} to ${to}</th>`;
+    }
+    hRow += '</tr>';
+    head.innerHTML = hRow;
+
+    let bRows = '';
+    VACCINES.forEach(v => {
+      const cu = group === 'young' ? v.catchup : v.catchupOlder;
+      if (!cu) return;
+
+      bRows += `<tr>`;
+      bRows += `<td>${v.name} <span style="opacity:.45;font-weight:400;">(${v.abbr})</span></td>`;
+
+      // Min age cell
+      let minAgeHTML = `<span class="cu-minage">${cu.minAge}</span>`;
+      if (cu.minAgeDetail) {
+        minAgeHTML += `<span class="cu-detail">${cu.minAgeDetail}</span>`;
+      }
+      bRows += `<td>${minAgeHTML}</td>`;
+
+      // Interval cells
+      for (let i = 0; i < maxIntervals; i++) {
+        const intv = cu.intervals[i];
+        if (intv) {
+          let cellHTML = `<span class="cu-interval">${intv.interval}</span>`;
+          if (intv.detail) {
+            cellHTML += `<span class="cu-detail">${intv.detail}</span>`;
+          }
+          bRows += `<td>${cellHTML}</td>`;
+        } else {
+          bRows += `<td></td>`;
+        }
+      }
+      bRows += '</tr>';
+    });
+    body.innerHTML = bRows;
+  }
+
+  function setupCatchupTabs() {
+    const tabs = $$('.catchup-tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        buildCatchupTable(tab.dataset.group);
       });
     });
+    // Build default
+    buildCatchupTable('young');
   }
 
   /* -------- Build Timeline -------- */
   function buildTimeline() {
     const container = $('#timelineContainer');
-    // Age positions (percentage across track)
     const AGE_POS = {
       birth: 0, '1mo': 3, '2mo': 6, '4mo': 10, '6mo': 14, '9mo': 18,
       '12mo': 22, '15mo': 26, '18mo': 30, '2yr': 38, '4yr': 48,
@@ -388,13 +610,12 @@
       html += `<div class="timeline-row">`;
       html += `<div class="timeline-label">${v.abbr}</div>`;
       html += `<div class="timeline-track">`;
-      // Bar
       html += `<div class="timeline-bar" style="left:${minP}%;width:${maxP - minP}%;background:${mainColor};"></div>`;
-      // Dots
       entries.forEach(([age, cell]) => {
         const pos = AGE_POS[age] ?? 0;
         const col = COLORS[cell.type] || COLORS.rec;
-        html += `<div class="timeline-dot" style="left:${pos}%;color:${col};background:${col};" data-vaccine="${v.id}"><span class="dot-tooltip">${cell.label} — ${AGE_COLS.find(a => a.key === age)?.label || age}</span></div>`;
+        const ageLabel = AGE_COLS.find(a => a.key === age)?.label || age;
+        html += `<div class="timeline-dot" style="left:${pos}%;color:${col};background:${col};" data-vaccine="${v.id}"><span class="dot-tooltip">${cell.label} | ${ageLabel}</span></div>`;
       });
       html += `</div></div>`;
     });
@@ -416,7 +637,6 @@
 
     container.innerHTML = html;
 
-    // Dot click → modal
     $$('.timeline-dot', container).forEach(el => {
       el.addEventListener('click', () => {
         const vid = el.dataset.vaccine;
@@ -431,33 +651,47 @@
     const grid = $('#cardsGrid');
     let html = '';
     VACCINES.forEach(v => {
-      const entries = Object.entries(v.schedule).filter(([, c]) => c.type === 'rec' || c.type === 'catch');
       html += `<div class="vaccine-card">`;
       html += `<div class="card-header"><div class="card-name">${v.name}</div><div class="card-abbr">${v.abbr}</div></div>`;
       html += `<div class="card-desc">${v.description}</div>`;
-      // Dose chips
       html += `<div class="card-doses">`;
       const doseAges = Object.entries(v.schedule).filter(([, c]) => c.type === 'rec');
       if (doseAges.length) {
         doseAges.forEach(([age, cell]) => {
           const ageLabel = AGE_COLS.find(a => a.key === age)?.label || age;
-          html += `<span class="dose-chip active-dose">${cell.label} &mdash; ${ageLabel}</span>`;
+          html += `<span class="dose-chip active-dose">${cell.label} | ${ageLabel}</span>`;
         });
       } else {
         html += `<span class="dose-chip">See current guidance</span>`;
       }
       html += `</div>`;
-      // Toggle
+
+      // Catch-up summary
+      const cu = v.catchup || v.catchupOlder;
+      if (cu) {
+        html += `<div style="margin-bottom:12px;">`;
+        html += `<span class="dose-chip" style="background:var(--green-light);color:#1a7a32;">Catch-up: min age ${cu.minAge}</span>`;
+        html += `</div>`;
+      }
+
       html += `<button class="card-detail-toggle" data-vid="${v.id}">More details <svg width="14" height="14" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
       html += `<div class="card-details" id="details-${v.id}">`;
       html += `<p><strong>Notes:</strong> ${v.notes}</p>`;
       html += `<p style="margin-top:8px"><strong>Contraindications:</strong> ${v.contraindications}</p>`;
+      if (cu && cu.intervals.length) {
+        html += `<p style="margin-top:8px"><strong>Catch-up intervals:</strong></p><ul style="margin:4px 0 0 16px;">`;
+        cu.intervals.forEach((intv, i) => {
+          html += `<li>Dose ${i + 1} to ${i + 2}: <strong>${intv.interval}</strong>`;
+          if (intv.detail) html += ` <span style="color:var(--text-secondary)">${intv.detail}</span>`;
+          html += `</li>`;
+        });
+        html += `</ul>`;
+      }
       html += `</div>`;
       html += `</div>`;
     });
     grid.innerHTML = html;
 
-    // Toggle handlers
     $$('.card-detail-toggle', grid).forEach(btn => {
       btn.addEventListener('click', () => {
         const details = $(`#details-${btn.dataset.vid}`);
@@ -474,8 +708,20 @@
     const doseEntries = Object.entries(vaccine.schedule)
       .map(([age, cell]) => {
         const ageLabel = AGE_COLS.find(a => a.key === age)?.label || age;
-        return `<span class="dose-chip" style="margin:2px">${cell.label} &mdash; ${ageLabel}</span>`;
+        return `<span class="dose-chip" style="margin:2px">${cell.label} | ${ageLabel}</span>`;
       }).join('');
+
+    const cu = vaccine.catchup || vaccine.catchupOlder;
+    let catchupHTML = '';
+    if (cu) {
+      catchupHTML = `
+        <p style="margin-top:16px"><strong>Catch-up guidance</strong></p>
+        <p style="margin-top:4px">Minimum age: <strong>${cu.minAge}</strong>${cu.minAgeDetail ? ' (' + cu.minAgeDetail + ')' : ''}</p>
+        <ul style="margin:6px 0 0 16px;">
+          ${cu.intervals.map((intv, i) => `<li>Dose ${i + 1} to ${i + 2}: <strong>${intv.interval}</strong>${intv.detail ? ' <span style="color:var(--text-secondary)">' + intv.detail + '</span>' : ''}</li>`).join('')}
+        </ul>
+      `;
+    }
 
     content.innerHTML = `
       <h3>${vaccine.name} <span style="font-weight:400;opacity:.5;">(${vaccine.abbr})</span></h3>
@@ -485,6 +731,7 @@
         <div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0 16px;">${doseEntries}</div>
         <p><strong>Clinical notes</strong><br/>${vaccine.notes}</p>
         <p style="margin-top:12px"><strong>Contraindications</strong><br/>${vaccine.contraindications}</p>
+        ${catchupHTML}
       </div>
     `;
     overlay.classList.add('open');
@@ -516,6 +763,7 @@
   function init() {
     buildTable();
     setupAgeFilter();
+    setupCatchupTabs();
     buildTimeline();
     buildCards();
     setupModal();
