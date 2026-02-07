@@ -600,7 +600,7 @@ a:hover { text-decoration: underline; }
   margin: 0 auto;
 }
 .site-footer p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
-.footer-copy { margin-top: 8px; opacity: .6; }
+.footer-disclaimer { margin-top: 12px; font-weight: 600; color: var(--text); opacity: .7; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 640px) {
