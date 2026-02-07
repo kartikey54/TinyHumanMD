@@ -759,6 +759,84 @@
     });
   }
 
+  /* -------- Build Adult Vaccines -------- */
+  function buildAdult() {
+    var grid = $('#adultGrid');
+    if (!grid) return;
+    var items = [
+      { badge: 'Annual', cls: 'badge-annual', name: 'Influenza (Flu)', body: 'One dose every flu season for all adults. High-dose or adjuvanted formulations recommended for adults 65+.' },
+      { badge: 'Seasonal', cls: 'badge-annual', name: 'COVID-19', body: 'Updated COVID-19 vaccine recommended for all adults. Stay up to date per current CDC guidance as formulations change with circulating variants.' },
+      { badge: 'Every 10 yrs', cls: 'badge-routine', name: 'Td / Tdap', body: 'Td booster every 10 years. One dose should be Tdap (includes pertussis). Tdap is especially important for adults around newborns.' },
+      { badge: '50+', cls: 'badge-age', name: 'Shingles (Zoster)', body: 'Shingrix: 2-dose series for adults 50 and older, or adults 19+ who are immunocompromised. Doses given 2 to 6 months apart.' },
+      { badge: '65+', cls: 'badge-age', name: 'Pneumococcal', body: 'PCV20 (single dose) or PCV15 followed by PPSV23 for adults 65+, or younger adults with certain risk factors (chronic heart, lung, or liver disease, diabetes, smoking).' },
+      { badge: 'At risk', cls: 'badge-risk', name: 'Hepatitis B', body: 'Recommended for all adults 19-59. Adults 60+ with risk factors (healthcare workers, chronic liver disease, sexual exposure risk, injection drug use) should also be vaccinated.' },
+      { badge: 'At risk', cls: 'badge-risk', name: 'Hepatitis A', body: '2-dose series for adults with risk factors: travel to endemic areas, chronic liver disease, men who have sex with men, injection drug use, or anyone wanting protection.' },
+      { badge: 'If not immune', cls: 'badge-routine', name: 'MMR', body: 'Adults born in 1957 or later without evidence of immunity need at least 1 dose. Healthcare workers and international travelers may need 2 doses.' },
+      { badge: 'If not immune', cls: 'badge-routine', name: 'Varicella', body: '2-dose series for adults without evidence of immunity to chickenpox. Doses given 4 to 8 weeks apart.' },
+      { badge: '60+', cls: 'badge-age', name: 'RSV', body: 'Single dose of RSV vaccine for adults 75+, or adults 60-74 at increased risk. Shared clinical decision-making with healthcare provider.' },
+    ];
+    grid.innerHTML = items.map(function(i) {
+      return '<div class="info-card"><div class="info-badge ' + i.cls + '">' + i.badge + '</div><h3 class="info-title">' + i.name + '</h3><p class="info-body">' + i.body + '</p></div>';
+    }).join('');
+  }
+
+  /* -------- Build Pregnancy -------- */
+  function buildPregnancy() {
+    var grid = $('#pregGrid');
+    if (!grid) return;
+    var rec = [
+      { name: 'Tdap', detail: 'One dose during each pregnancy, preferably during weeks 27 through 36 (early third trimester). Passes whooping cough antibodies to the baby before birth.' },
+      { name: 'Influenza (Flu)', detail: 'Inactivated flu vaccine (IIV) is safe during any trimester. Protects both the mother and the newborn (who cannot be vaccinated until 6 months).' },
+      { name: 'COVID-19', detail: 'Updated COVID-19 vaccine is recommended for pregnant individuals. Can be given at any point during pregnancy.' },
+      { name: 'RSV (Abrysvo)', detail: 'Seasonal. Single dose during weeks 32 through 36 of pregnancy (September through January). Protects infant from severe RSV disease in their first months of life.' },
+    ];
+    var avoid = [
+      { name: 'MMR', detail: 'Live vaccine. Get vaccinated at least 4 weeks before becoming pregnant if not immune.' },
+      { name: 'Varicella', detail: 'Live vaccine. Complete the series before pregnancy. Wait at least 4 weeks after vaccination before conceiving.' },
+      { name: 'LAIV (Nasal Flu Spray)', detail: 'Live vaccine. Use the inactivated injectable flu vaccine instead during pregnancy.' },
+      { name: 'Shingrix', detail: 'Not recommended during pregnancy due to insufficient safety data. Defer until after delivery.' },
+    ];
+    function renderCol(title, items, cls) {
+      var h = '<div class="preg-col ' + cls + '"><h3 class="preg-col-title">' + title + '</h3>';
+      items.forEach(function(i) { h += '<div class="preg-item"><div class="preg-name">' + i.name + '</div><div class="preg-detail">' + i.detail + '</div></div>'; });
+      return h + '</div>';
+    }
+    grid.innerHTML = renderCol('Recommended During Pregnancy', rec, 'preg-recommended') + renderCol('Avoid During Pregnancy', avoid, 'preg-avoid');
+  }
+
+  /* -------- Build Travel -------- */
+  function buildTravel() {
+    var grid = $('#travelGrid');
+    if (!grid) return;
+    var items = [
+      { name: 'Hepatitis A', body: 'Transmitted through contaminated food/water. Recommended for most international travel destinations. 2-dose series.' },
+      { name: 'Hepatitis B', body: 'Spread through blood and body fluids. Recommended for travelers who may have medical procedures, tattoos, or sexual contact abroad. 3-dose series.' },
+      { name: 'Typhoid', body: 'Common in South Asia, Africa, and Latin America. Available as an oral (4-dose) or injectable (single dose) vaccine. Get vaccinated at least 2 weeks before travel.' },
+      { name: 'Yellow Fever', body: 'Required for entry to certain countries in Africa and South America. Single dose provides lifelong protection. Must be given at an authorized vaccine center.' },
+      { name: 'Japanese Encephalitis', body: 'Found in rural parts of Asia and the Western Pacific. 2-dose series completed at least 1 week before travel. Recommended for longer trips or rural stays.' },
+      { name: 'Rabies', body: 'Risk in many developing countries, especially with animal contact. Pre-exposure 2-dose series. Critical for adventure travelers, veterinary workers, and long-term stays.' },
+      { name: 'Cholera', body: 'Risk in areas with unsafe water and sanitation. Single-dose oral vaccine (Vaxchora) for adults 2-64. Take at least 10 days before travel.' },
+      { name: 'Meningococcal', body: 'Required for travel to the "meningitis belt" of sub-Saharan Africa and for Hajj pilgrimage. MenACWY vaccine recommended.' },
+      { name: 'Polio', body: 'Adult booster (IPV) recommended for travel to countries with active poliovirus circulation. One lifetime booster dose if previously vaccinated.' },
+      { name: 'Tick-borne Encephalitis', body: 'Risk in forested areas of Europe and Asia. 3-dose series. Recommended for outdoor enthusiasts, hikers, and campers traveling to endemic regions.' },
+    ];
+    grid.innerHTML = items.map(function(i) {
+      return '<div class="info-card travel-card"><h3 class="info-title">' + i.name + '</h3><p class="info-body">' + i.body + '</p></div>';
+    }).join('');
+  }
+
+  /* -------- Build Mpox -------- */
+  function buildMpox() {
+    var grid = $('#mpoxGrid');
+    if (!grid) return;
+    grid.innerHTML = '<div class="mpox-block"><h3 class="mpox-heading">Vaccine: JYNNEOS</h3><p>Live, attenuated, non-replicating orthopoxvirus vaccine. Approved for prevention of both monkeypox and smallpox. Commercially available in the U.S. since April 2024.</p></div>'
+    + '<div class="mpox-block"><h3 class="mpox-heading">Schedule</h3><div class="mpox-schedule"><div class="mpox-dose"><span class="mpox-dose-num">Dose 1</span><span class="mpox-dose-detail">0.5 mL subcutaneous</span></div><div class="mpox-arrow"><span>28 days</span></div><div class="mpox-dose"><span class="mpox-dose-num">Dose 2</span><span class="mpox-dose-detail">0.5 mL subcutaneous</span></div></div><p style="margin-top:12px;font-size:13px;color:var(--text-secondary);">Alternative intradermal regimen (0.1 mL) is available for adults 18+ under EUA. Regimens are interchangeable between doses.</p></div>'
+    + '<div class="mpox-block"><h3 class="mpox-heading">Who Should Get Vaccinated</h3><ul class="mpox-list"><li>Gay, bisexual, and other men who have sex with men, transgender or nonbinary people with recent sexual risk factors</li><li>Sexual partners of the above</li><li>People who anticipate the above risk factors</li><li>Research lab personnel working with orthopoxviruses</li><li>Travelers to affected countries with anticipated sexual contact risk</li></ul><p style="margin-top:8px;font-size:13px;color:var(--text-secondary);">Routine vaccination is <strong>not</strong> recommended for the general public or healthcare personnel unless sexual risk factors are present.</p></div>'
+    + '<div class="mpox-block"><h3 class="mpox-heading">Effectiveness</h3><div class="mpox-stats"><div class="mpox-stat"><span class="mpox-stat-num">75%</span><span class="mpox-stat-label">After 1 dose</span></div><div class="mpox-stat"><span class="mpox-stat-num">86%</span><span class="mpox-stat-label">After 2 doses</span></div></div><p style="margin-top:12px;font-size:13px;color:var(--text-secondary);">Breakthrough infections after 2 doses are rare (&lt;1%) and typically milder. Peak immunity reached 14 days after dose 2. Protection does not appear to wane for at least 5 years.</p></div>'
+    + '<div class="mpox-block"><h3 class="mpox-heading">Post-Exposure Prophylaxis</h3><p>Can be given after known or presumed exposure. Ideally within <strong>4 days</strong> of exposure. Administration 4 to 14 days after exposure may still provide some protection. No boosters recommended for the general population at this time.</p></div>'
+    + '<div class="mpox-block"><h3 class="mpox-heading">Special Populations</h3><ul class="mpox-list"><li><strong>Under 18:</strong> Available under EUA, subcutaneous only</li><li><strong>Pregnant/breastfeeding:</strong> Can be offered with shared clinical decision-making</li><li><strong>Immunocompromised:</strong> Administer 0.5 mL subcutaneous (standard 2-dose series)</li><li><strong>Prior smallpox vaccination:</strong> Still recommended; prior immunity may not be lifelong</li></ul></div>';
+  }
+
   /* -------- Init -------- */
   function init() {
     buildTable();
@@ -766,6 +844,10 @@
     setupCatchupTabs();
     buildTimeline();
     buildCards();
+    buildAdult();
+    buildPregnancy();
+    buildTravel();
+    buildMpox();
     setupModal();
     setupNav();
   }

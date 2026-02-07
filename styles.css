@@ -589,25 +589,79 @@ a:hover { text-decoration: underline; }
 }
 .modal .modal-body strong { font-weight: 600; }
 
-/* ---------- Resources ---------- */
-.resources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-.resource-card {
-  display: flex; flex-direction: column; gap: 8px;
+/* ---------- Info Cards (Adult, Travel) ---------- */
+.info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.info-card {
   padding: 24px; border-radius: var(--radius);
   border: 1px solid var(--border); background: var(--surface);
   box-shadow: var(--shadow-sm); transition: var(--transition);
-  text-decoration: none; color: var(--text); position: relative;
 }
-.resource-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); text-decoration: none; }
-.resource-icon { color: var(--accent); }
-.resource-name { font-size: 16px; font-weight: 700; color: var(--text); }
-.resource-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; flex: 1; }
-.resource-arrow {
-  position: absolute; top: 24px; right: 24px;
-  font-size: 18px; color: var(--accent); opacity: 0;
-  transition: var(--transition);
+.info-card:hover { box-shadow: var(--shadow); }
+.info-badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 6px; margin-bottom: 10px;
+  text-transform: uppercase; letter-spacing: .04em;
 }
-.resource-card:hover .resource-arrow { opacity: 1; }
+.badge-annual { background: var(--accent-light); color: #0055b3; }
+.badge-routine { background: #f0f0f5; color: var(--text); }
+.badge-age { background: var(--purple-light); color: #7a2da0; }
+.badge-risk { background: var(--orange-light); color: #995a00; }
+.info-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.info-body { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+
+/* ---------- Pregnancy ---------- */
+.preg-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 700px) { .preg-columns { grid-template-columns: 1fr; } }
+.preg-col { padding: 28px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); }
+.preg-recommended { border-left: 4px solid var(--green); }
+.preg-avoid { border-left: 4px solid #ff3b30; }
+.preg-col-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text); }
+.preg-item { margin-bottom: 14px; }
+.preg-item:last-child { margin-bottom: 0; }
+.preg-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.preg-detail { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-top: 2px; }
+.preg-footer { margin-top: 20px; font-size: 13px; color: var(--text-secondary); padding: 16px; background: var(--accent-light); border-radius: var(--radius-sm); line-height: 1.5; }
+
+/* ---------- Travel ---------- */
+.travel-tip {
+  font-size: 14px; line-height: 1.6; color: var(--text);
+  padding: 20px 24px; background: var(--accent-light);
+  border-radius: var(--radius-sm); margin-bottom: 28px;
+}
+.travel-card { border-left: 3px solid var(--accent); }
+.travel-note {
+  margin-top: 20px; font-size: 13px; color: var(--text-secondary);
+  padding: 14px 20px; background: var(--orange-light);
+  border-radius: var(--radius-sm); line-height: 1.5;
+}
+
+/* ---------- Mpox ---------- */
+.mpox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+.mpox-block {
+  padding: 24px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.mpox-block p { font-size: 14px; color: var(--text); line-height: 1.6; }
+.mpox-heading { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.mpox-list { margin: 0 0 0 18px; font-size: 13px; color: var(--text); line-height: 1.7; }
+.mpox-list li { margin-bottom: 4px; }
+.mpox-schedule {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 16px; background: #f8f9fb; border-radius: var(--radius-sm);
+}
+.mpox-dose {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 12px 20px; background: var(--accent-light);
+  border-radius: var(--radius-sm); min-width: 120px;
+}
+.mpox-dose-num { font-size: 14px; font-weight: 700; color: #0055b3; }
+.mpox-dose-detail { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.mpox-arrow { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+.mpox-stats { display: flex; gap: 24px; }
+.mpox-stat { text-align: center; }
+.mpox-stat-num { display: block; font-size: 36px; font-weight: 800; color: var(--accent); line-height: 1; }
+.mpox-stat-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-top: 4px; }
 
 /* ---------- Footer ---------- */
 .site-footer {
