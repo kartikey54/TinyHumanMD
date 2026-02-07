@@ -1,0 +1,11 @@
+# Cloudflare credentials
+credentials.json
+*.json
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+*.log
+

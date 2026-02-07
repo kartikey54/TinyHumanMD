@@ -1,0 +1,28 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+
+    # Expose Ollama to the host so Dify / AnythingLLM / etc. can talk to it
+    ports:
+      - "11434:11434"
+
+    # ✅ GPU support for regular docker compose (NOT swarm)
+    # Requires: NVIDIA drivers + nvidia-container-toolkit installed on the host
+    gpus: all
+
+    # Persist models & settings
+    volumes:
+      - ollama-data:/root/.ollama
+
+    # Optional: keep models in memory for faster first-token
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+      # You usually don't need to set this; Ollama auto-detects.
+      # Uncomment and tune only if you know what you're doing:
+      # - OLLAMA_NUM_GPU=1
+
+volumes:
+  ollama-data:
+  

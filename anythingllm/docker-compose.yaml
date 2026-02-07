@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  anythingllm:
+    image: mintplexlabs/anythingllm:latest
+    container_name: anythingllm
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      # Server settings
+      - SERVER_PORT=3001
+      - STORAGE_DIR=/app/server/storage
+      
+      # Vector database - using Qdrant
+      - VECTOR_DB=qdrant
+      - QDRANT_ENDPOINT=http://qdrant:6333
+      
+      # LLM Provider - Ollama
+      - LLM_PROVIDER=ollama
+      - OLLAMA_BASE_PATH=http://host.docker.internal:11434
+      
+      # Optional: API key for security (set this if you want API access)
+      # - API_KEY=your-secret-api-key-here
+      
+      # Optional: JWT secret for authentication
+      # - JWT_SECRET=your-jwt-secret-here
+      
+    volumes:
+      - anythingllm-storage:/app/server/storage
+      - anythingllm-uploads:/app/server/uploads
+    depends_on:
+      - qdrant
+    networks:
+      - anythingllm-net
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: anythingllm-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant-storage:/qdrant/storage
+    networks:
+      - anythingllm-net
+
+volumes:
+  anythingllm-storage:
+  anythingllm-uploads:
+  qdrant-storage:
+
+networks:
+  anythingllm-net:
+    driver: bridge
+

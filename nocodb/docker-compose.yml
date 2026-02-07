@@ -1,0 +1,45 @@
+# NocoDB - Airtable Alternative / Database Interface
+# Accessible at: data.kartikey54.com
+services:
+  nocodb:
+    image: nocodb/nocodb:latest
+    container_name: nocodb
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NC_DB=pg://postgres:5432?u=postgres&p=${NOCODB_DB_PASSWORD:-change_me}&d=nocodb
+      - NC_AUTH_JWT_SECRET=${NC_AUTH_JWT_SECRET:-your-super-secret-jwt-token-change-me}
+      - NC_SENTRY_DSN=${NC_SENTRY_DSN:-}
+      - NC_DISABLE_ERR_REPORTS=false
+      - NC_ONE_CLICK=true
+    volumes:
+      - nocodb_data:/app/data
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: nocodb-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${NOCODB_DB_PASSWORD:-change_me}
+      - POSTGRES_DB=nocodb
+    volumes:
+      - nocodb_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  nocodb_data:
+  nocodb_postgres_data:
+

@@ -1,0 +1,32 @@
+version: "3.8"
+
+# Option 1: Simple token-based (recommended)
+# Use docker-compose.simple.yaml instead, or use this with TUNNEL_TOKEN
+# Configure ingress in Cloudflare dashboard
+
+# Option 2: Config file based (for advanced ingress rules)
+# Requires either TUNNEL_TOKEN OR credentials.json
+
+services:
+  cloudflared-rdp:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-rdp
+    restart: unless-stopped
+    network_mode: host
+    # For token-based: use simple command (see docker-compose.simple.yaml)
+    # For config-based: use the command below
+    command: tunnel --config /etc/cloudflared/config.yaml run
+    volumes:
+      - ./config.yaml:/etc/cloudflared/config.yaml:ro
+      # Only needed for named tunnel (not token-based):
+      # - ./credentials.json:/etc/cloudflared/credentials.json:ro
+    environment:
+      # Using the same tunnel token from cloudflare/docker-compose.yml
+      - TUNNEL_TOKEN=eyJhIjoiZWJiZjFkNGU4Yzc1YTcwZjFhYTQ0Njc3ZThiNjI2OWYiLCJ0IjoiZTMyZTU2ZDUtMWM0My00MjNhLTgxZjAtODM1NTZkZGY5ZWMzIiwicyI6Ik1EaGxZVFExWTJZdE1tRmlaaTAwWmpjMUxXSm1NbU10TldSa1pqQm1NMlEyWVRRMSJ9
+      # OR use credentials.json for named tunnel (comment out TUNNEL_TOKEN above)
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
