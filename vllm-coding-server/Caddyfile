@@ -1,0 +1,29 @@
+# Caddy reverse proxy for vLLM with Basic Auth
+# Listens on :8001, proxies to vLLM on :8000
+# All requests require HTTP Basic Auth before reaching vLLM
+
+:8001 {
+	# Basic Auth - username: vllm
+	# Password is set via CADDY_BASIC_AUTH_HASH env var in docker-compose.proxy.yml
+	basicauth * {
+		vllm {env.CADDY_BASIC_AUTH_HASH}
+	}
+
+	# Reverse proxy to vLLM
+	reverse_proxy localhost:8000 {
+		# Pass through all headers (including Authorization: Bearer for vLLM API key)
+		header_up Host {upstream_hostport}
+
+		# Generous timeouts for LLM inference (streaming responses can be slow)
+		transport http {
+			response_header_timeout 300s
+			dial_timeout 10s
+		}
+	}
+
+	# Access logging
+	log {
+		output stdout
+		format console
+	}
+}

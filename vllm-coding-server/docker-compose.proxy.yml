@@ -1,0 +1,26 @@
+# Caddy reverse proxy with Basic Auth in front of vLLM
+# Usage: docker compose -f docker-compose.proxy.yml up -d
+#
+# Exposes port 8001 with HTTP Basic Auth.
+# Point your Cloudflare tunnel hostname (vllm.kartikey54.com) to localhost:8001
+#
+# Clients need BOTH:
+#   1. Basic Auth credentials (username: vllm, password in .env)
+#   2. vLLM API key (as Bearer token)
+
+services:
+  caddy-vllm-proxy:
+    image: caddy:2-alpine
+    container_name: caddy-vllm-proxy
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - CADDY_BASIC_AUTH_HASH=${CADDY_BASIC_AUTH_HASH}
+
+volumes:
+  caddy_data:
+  caddy_config:

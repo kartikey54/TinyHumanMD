@@ -43,7 +43,8 @@ docker run --rm --gpus all nvidia/cuda:12.8.0-base-ubuntu24.04 nvidia-smi
 # Clone/copy this folder to your Windows machine, then:
 cd vllm-coding-server
 
-# Review and edit .env if needed (model choice, context length, etc.)
+# Copy and edit the env file (set your API key and other config):
+cp .env.example .env
 # Then start:
 docker compose up -d
 
@@ -64,7 +65,7 @@ curl http://localhost:8000/v1/models
 
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer sk-local" \
+  -H "Authorization: Bearer $VLLM_API_KEY" \
   -d '{
     "model": "coder",
     "messages": [{"role": "user", "content": "Write a Python hello world"}],
@@ -120,7 +121,7 @@ sed -i '' 's/WINDOWS_IP/192.168.1.100/g' opencode.json
 
 ```bash
 # Test that your Mac can reach the vLLM server:
-curl http://192.168.1.100:8000/v1/models -H "Authorization: Bearer sk-local"
+curl http://192.168.1.100:8000/v1/models -H "Authorization: Bearer $VLLM_API_KEY"
 ```
 
 ### Launch OpenCode
@@ -179,6 +180,101 @@ You can invoke any agent directly from any primary agent:
 @tester write tests for the UserService class
 @security audit the payment processing module
 ```
+
+---
+
+## Remote Access via Cloudflare Tunnel
+
+Access vLLM from anywhere at `https://vllm.kartikey54.com/v1` using the existing Cloudflare tunnel.
+
+```
+ Client (Cursor / OpenCode / scripts)
+   |  HTTPS + Bearer API key
+   v
+ Cloudflare Edge (TLS)
+   |  Encrypted tunnel
+   v
+ cloudflared (localhost)
+   |  HTTP
+   v
+ Caddy (:8001) — Basic Auth
+   |
+   v
+ vLLM (:8000) — API key auth
+```
+
+### Setup (one-time)
+
+#### 1. Configure secrets
+
+```bash
+cd vllm-coding-server
+
+# Copy the example env and fill in your secrets:
+cp .env.example .env
+# Then edit .env — set VLLM_API_KEY and CADDY_BASIC_AUTH_HASH
+# (see comments in .env.example for how to generate strong values)
+```
+
+#### 2. Start the Caddy proxy
+
+```bash
+# Start Caddy reverse proxy with Basic Auth on port 8001
+docker compose -f docker-compose.proxy.yml up -d
+```
+
+#### 3. Add hostname in Cloudflare Zero Trust dashboard
+
+1. Go to **Networks > Tunnels** > select your tunnel
+2. **Public Hostname** tab > **Add a public hostname**
+3. Configure:
+   - Subdomain: `vllm`
+   - Domain: `kartikey54.com`
+   - Service type: `HTTP`
+   - URL: `localhost:8001`
+4. Save — the existing `cloudflared` container picks up the route automatically
+
+#### 4. Verify remote access
+
+```bash
+# Test from any machine:
+curl -u vllm:YOUR_BASIC_AUTH_PASSWORD \
+  -H "Authorization: Bearer YOUR_VLLM_API_KEY" \
+  https://vllm.kartikey54.com/v1/models
+```
+
+### Client configuration
+
+For any OpenAI-compatible client (Cursor, OpenCode, aider, etc.):
+
+```
+OPENAI_API_BASE=https://vllm:YOUR_BASIC_AUTH_PASSWORD@vllm.kartikey54.com/v1
+OPENAI_API_KEY=YOUR_VLLM_API_KEY
+MODEL=coder
+```
+
+Or if the client doesn't support Basic Auth in the URL, set headers manually:
+
+```
+Base URL: https://vllm.kartikey54.com/v1
+API Key:  YOUR_VLLM_API_KEY
+Header:   Authorization: Basic <base64(vllm:password)>
+```
+
+### Security notes
+
+- **Two layers of auth**: HTTP Basic Auth (Caddy) + Bearer API key (vLLM)
+- **TLS everywhere**: Cloudflare handles HTTPS; the tunnel is encrypted end-to-end
+- **Credentials**: Stored in `.env` (git-ignored, copy from `.env.example`). See `VLLM_API_KEY` and `CADDY_BASIC_AUTH_HASH`
+- **No ports exposed to the internet**: Only Cloudflare tunnel connects inbound
+
+### Skipping Caddy (minimal setup)
+
+If you prefer just the vLLM API key without Basic Auth:
+
+1. Point the Cloudflare tunnel hostname to `localhost:8000` instead of `8001`
+2. Use only the API key for authentication
+3. Note: `/health` and `/version` endpoints may be accessible without the API key
 
 ---
 
