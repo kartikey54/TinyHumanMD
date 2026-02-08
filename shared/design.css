@@ -88,6 +88,23 @@ img { display: block; max-width: 100%; }
 .tool-nav-link:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 2px; }
 .tool-nav-link.is-active { color: var(--c-primary); background: var(--c-primary-soft); }
 
+.tool-suggest-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--s-1); padding: 6px 12px; border-radius: var(--r-full);
+  border: 1px solid var(--c-border); background: var(--c-surface);
+  color: var(--c-text); font-size: var(--text-sm); font-weight: 600;
+  white-space: nowrap; transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.tool-suggest-btn:hover { background: var(--c-border-light); text-decoration: none; }
+.tool-suggest-btn:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 2px; }
+
+.tool-mobile-suggest {
+  display: flex; width: 100%; padding: 10px 14px; border-radius: var(--r-md);
+  border: 1px solid var(--c-border); background: var(--c-surface);
+  color: var(--c-text); font-size: var(--text-sm); font-weight: 600;
+}
+.tool-mobile-suggest:hover { background: var(--c-border-light); }
+
 .tool-mobile-btn {
   display: none; background: none; border: none; color: var(--c-text);
   padding: var(--s-2); border-radius: var(--r-sm);
@@ -256,6 +273,10 @@ img { display: block; max-width: 100%; }
   margin-top: var(--s-3); font-size: var(--text-xs); color: var(--c-text-muted);
 }
 
+.footer-disclaimer-short {
+  margin-top: var(--s-3); font-size: 11px; color: var(--c-text-muted); font-style: italic;
+}
+
 /* ── FAQ Section (SEO rich content) ────────────────────────── */
 .faq-section {
   padding: var(--s-12) 0; border-top: 1px solid var(--c-border);
@@ -329,6 +350,7 @@ img { display: block; max-width: 100%; }
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 768px) {
   .tool-nav { display: none; }
+  .tool-suggest-btn { display: none; }
   .tool-mobile-btn { display: flex; }
   .tool-hero { padding: var(--s-8) 0 var(--s-6); }
   .tool-title { font-size: 1.5rem; }
