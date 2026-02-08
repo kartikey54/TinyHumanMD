@@ -235,6 +235,7 @@
 
     (function (t, e) {
       var o, n, p, r;
+      if (e.__SV || (window.posthog && window.posthog.__loaded)) return;
       e.__SV = 1;
       window.posthog = window.posthog || [];
       window.posthog._i = [];
@@ -254,21 +255,24 @@
           return a !== undefined && (e += '.' + a), t || (e += ' (stub)'), e;
         };
         u.people.toString = function () { return u.toString(1) + '.people (stub)'; };
-        p = 'capture identify alias people.set people.set_once people.unset people.increment people.append people.remove people.group group identify_group reset opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing get_distinct_id get_property set_property unregister get_features is_feature_enabled onFeatureFlags'.split(' ');
+        p = 'init rs ls wi ns us ts ss capture calculateEventProperties vs register register_once register_for_session unregister unregister_for_session gs getFeatureFlag getFeatureFlagPayload getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty fs ds createPersonProfile setInternalOrTestUser ps Qr opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing hs debug M cs getPageViewId captureTraceFeedback captureTraceMetric Kr'.split(' ');
         for (r = 0; r < p.length; r++) g(u, p[r]);
         window.posthog._i.push([i, s, a]);
       };
       window.posthog.__SV = 1;
       o = t.createElement('script');
       o.type = 'text/javascript';
+      o.crossOrigin = 'anonymous';
       o.async = true;
-      o.src = e.api_host + '/static/array.js';
+      o.src = e.api_host.replace('.i.posthog.com', '-assets.i.posthog.com') + '/static/array.js';
       n = t.getElementsByTagName('script')[0];
       n.parentNode.insertBefore(o, n);
-    })(document, { api_host: POSTHOG_HOST });
+    })(document, window.posthog || { api_host: POSTHOG_HOST });
 
     window.posthog.init(POSTHOG_API_KEY, {
       api_host: POSTHOG_HOST,
+      defaults: '2025-11-30',
+      person_profiles: 'identified_only',
       capture_pageview: true,
       autocapture: true
     });
