@@ -139,29 +139,59 @@
         return;
       }
 
-      function handleSurveys(surveys) {
-        if (surveys && surveys.length) {
-          var survey = surveys[0];
-          if (window.posthog.renderSurvey) {
-            window.posthog.renderSurvey(survey.id);
-          } else {
-            alert('Survey is not available yet. Please try again in a moment.');
-          }
-        } else {
+      function renderFirstSurvey(surveys) {
+        if (!surveys || !surveys.length) {
           alert('No survey is available right now. Please check back later.');
+          return;
         }
-      }
+        var survey = surveys[0];
 
-      try {
-        if (window.posthog.getActiveMatchingSurveys) {
-          var res = window.posthog.getActiveMatchingSurveys(handleSurveys);
-          if (res && typeof res.then === 'function') res.then(handleSurveys);
+        // Prefer async eligibility check when available
+        if (window.posthog.canRenderSurveyAsync) {
+          window.posthog.canRenderSurveyAsync(survey.id).then(function (canRender) {
+            if (canRender && window.posthog.renderSurvey) {
+              window.posthog.renderSurvey(survey.id);
+            } else {
+              alert('Survey is not available right now. Please check back later.');
+            }
+          });
           return;
         }
 
+        if (window.posthog.canRenderSurvey && !window.posthog.canRenderSurvey(survey.id)) {
+          alert('Survey is not available right now. Please check back later.');
+          return;
+        }
+
+        if (window.posthog.renderSurvey) {
+          window.posthog.renderSurvey(survey.id);
+        } else {
+          alert('Survey is not available yet. Please try again in a moment.');
+        }
+      }
+
+      // Ensure surveys are loaded before we attempt to render
+      if (window.posthog.onSurveysLoaded) {
+        window.posthog.onSurveysLoaded(function (surveys, context) {
+          if (context && context.error) {
+            alert('Survey failed to load. Please try again later.');
+            return;
+          }
+          renderFirstSurvey(surveys);
+        });
+        return;
+      }
+
+      // Fallback for older SDKs
+      try {
+        if (window.posthog.getActiveMatchingSurveys) {
+          var res = window.posthog.getActiveMatchingSurveys(renderFirstSurvey);
+          if (res && typeof res.then === 'function') res.then(renderFirstSurvey);
+          return;
+        }
         if (window.posthog.getSurveys) {
-          var resAll = window.posthog.getSurveys(handleSurveys);
-          if (resAll && typeof resAll.then === 'function') resAll.then(handleSurveys);
+          var resAll = window.posthog.getSurveys(renderFirstSurvey);
+          if (resAll && typeof resAll.then === 'function') resAll.then(renderFirstSurvey);
           return;
         }
       } catch (e) {
