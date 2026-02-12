@@ -1,9 +1,0 @@
-services:
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflared
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      - TUNNEL_TOKEN=eyJhIjoiZWJiZjFkNGU4Yzc1YTcwZjFhYTQ0Njc3ZThiNjI2OWYiLCJ0IjoiZTMyZTU2ZDUtMWM0My00MjNhLTgxZjAtODM1NTZkZGY5ZWMzIiwicyI6Ik1EaGxZVFExWTJZdE1tRmlaaTAwWmpjMUxXSm1NbU10TldSa1pqQm1NMlEyWVRRMSJ9
-    command: tunnel --no-autoupdate run
