@@ -1,12 +1,12 @@
 /* TinyHumanMD Service Worker — offline-first caching */
-var CACHE_NAME = 'tinyhumanmd-v2';
+var CACHE_NAME = 'tinyhumanmd-v3';
 var ASSETS = [
   '/',
   '/index.html',
   '/app.js',
   '/styles.css',
   '/shared/design.css',
-  '/shared/nav.js',
+  '/shared/nav-v2.js',
   '/shared/lms.js',
   '/shared/storage.js',
   '/shared/chart-helpers.js',
