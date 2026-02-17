@@ -1,0 +1,244 @@
+{
+  "common": {
+    "language": "Idioma",
+    "english": "English",
+    "spanish": "Español",
+    "skip_to_content": "Saltar al contenido",
+    "terms": "Términos y descargo médico",
+    "privacy": "Política de privacidad",
+    "not_medical": "No es consejo médico. Consulte siempre a un profesional de salud calificado.",
+    "not_legal": "No es asesoría legal. Consulte a un abogado calificado para orientación según su jurisdicción.",
+    "hindi": "Hindi",
+    "french": "Francés",
+    "chinese": "Chino mandarín",
+    "russian": "Ruso"
+  },
+  "nav": {
+    "schedule": "Calendario",
+    "catch_up": "Recuperación",
+    "growth": "Crecimiento",
+    "bilirubin": "Bilirrubina",
+    "ga_calc": "Edad gestacional",
+    "dosing": "Dosis",
+    "vaccines": "Vacunas",
+    "schedule_by_age": "Calendario por edad",
+    "catchup_schedule": "Calendario de recuperación",
+    "visual_timeline": "Línea de tiempo",
+    "vaccine_reference": "Referencia de vacunas",
+    "adult_vaccines": "Vacunas en adultos",
+    "pregnancy": "Embarazo",
+    "travel": "Viajes",
+    "mpox": "Mpox",
+    "vaccine_schedules": "Calendarios de vacunación",
+    "clinical_tools": "Herramientas clínicas",
+    "catchup_calculator": "Calculadora de recuperación",
+    "growth_charts": "Gráficas de crecimiento",
+    "bilirubin_calculator": "Calculadora de bilirrubina",
+    "gestational_age": "Edad gestacional",
+    "dosing_calculator": "Calculadora de dosis",
+    "suggest_addition": "¿Sugerir una función?"
+  },
+  "related": {
+    "heading": "Más herramientas pediátricas",
+    "home_title": "Calendario de vacunación",
+    "home_desc": "Calendario pediátrico AAP de nacimiento a 18 años",
+    "catchup_title": "Vacunas de recuperación",
+    "catchup_desc": "Guía de recuperación basada en AAP",
+    "growth_title": "Gráficas de crecimiento",
+    "growth_desc": "Calculadora de percentiles WHO, CDC y Fenton",
+    "bili_title": "Calculadora de bilirrubina",
+    "bili_desc": "Umbrales de fototerapia AAP 2022",
+    "ga_title": "Edad gestacional",
+    "ga_desc": "EG, edad corregida y fecha probable de parto",
+    "dosing_title": "Calculadora de dosis",
+    "dosing_desc": "Dosis pediátricas según peso"
+  },
+  "home": {
+    "hero_badge": "Guía prioritaria AAP",
+    "hero_title_html": "Calendario de inmunización<br/>infantil y adolescente",
+    "hero_sub": "Una forma más clara de ver qué vacunas se recomiendan desde el nacimiento hasta los 18 años para familias y profesionales de salud.",
+    "legend_recommended": "Recomendada",
+    "legend_catchup": "Recuperación",
+    "legend_high_risk": "Alto riesgo",
+    "legend_shared_decision": "Decisión compartida",
+    "schedule_heading": "Calendario por edad",
+    "schedule_sub": "Filtre por nombre de vacuna, grupo de edad o tipo de recomendación. Toque una celda para ver detalles.",
+    "search_placeholder": "Buscar vacunas...",
+    "search_aria": "Buscar vacunas",
+    "filter_age": "Edad",
+    "filter_type": "Tipo",
+    "table_empty": "No hay vacunas que coincidan con los filtros actuales.",
+    "catchup_heading": "Calendario de recuperación",
+    "catchup_sub": "Edades e intervalos mínimos para niños con vacunas retrasadas. No se reinicia una serie.",
+    "catchup_tab_young": "4 meses - 6 años",
+    "catchup_tab_older": "7 - 18 años",
+    "timeline_heading": "Línea de tiempo visual",
+    "timeline_sub": "Cada fila es una vacuna. Los puntos marcan cada dosis en el eje de edad.",
+    "reference_heading": "Tarjetas de referencia de vacunas",
+    "reference_sub": "Todo sobre cada vacuna en un solo lugar: calendario, notas y contraindicaciones.",
+    "adults_heading": "Vacunas en adultos",
+    "pregnancy_heading": "Embarazo y vacunación",
+    "travel_heading": "Vacunas para viajes",
+    "mpox_heading": "Vacuna contra mpox (viruela símica)",
+    "more_tools_heading": "Más herramientas clínicas pediátricas",
+    "age": {
+      "all": "Todas las edades",
+      "birth": "Nacimiento",
+      "1mo": "1 mes",
+      "2mo": "2 meses",
+      "4mo": "4 meses",
+      "6mo": "6 meses",
+      "9mo": "9 meses",
+      "12mo": "12 meses",
+      "15mo": "15 meses",
+      "18mo": "18 meses",
+      "2yr": "2-3 años",
+      "4yr": "4-6 años",
+      "7yr": "7-10 años",
+      "11yr": "11-12 años",
+      "13yr": "13-15 años",
+      "16yr": "16 años",
+      "17yr": "17-18 años"
+    },
+    "type": {
+      "all": "Todos los tipos",
+      "recommended": "Recomendada",
+      "catchup": "Recuperación",
+      "high_risk": "Alto riesgo",
+      "shared": "Decisión compartida"
+    }
+  },
+  "catchup": {
+    "hero_badge": "Guía prioritaria AAP",
+    "hero_title": "Calculadora de recuperación",
+    "hero_sub": "Ingrese la edad del niño y las vacunas recibidas. Genere un esquema de recuperación con intervalos mínimos para revisión clínica.",
+    "step1_title": "Paso 1: Información del niño",
+    "dob": "Fecha de nacimiento",
+    "today": "Fecha de hoy",
+    "step2_title": "Paso 2: Vacunas ya recibidas",
+    "step2_sub": "Marque cada dosis que el niño ya recibió. Deje sin marcar si no se aplicó o se desconoce.",
+    "calc_btn": "Generar plan de recuperación",
+    "results_title": "Plan de inmunización de recuperación",
+    "privacy_banner": "Sus datos nunca salen de este dispositivo. Sin cuentas. Sin servidores. Sin rastreo.",
+    "faq_heading": "Preguntas frecuentes sobre calendarios de recuperación"
+  },
+  "growth": {
+    "hero_title": "Gráficas de crecimiento",
+    "hero_sub": "Calcule percentiles y puntajes Z con WHO (0-24 m), CDC (2-20 a) o Fenton 2025 (prematuros).",
+    "measurements_title": "Mediciones del paciente",
+    "calc_btn": "Calcular",
+    "clear_btn": "Limpiar",
+    "results_title": "Resultados",
+    "privacy_banner": "Sus datos nunca salen de este dispositivo. Sin cuentas. Sin servidores. Sin rastreo.",
+    "faq_heading": "Preguntas frecuentes sobre gráficas de crecimiento"
+  },
+  "bili": {
+    "hero_title": "Evaluación de riesgo de bilirrubina",
+    "hero_sub": "Evalúe umbrales de fototerapia y exanguinotransfusión en recién nacidos >=35 semanas según AAP 2022.",
+    "patient_info_title": "Información del paciente",
+    "calc_btn": "Evaluar riesgo",
+    "clear_btn": "Limpiar",
+    "results_title": "Evaluación",
+    "privacy_banner": "Sus datos nunca salen de este dispositivo. Sin cuentas. Sin servidores. Sin rastreo.",
+    "faq_heading": "Preguntas frecuentes sobre bilirrubina neonatal"
+  },
+  "ga": {
+    "hero_title": "Calculadora de edad gestacional",
+    "hero_sub": "Ingrese cualquier fecha disponible y se calculará el resto. Incluye edad corregida para prematuros.",
+    "inputs_title": "Ingrese cualquier dato conocido",
+    "calc_btn": "Calcular",
+    "clear_btn": "Borrar todo",
+    "results_title": "Resultados calculados",
+    "privacy_banner": "Sus datos nunca salen de este dispositivo. Sin cuentas. Sin servidores. Sin rastreo.",
+    "faq_heading": "Preguntas frecuentes sobre edad gestacional"
+  },
+  "dosing": {
+    "hero_title": "Dosificación por peso",
+    "hero_sub": "Ingrese el peso del niño para calcular dosis pediátricas comunes con volúmenes y límites de seguridad.",
+    "patient_weight_title": "Peso del paciente",
+    "calc_btn": "Calcular dosis",
+    "privacy_banner": "Sus datos nunca salen de este dispositivo. Sin cuentas. Sin servidores. Sin rastreo.",
+    "faq_heading": "Preguntas frecuentes sobre dosificación pediátrica"
+  },
+  "legal": {
+    "badge": "Legal",
+    "on_this_page": "En esta página",
+    "summary": "Resumen",
+    "plain_summary": "Resumen en lenguaje sencillo",
+    "back_to_top": "Volver arriba"
+  },
+  "terms": {
+    "hero_title": "Términos de uso y descargo médico",
+    "hero_sub": "Reglas de uso, límites de seguridad y asignación de responsabilidad para TinyHumanMD."
+  },
+  "privacy": {
+    "hero_title": "Política de privacidad",
+    "hero_sub": "Cómo TinyHumanMD gestiona los datos del sitio y las responsabilidades del usuario."
+  },
+  "meta": {
+    "home": {
+      "title": "Calendario de inmunización infantil y adolescente AAP | TinyHumanMD",
+      "description": "Herramienta pediátrica gratuita con calendario de inmunización AAP, crecimiento, bilirrubina, edad gestacional y vacunas de recuperación.",
+      "og_title": "TinyHumanMD - Herramientas clínicas pediátricas",
+      "og_description": "Kit pediátrico gratuito: calendarios de vacunas, crecimiento, bilirrubina, edad gestacional y dosis por peso.",
+      "twitter_title": "TinyHumanMD - Herramientas clínicas pediátricas",
+      "twitter_description": "Herramientas pediátricas gratuitas con enfoque AAP. Funciona sin conexión."
+    },
+    "catchup": {
+      "title": "Calculadora de recuperación de vacunación pediátrica | TinyHumanMD",
+      "description": "Calculadora gratuita de recuperación de vacunas pediátricas con guía AAP e intervalos mínimos.",
+      "og_title": "Calculadora de recuperación de vacunas | TinyHumanMD",
+      "og_description": "Genere un esquema de recuperación de vacunas con guía pediátrica AAP.",
+      "twitter_title": "Calculadora de recuperación | TinyHumanMD",
+      "twitter_description": "Planificación de recuperación de vacunas pediátricas con guía AAP."
+    },
+    "growth": {
+      "title": "Calculadora de gráficas de crecimiento pediátrico | TinyHumanMD",
+      "description": "Calcule percentiles y puntajes Z con estándares WHO, CDC y Fenton 2025.",
+      "og_title": "Calculadora de crecimiento pediátrico | TinyHumanMD",
+      "og_description": "Percentiles de crecimiento pediátrico con WHO, CDC y Fenton.",
+      "twitter_title": "Calculadora de crecimiento | TinyHumanMD",
+      "twitter_description": "Percentiles y puntajes Z pediátricos."
+    },
+    "bili": {
+      "title": "Calculadora de bilirrubina neonatal AAP 2022 | TinyHumanMD",
+      "description": "Evaluación gratuita de riesgo de bilirrubina neonatal y umbrales de tratamiento según AAP 2022.",
+      "og_title": "Calculadora de bilirrubina neonatal | TinyHumanMD",
+      "og_description": "Evalúe riesgo y umbrales de tratamiento de bilirrubina neonatal.",
+      "twitter_title": "Calculadora de bilirrubina neonatal | TinyHumanMD",
+      "twitter_description": "Herramienta AAP 2022 para evaluación de bilirrubina neonatal."
+    },
+    "ga": {
+      "title": "Calculadora de edad gestacional y edad corregida | TinyHumanMD",
+      "description": "Calcule edad gestacional, FPP y edad corregida en prematuros.",
+      "og_title": "Calculadora de edad gestacional | TinyHumanMD",
+      "og_description": "Calcule EG, FPP y edad corregida para neonatología.",
+      "twitter_title": "Calculadora de edad gestacional | TinyHumanMD",
+      "twitter_description": "Herramienta gratuita de edad gestacional y edad corregida."
+    },
+    "dosing": {
+      "title": "Calculadora de dosis pediátricas por peso (mg/kg) | TinyHumanMD",
+      "description": "Calcule dosis pediátricas por peso con límites de seguridad y volúmenes.",
+      "og_title": "Calculadora de dosis pediátricas por peso | TinyHumanMD",
+      "og_description": "Dosis por peso para medicamentos pediátricos comunes.",
+      "twitter_title": "Calculadora de dosis pediátricas | TinyHumanMD",
+      "twitter_description": "Dosis por peso, volúmenes y límites de seguridad."
+    },
+    "terms": {
+      "title": "Términos de uso y descargo médico | TinyHumanMD",
+      "description": "Términos de uso y descargo médico de TinyHumanMD.",
+      "og_title": "Términos de uso | TinyHumanMD",
+      "og_description": "Reglas legales, límites de uso y descargo médico.",
+      "twitter_title": "Términos de uso | TinyHumanMD",
+      "twitter_description": "Lea los términos y limitaciones de TinyHumanMD."
+    },
+    "privacy": {
+      "title": "Política de privacidad | TinyHumanMD",
+      "description": "Política de privacidad de TinyHumanMD para herramientas clínicas pediátricas.",
+      "og_title": "Política de privacidad | TinyHumanMD",
+      "og_description": "Cómo TinyHumanMD maneja los datos del sitio.",
+      "twitter_title": "Política de privacidad | TinyHumanMD",
+      "twitter_description": "Revise la política de privacidad y manejo de datos de TinyHumanMD."
+    }
+  }
+}

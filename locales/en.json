@@ -1,0 +1,244 @@
+{
+  "common": {
+    "language": "Language",
+    "english": "English",
+    "spanish": "Español",
+    "skip_to_content": "Skip to content",
+    "terms": "Terms & Medical Disclaimer",
+    "privacy": "Privacy Policy",
+    "not_medical": "Not medical advice. Always consult a qualified healthcare provider.",
+    "not_legal": "Not legal advice. Consult qualified counsel for jurisdiction-specific guidance.",
+    "hindi": "Hindi",
+    "french": "French",
+    "chinese": "Mandarin Chinese",
+    "russian": "Russian"
+  },
+  "nav": {
+    "schedule": "Schedule",
+    "catch_up": "Catch-Up",
+    "growth": "Growth",
+    "bilirubin": "Bilirubin",
+    "ga_calc": "GA Calc",
+    "dosing": "Dosing",
+    "vaccines": "Vaccines",
+    "schedule_by_age": "Schedule by Age",
+    "catchup_schedule": "Catch-up Schedule",
+    "visual_timeline": "Visual Timeline",
+    "vaccine_reference": "Vaccine Reference",
+    "adult_vaccines": "Adult Vaccines",
+    "pregnancy": "Pregnancy",
+    "travel": "Travel",
+    "mpox": "Mpox",
+    "vaccine_schedules": "Vaccine Schedules",
+    "clinical_tools": "Clinical Tools",
+    "catchup_calculator": "Catch-Up Calculator",
+    "growth_charts": "Growth Charts",
+    "bilirubin_calculator": "Bilirubin Calculator",
+    "gestational_age": "Gestational Age",
+    "dosing_calculator": "Dosing Calculator",
+    "suggest_addition": "Suggest an addition?"
+  },
+  "related": {
+    "heading": "More Pediatric Tools",
+    "home_title": "Immunization Schedule",
+    "home_desc": "AAP-first child and adolescent schedule, birth to 18 years",
+    "catchup_title": "Catch-Up Vaccines",
+    "catchup_desc": "AAP-endorsed catch-up framework and dose guidance",
+    "growth_title": "Growth Charts",
+    "growth_desc": "WHO, CDC & Fenton percentile calculator",
+    "bili_title": "Bilirubin Calculator",
+    "bili_desc": "AAP 2022 phototherapy thresholds",
+    "ga_title": "Gestational Age",
+    "ga_desc": "GA, corrected age & due date calculator",
+    "dosing_title": "Dosing Calculator",
+    "dosing_desc": "Weight-based pediatric drug doses"
+  },
+  "home": {
+    "hero_badge": "AAP-First Guidance",
+    "hero_title_html": "Child &amp; Adolescent<br/>Immunization Schedule",
+    "hero_sub": "A clearer way to see what vaccines are recommended from birth through age 18, designed for parents and healthcare providers.",
+    "legend_recommended": "Recommended",
+    "legend_catchup": "Catch-up",
+    "legend_high_risk": "High-risk",
+    "legend_shared_decision": "Shared decision",
+    "schedule_heading": "Schedule by Age",
+    "schedule_sub": "Filter by vaccine name, age group, or recommendation type. Tap any cell for full details.",
+    "search_placeholder": "Search vaccines...",
+    "search_aria": "Search vaccines",
+    "filter_age": "Age",
+    "filter_type": "Type",
+    "table_empty": "No vaccines match your current filters.",
+    "catchup_heading": "Catch-up Schedule",
+    "catchup_sub": "Minimum ages and intervals for children whose vaccinations have been delayed. A series never needs to be restarted.",
+    "catchup_tab_young": "4 months - 6 years",
+    "catchup_tab_older": "7 - 18 years",
+    "timeline_heading": "Visual Timeline",
+    "timeline_sub": "Each row is a vaccine. Dots mark individual doses across the age axis.",
+    "reference_heading": "Vaccine Reference Cards",
+    "reference_sub": "Everything about each vaccine in one place: schedule, notes, and contraindications.",
+    "adults_heading": "Adult Vaccines",
+    "pregnancy_heading": "Pregnancy & Vaccination",
+    "travel_heading": "Travel Vaccines",
+    "mpox_heading": "Mpox (Monkeypox) Vaccine",
+    "more_tools_heading": "More Pediatric Clinical Tools",
+    "age": {
+      "all": "All ages",
+      "birth": "Birth",
+      "1mo": "1 month",
+      "2mo": "2 months",
+      "4mo": "4 months",
+      "6mo": "6 months",
+      "9mo": "9 months",
+      "12mo": "12 months",
+      "15mo": "15 months",
+      "18mo": "18 months",
+      "2yr": "2-3 years",
+      "4yr": "4-6 years",
+      "7yr": "7-10 years",
+      "11yr": "11-12 years",
+      "13yr": "13-15 years",
+      "16yr": "16 years",
+      "17yr": "17-18 years"
+    },
+    "type": {
+      "all": "All types",
+      "recommended": "Recommended",
+      "catchup": "Catch-up",
+      "high_risk": "High-risk",
+      "shared": "Shared decision"
+    }
+  },
+  "catchup": {
+    "hero_badge": "AAP-First Guidance",
+    "hero_title": "Catch-Up Schedule Calculator",
+    "hero_sub": "Enter the child's age and vaccines already received. Generate a catch-up framework with minimum intervals and next-dose planning for clinical review.",
+    "step1_title": "Step 1: Child Information",
+    "dob": "Date of Birth",
+    "today": "Today's Date",
+    "step2_title": "Step 2: Vaccines Already Received",
+    "step2_sub": "Check off each dose the child has received. Leave unchecked if not given or unknown.",
+    "calc_btn": "Generate Catch-Up Plan",
+    "results_title": "Catch-Up Immunization Plan",
+    "privacy_banner": "Your data never leaves this device. No accounts. No servers. No tracking.",
+    "faq_heading": "Frequently Asked Questions About Catch-Up Immunization Schedules"
+  },
+  "growth": {
+    "hero_title": "Growth Charts",
+    "hero_sub": "Calculate percentiles and Z-scores using WHO (0-24m), CDC (2-20y), or Fenton 2025 (preterm) standards.",
+    "measurements_title": "Patient Measurements",
+    "calc_btn": "Calculate",
+    "clear_btn": "Clear",
+    "results_title": "Results",
+    "privacy_banner": "Your data never leaves this device. No accounts. No servers. No tracking.",
+    "faq_heading": "Frequently Asked Questions About Pediatric Growth Charts"
+  },
+  "bili": {
+    "hero_title": "Bilirubin Risk Assessment",
+    "hero_sub": "Assess phototherapy and exchange transfusion thresholds for newborns >= 35 weeks gestation using the AAP 2022 clinical practice guidelines.",
+    "patient_info_title": "Patient Information",
+    "calc_btn": "Assess Risk",
+    "clear_btn": "Clear",
+    "results_title": "Assessment",
+    "privacy_banner": "Your data never leaves this device. No accounts. No servers. No tracking.",
+    "faq_heading": "Frequently Asked Questions About Neonatal Bilirubin"
+  },
+  "ga": {
+    "hero_title": "Gestational Age Calculator",
+    "hero_sub": "Enter any available dates and the rest will be calculated. Includes corrected age for preterm infants.",
+    "inputs_title": "Enter Any Known Values",
+    "calc_btn": "Calculate",
+    "clear_btn": "Clear All",
+    "results_title": "Calculated Results",
+    "privacy_banner": "Your data never leaves this device. No accounts. No servers. No tracking.",
+    "faq_heading": "Frequently Asked Questions About Gestational Age"
+  },
+  "dosing": {
+    "hero_title": "Weight-Based Dosing",
+    "hero_sub": "Enter the child's weight to calculate common pediatric medication doses with volumes and safety limits.",
+    "patient_weight_title": "Patient Weight",
+    "calc_btn": "Calculate Doses",
+    "privacy_banner": "Your data never leaves this device. No accounts. No servers. No tracking.",
+    "faq_heading": "Frequently Asked Questions About Pediatric Medication Dosing"
+  },
+  "legal": {
+    "badge": "Legal",
+    "on_this_page": "On This Page",
+    "summary": "Summary",
+    "plain_summary": "Plain-English Summary",
+    "back_to_top": "Back to top"
+  },
+  "terms": {
+    "hero_title": "Terms of Use & Medical Disclaimer",
+    "hero_sub": "Usage rules, safety boundaries, and responsibility allocation for TinyHumanMD."
+  },
+  "privacy": {
+    "hero_title": "Privacy Policy",
+    "hero_sub": "How TinyHumanMD handles website data and user responsibilities."
+  },
+  "meta": {
+    "home": {
+      "title": "AAP Child & Adolescent Immunization Schedule - Pediatric Vaccine Guidance & Clinical Tools | TinyHumanMD",
+      "description": "Free interactive AAP-first child and adolescent immunization schedule for birth to 18 years. Pediatric clinical tools: growth charts, bilirubin calculator, gestational age calculator, catch-up vaccines, and dosing calculator. Works offline.",
+      "og_title": "TinyHumanMD - Pediatric Clinical Tools",
+      "og_description": "Free AAP-first pediatric clinical toolkit: immunization schedules, growth charts, bilirubin calculator, gestational age calculator, catch-up vaccines, and weight-based dosing.",
+      "twitter_title": "TinyHumanMD - Pediatric Clinical Tools",
+      "twitter_description": "Free AAP-first pediatric clinical toolkit: immunization schedules, growth charts, bilirubin calculator, and more. Works offline. No accounts needed."
+    },
+    "catchup": {
+      "title": "Catch-Up Immunization Schedule Calculator - AAP-Endorsed Pediatric Missed Dose Plan | TinyHumanMD",
+      "description": "Free catch-up immunization schedule calculator. Enter child's age and vaccines received to generate a catch-up framework. AAP-primary pediatric guidance with minimum intervals and next-dose planning for clinical review.",
+      "og_title": "Catch-Up Immunization Schedule Calculator - AAP-Endorsed Guidance | TinyHumanMD",
+      "og_description": "Free catch-up vaccine calculator. Enter age and vaccines received, get an AAP-primary catch-up framework with minimum-interval guidance.",
+      "twitter_title": "Catch-Up Immunization Calculator - AAP-Endorsed | TinyHumanMD",
+      "twitter_description": "Catch-up immunization planning for missed vaccines using AAP-primary guidance. Free and offline-capable."
+    },
+    "growth": {
+      "title": "Pediatric Growth Chart Calculator - WHO, CDC & Fenton Percentiles | TinyHumanMD",
+      "description": "Free pediatric growth chart calculator. Calculate percentiles and Z-scores using WHO (0-24 months), CDC (2-20 years), and Fenton 2025 preterm standards. Weight-for-age, length-for-age, head circumference, BMI-for-age.",
+      "og_title": "Pediatric Growth Chart Calculator - WHO, CDC & Fenton | TinyHumanMD",
+      "og_description": "Free growth chart calculator. WHO (0-24m), CDC (2-20y), and Fenton 2025 (preterm) standards. Weight, length, head circumference, BMI percentiles and Z-scores.",
+      "twitter_title": "Pediatric Growth Chart Calculator | TinyHumanMD",
+      "twitter_description": "Free pediatric growth chart calculator with WHO, CDC, and Fenton standards. Percentiles and Z-scores. Works offline."
+    },
+    "bili": {
+      "title": "Newborn Bilirubin Calculator - AAP 2022 Jaundice Phototherapy & Exchange Thresholds | TinyHumanMD",
+      "description": "Free AAP 2022 neonatal bilirubin risk assessment tool. Calculate phototherapy and exchange transfusion thresholds for newborns >=35 weeks. TSB nomogram, neurotoxicity risk factors, hyperbilirubinemia management.",
+      "og_title": "Newborn Bilirubin Calculator - AAP 2022 | TinyHumanMD",
+      "og_description": "Assess newborn bilirubin risk and treatment thresholds using AAP 2022 guidance.",
+      "twitter_title": "Newborn Bilirubin Calculator | TinyHumanMD",
+      "twitter_description": "AAP 2022 bilirubin phototherapy and exchange thresholds for newborns."
+    },
+    "ga": {
+      "title": "Gestational Age & Corrected Age Calculator | TinyHumanMD",
+      "description": "Calculate gestational age from LMP, EDD, or birth date. Corrected age for preterm infants. Free NICU and nursery calculator.",
+      "og_title": "Gestational Age Calculator | TinyHumanMD",
+      "og_description": "Calculate gestational age, EDD, and corrected age for preterm infants.",
+      "twitter_title": "Gestational Age Calculator | TinyHumanMD",
+      "twitter_description": "Free GA and corrected age calculator for pediatrics and neonatology."
+    },
+    "dosing": {
+      "title": "Pediatric Dosing Calculator - Weight-Based Drug Doses for Children (mg/kg) | TinyHumanMD",
+      "description": "Free pediatric dosing calculator. Calculate weight-based medication doses for children with safety limits and liquid volumes.",
+      "og_title": "Pediatric Dosing Calculator - Tylenol, Motrin, Amoxicillin (mg/kg) | TinyHumanMD",
+      "og_description": "Free weight-based pediatric dosing calculator with doses, volumes, and safety limits.",
+      "twitter_title": "Pediatric Dosing Calculator - Weight-Based (mg/kg) | TinyHumanMD",
+      "twitter_description": "Free pediatric dosing calculator. Tylenol, Motrin, Amoxicillin doses by weight. Safety limits and volumes."
+    },
+    "terms": {
+      "title": "Terms of Use & Medical Disclaimer | TinyHumanMD",
+      "description": "Terms of Use and Medical Disclaimer for TinyHumanMD pediatric clinical tools.",
+      "og_title": "Terms of Use & Medical Disclaimer | TinyHumanMD",
+      "og_description": "Legal terms, use restrictions, and medical disclaimer for TinyHumanMD.",
+      "twitter_title": "Terms of Use | TinyHumanMD",
+      "twitter_description": "Read TinyHumanMD terms, limitations, and medical disclaimer."
+    },
+    "privacy": {
+      "title": "Privacy Policy | TinyHumanMD",
+      "description": "Privacy Policy for TinyHumanMD pediatric clinical tools.",
+      "og_title": "Privacy Policy | TinyHumanMD",
+      "og_description": "How TinyHumanMD handles website data and user responsibilities.",
+      "twitter_title": "Privacy Policy | TinyHumanMD",
+      "twitter_description": "Review TinyHumanMD privacy and data handling policy."
+    }
+  }
+}

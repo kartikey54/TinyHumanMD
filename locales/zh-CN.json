@@ -1,0 +1,244 @@
+{
+  "common": {
+    "language": "语言",
+    "english": "英语",
+    "spanish": "西班牙语",
+    "skip_to_content": "跳转到主要内容",
+    "terms": "使用条款与医疗免责声明",
+    "privacy": "隐私政策",
+    "not_medical": "本内容不构成医疗建议。请始终咨询有资质的医疗专业人员。",
+    "not_legal": "本内容不构成法律建议。请根据您所在司法辖区咨询合格律师。",
+    "hindi": "印地语",
+    "french": "法语",
+    "chinese": "简体中文",
+    "russian": "俄语"
+  },
+  "nav": {
+    "schedule": "免疫程序",
+    "catch_up": "补种",
+    "growth": "生长",
+    "bilirubin": "胆红素",
+    "ga_calc": "孕周计算",
+    "dosing": "剂量",
+    "vaccines": "疫苗",
+    "schedule_by_age": "按年龄的程序",
+    "catchup_schedule": "补种程序",
+    "visual_timeline": "可视化时间线",
+    "vaccine_reference": "疫苗参考",
+    "adult_vaccines": "成人疫苗",
+    "pregnancy": "妊娠",
+    "travel": "旅行",
+    "mpox": "猴痘",
+    "vaccine_schedules": "疫苗程序",
+    "clinical_tools": "临床工具",
+    "catchup_calculator": "补种计算器",
+    "growth_charts": "生长曲线",
+    "bilirubin_calculator": "胆红素计算器",
+    "gestational_age": "孕周",
+    "dosing_calculator": "剂量计算器",
+    "suggest_addition": "建议新增内容？"
+  },
+  "related": {
+    "heading": "更多儿科工具",
+    "home_title": "免疫接种程序",
+    "home_desc": "AAP优先的0到18岁免疫接种程序",
+    "catchup_title": "补种疫苗",
+    "catchup_desc": "基于AAP的补种框架与剂次指导",
+    "growth_title": "生长曲线",
+    "growth_desc": "WHO、CDC与Fenton百分位计算",
+    "bili_title": "胆红素计算器",
+    "bili_desc": "AAP 2022光疗阈值",
+    "ga_title": "孕周",
+    "ga_desc": "孕周、矫正年龄与预产期计算",
+    "dosing_title": "剂量计算器",
+    "dosing_desc": "按体重计算儿科用药剂量"
+  },
+  "home": {
+    "hero_badge": "AAP优先指南",
+    "hero_title_html": "儿童与青少年<br/>免疫接种程序",
+    "hero_sub": "更清晰地查看从出生到18岁推荐的疫苗，面向家长与医疗专业人员。",
+    "legend_recommended": "推荐",
+    "legend_catchup": "补种",
+    "legend_high_risk": "高风险",
+    "legend_shared_decision": "共同决策",
+    "schedule_heading": "按年龄的程序",
+    "schedule_sub": "可按疫苗名称、年龄组或推荐类型筛选。点击任意单元格查看详细信息。",
+    "search_placeholder": "搜索疫苗...",
+    "search_aria": "搜索疫苗",
+    "filter_age": "年龄",
+    "filter_type": "类型",
+    "table_empty": "当前筛选条件下没有匹配的疫苗。",
+    "catchup_heading": "补种程序",
+    "catchup_sub": "适用于延迟接种儿童的最小年龄和最短间隔。疫苗系列无需重新开始。",
+    "catchup_tab_young": "4个月 - 6岁",
+    "catchup_tab_older": "7 - 18岁",
+    "timeline_heading": "可视化时间线",
+    "timeline_sub": "每一行代表一种疫苗，圆点表示各年龄轴上的每一剂。",
+    "reference_heading": "疫苗参考卡",
+    "reference_sub": "每种疫苗的信息集中呈现：程序、备注与禁忌。",
+    "adults_heading": "成人疫苗",
+    "pregnancy_heading": "妊娠与接种",
+    "travel_heading": "旅行疫苗",
+    "mpox_heading": "猴痘（Mpox）疫苗",
+    "more_tools_heading": "更多儿科临床工具",
+    "age": {
+      "all": "All ages",
+      "birth": "Birth",
+      "1mo": "1 month",
+      "2mo": "2 months",
+      "4mo": "4 months",
+      "6mo": "6 months",
+      "9mo": "9 months",
+      "12mo": "12 months",
+      "15mo": "15 months",
+      "18mo": "18 months",
+      "2yr": "2-3 years",
+      "4yr": "4-6 years",
+      "7yr": "7-10 years",
+      "11yr": "11-12 years",
+      "13yr": "13-15 years",
+      "16yr": "16 years",
+      "17yr": "17-18 years"
+    },
+    "type": {
+      "all": "All types",
+      "recommended": "Recommended",
+      "catchup": "Catch-up",
+      "high_risk": "High-risk",
+      "shared": "Shared decision"
+    }
+  },
+  "catchup": {
+    "hero_badge": "AAP优先指南",
+    "hero_title": "补种程序计算器",
+    "hero_sub": "输入儿童年龄及已接种疫苗。生成用于临床复核的补种框架，包含最短间隔与下一剂规划。",
+    "step1_title": "步骤1：儿童信息",
+    "dob": "出生日期",
+    "today": "今天日期",
+    "step2_title": "步骤2：已接种疫苗",
+    "step2_sub": "勾选已接种剂次；未接种或不确定请留空。",
+    "calc_btn": "生成补种计划",
+    "results_title": "补种免疫计划",
+    "privacy_banner": "您的数据不会离开此设备。无需账户，无服务器，无追踪。",
+    "faq_heading": "关于补种免疫程序的常见问题"
+  },
+  "growth": {
+    "hero_title": "生长曲线",
+    "hero_sub": "使用WHO(0-24月)、CDC(2-20岁)或Fenton 2025(早产)标准计算百分位和Z分数。",
+    "measurements_title": "患者测量值",
+    "calc_btn": "计算",
+    "clear_btn": "清除",
+    "results_title": "结果",
+    "privacy_banner": "您的数据不会离开此设备。无需账户，无服务器，无追踪。",
+    "faq_heading": "关于儿科生长曲线的常见问题"
+  },
+  "bili": {
+    "hero_title": "胆红素风险评估",
+    "hero_sub": "依据AAP 2022临床指南，评估胎龄>=35周新生儿的光疗和换血阈值。",
+    "patient_info_title": "患者信息",
+    "calc_btn": "评估风险",
+    "clear_btn": "清除",
+    "results_title": "评估结果",
+    "privacy_banner": "您的数据不会离开此设备。无需账户，无服务器，无追踪。",
+    "faq_heading": "关于新生儿胆红素的常见问题"
+  },
+  "ga": {
+    "hero_title": "孕周计算器",
+    "hero_sub": "输入任意可用日期，其余将自动计算。包含早产儿矫正年龄。",
+    "inputs_title": "输入任意已知值",
+    "calc_btn": "计算",
+    "clear_btn": "全部清除",
+    "results_title": "计算结果",
+    "privacy_banner": "您的数据不会离开此设备。无需账户，无服务器，无追踪。",
+    "faq_heading": "关于孕周的常见问题"
+  },
+  "dosing": {
+    "hero_title": "按体重剂量计算",
+    "hero_sub": "输入儿童体重，计算常见儿科药物剂量、体积和安全上限。",
+    "patient_weight_title": "患者体重",
+    "calc_btn": "计算剂量",
+    "privacy_banner": "您的数据不会离开此设备。无需账户，无服务器，无追踪。",
+    "faq_heading": "关于儿科用药剂量的常见问题"
+  },
+  "legal": {
+    "badge": "法律",
+    "on_this_page": "本页内容",
+    "summary": "摘要",
+    "plain_summary": "通俗摘要",
+    "back_to_top": "返回顶部"
+  },
+  "terms": {
+    "hero_title": "使用条款与医疗免责声明",
+    "hero_sub": "TinyHumanMD 的使用规则、安全边界与责任分配。"
+  },
+  "privacy": {
+    "hero_title": "隐私政策",
+    "hero_sub": "TinyHumanMD 如何处理网站数据以及用户责任。"
+  },
+  "meta": {
+    "home": {
+      "title": "AAP Child & Adolescent Immunization Schedule - Pediatric Vaccine Guidance & Clinical Tools | TinyHumanMD",
+      "description": "Free interactive AAP-first child and adolescent immunization schedule for birth to 18 years. Pediatric clinical tools: growth charts, bilirubin calculator, gestational age calculator, catch-up vaccines, and dosing calculator. Works offline.",
+      "og_title": "TinyHumanMD - Pediatric Clinical Tools",
+      "og_description": "Free AAP-first pediatric clinical toolkit: immunization schedules, growth charts, bilirubin calculator, gestational age calculator, catch-up vaccines, and weight-based dosing.",
+      "twitter_title": "TinyHumanMD - Pediatric Clinical Tools",
+      "twitter_description": "Free AAP-first pediatric clinical toolkit: immunization schedules, growth charts, bilirubin calculator, and more. Works offline. No accounts needed."
+    },
+    "catchup": {
+      "title": "Catch-Up Immunization Schedule Calculator - AAP-Endorsed Pediatric Missed Dose Plan | TinyHumanMD",
+      "description": "Free catch-up immunization schedule calculator. Enter child's age and vaccines received to generate a catch-up framework. AAP-primary pediatric guidance with minimum intervals and next-dose planning for clinical review.",
+      "og_title": "Catch-Up Immunization Schedule Calculator - AAP-Endorsed Guidance | TinyHumanMD",
+      "og_description": "Free catch-up vaccine calculator. Enter age and vaccines received, get an AAP-primary catch-up framework with minimum-interval guidance.",
+      "twitter_title": "Catch-Up Immunization Calculator - AAP-Endorsed | TinyHumanMD",
+      "twitter_description": "Catch-up immunization planning for missed vaccines using AAP-primary guidance. Free and offline-capable."
+    },
+    "growth": {
+      "title": "Pediatric Growth Chart Calculator - WHO, CDC & Fenton Percentiles | TinyHumanMD",
+      "description": "Free pediatric growth chart calculator. Calculate percentiles and Z-scores using WHO (0-24 months), CDC (2-20 years), and Fenton 2025 preterm standards. Weight-for-age, length-for-age, head circumference, BMI-for-age.",
+      "og_title": "Pediatric Growth Chart Calculator - WHO, CDC & Fenton | TinyHumanMD",
+      "og_description": "Free growth chart calculator. WHO (0-24m), CDC (2-20y), and Fenton 2025 (preterm) standards. Weight, length, head circumference, BMI percentiles and Z-scores.",
+      "twitter_title": "Pediatric Growth Chart Calculator | TinyHumanMD",
+      "twitter_description": "Free pediatric growth chart calculator with WHO, CDC, and Fenton standards. Percentiles and Z-scores. Works offline."
+    },
+    "bili": {
+      "title": "Newborn Bilirubin Calculator - AAP 2022 Jaundice Phototherapy & Exchange Thresholds | TinyHumanMD",
+      "description": "Free AAP 2022 neonatal bilirubin risk assessment tool. Calculate phototherapy and exchange transfusion thresholds for newborns >=35 weeks. TSB nomogram, neurotoxicity risk factors, hyperbilirubinemia management.",
+      "og_title": "Newborn Bilirubin Calculator - AAP 2022 | TinyHumanMD",
+      "og_description": "Assess newborn bilirubin risk and treatment thresholds using AAP 2022 guidance.",
+      "twitter_title": "Newborn Bilirubin Calculator | TinyHumanMD",
+      "twitter_description": "AAP 2022 bilirubin phototherapy and exchange thresholds for newborns."
+    },
+    "ga": {
+      "title": "Gestational Age & Corrected Age Calculator | TinyHumanMD",
+      "description": "Calculate gestational age from LMP, EDD, or birth date. Corrected age for preterm infants. Free NICU and nursery calculator.",
+      "og_title": "Gestational Age Calculator | TinyHumanMD",
+      "og_description": "Calculate gestational age, EDD, and corrected age for preterm infants.",
+      "twitter_title": "Gestational Age Calculator | TinyHumanMD",
+      "twitter_description": "Free GA and corrected age calculator for pediatrics and neonatology."
+    },
+    "dosing": {
+      "title": "Pediatric Dosing Calculator - Weight-Based Drug Doses for Children (mg/kg) | TinyHumanMD",
+      "description": "Free pediatric dosing calculator. Calculate weight-based medication doses for children with safety limits and liquid volumes.",
+      "og_title": "Pediatric Dosing Calculator - Tylenol, Motrin, Amoxicillin (mg/kg) | TinyHumanMD",
+      "og_description": "Free weight-based pediatric dosing calculator with doses, volumes, and safety limits.",
+      "twitter_title": "Pediatric Dosing Calculator - Weight-Based (mg/kg) | TinyHumanMD",
+      "twitter_description": "Free pediatric dosing calculator. Tylenol, Motrin, Amoxicillin doses by weight. Safety limits and volumes."
+    },
+    "terms": {
+      "title": "Terms of Use & Medical Disclaimer | TinyHumanMD",
+      "description": "Terms of Use and Medical Disclaimer for TinyHumanMD pediatric clinical tools.",
+      "og_title": "Terms of Use & Medical Disclaimer | TinyHumanMD",
+      "og_description": "Legal terms, use restrictions, and medical disclaimer for TinyHumanMD.",
+      "twitter_title": "Terms of Use | TinyHumanMD",
+      "twitter_description": "Read TinyHumanMD terms, limitations, and medical disclaimer."
+    },
+    "privacy": {
+      "title": "Privacy Policy | TinyHumanMD",
+      "description": "Privacy Policy for TinyHumanMD pediatric clinical tools.",
+      "og_title": "Privacy Policy | TinyHumanMD",
+      "og_description": "How TinyHumanMD handles website data and user responsibilities.",
+      "twitter_title": "Privacy Policy | TinyHumanMD",
+      "twitter_description": "Review TinyHumanMD privacy and data handling policy."
+    }
+  }
+}

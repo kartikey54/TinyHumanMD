@@ -1,5 +1,5 @@
-/* TinyHumanMD Service Worker — offline-first caching */
-var CACHE_NAME = 'tinyhumanmd-v2';
+/* TinyHumanMD Service Worker — app-shell offline caching + locale network-first */
+var CACHE_NAME = 'tinyhumanmd-v4';
 var ASSETS = [
   '/',
   '/index.html',
@@ -12,6 +12,7 @@ var ASSETS = [
   '/shared/chart-helpers.js',
   '/shared/analytics.js',
   '/shared/seo.js',
+  '/shared/i18n.js',
   '/growth/index.html',
   '/growth/growth.js',
   '/growth/growth.css',
@@ -32,7 +33,9 @@ var ASSETS = [
   '/data/fenton-2025-lms.json',
   '/data/bili-thresholds.json',
   '/data/dosing-reference.json',
-  '/data/cdsi-antigens.json'
+  '/data/cdsi-antigens.json',
+  '/locales/en.json',
+  '/locales/es.json'
 ];
 
 self.addEventListener('install', function (e) {
@@ -57,20 +60,50 @@ self.addEventListener('activate', function (e) {
 });
 
 self.addEventListener('fetch', function (e) {
+  var req = e.request;
+  if (req.method !== 'GET') return;
+
+  var url = new URL(req.url);
+  var isLocaleCatalog = (
+    url.origin === self.location.origin &&
+    url.pathname.indexOf('/locales/') === 0 &&
+    /\.json$/i.test(url.pathname)
+  );
+
+  if (isLocaleCatalog) {
+    e.respondWith(
+      fetch(req).then(function (response) {
+        if (response && response.status === 200) {
+          var clone = response.clone();
+          caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(req, clone);
+          });
+        }
+        return response;
+      }).catch(function () {
+        return caches.match(req).then(function (cached) {
+          if (cached) return cached;
+          return caches.match('/locales/en.json');
+        });
+      })
+    );
+    return;
+  }
+
   e.respondWith(
-    caches.match(e.request).then(function (cached) {
+    caches.match(req).then(function (cached) {
       if (cached) return cached;
-      return fetch(e.request).then(function (response) {
+      return fetch(req).then(function (response) {
         if (response && response.status === 200 && response.type === 'basic') {
           var clone = response.clone();
           caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(e.request, clone);
+            cache.put(req, clone);
           });
         }
         return response;
       }).catch(function () {
         /* offline fallback — return cached index if available */
-        if (e.request.mode === 'navigate') {
+        if (req.mode === 'navigate') {
           return caches.match('/index.html');
         }
       });
