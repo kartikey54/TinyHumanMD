@@ -1,7 +1,6 @@
 .env
 node_modules/
 .DS_Store
-shared/analytics-config.js
 Dify/volumes/
 Dify/.env
 uptimeKuma/data/*.db*

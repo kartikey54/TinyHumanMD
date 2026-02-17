@@ -13,279 +13,279 @@
     "runtime_probes_enabled": true,
     "counts": {
       "blocker": 3,
-      "major": 15,
+      "major": 14,
       "minor": 2,
-      "total": 20
+      "total": 19
     }
   },
   "round_log": [
     {
       "round": 1,
-      "executor_submitted": 20,
-      "critics_new_findings": 20,
+      "executor_submitted": 19,
+      "critics_new_findings": 19,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 2,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 3,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 4,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 5,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 6,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 7,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 8,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 9,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 10,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 11,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 12,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 13,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 14,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 15,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 16,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 17,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 18,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 19,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 20,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 21,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 22,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 23,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 24,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 25,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 26,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 27,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 28,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 29,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     },
     {
       "round": 30,
-      "executor_submitted": 20,
+      "executor_submitted": 19,
       "critics_new_findings": 0,
       "open_blockers": 3,
-      "open_majors": 15,
+      "open_majors": 14,
       "open_minors": 2,
       "judge_status": "accepted"
     }
@@ -688,36 +688,6 @@
       "expected": "Visualization domain should cover accepted input domain or enforce stricter input limits.",
       "risk": "User-facing graph may clip or misrepresent entered values.",
       "fix_hint": "Synchronize axis bounds with validated input limits and threshold data range.",
-      "owner": "frontend"
-    },
-    {
-      "gate_id": "G-TECH-002",
-      "domain": "technical",
-      "severity": "major",
-      "title": "shared/analytics-config.js is referenced but absent from repository",
-      "status": "confirmed",
-      "evidence": {
-        "code_refs": [
-          "shared/analytics-config.js",
-          "index.html:338",
-          "growth/index.html:175",
-          "bili/index.html:141",
-          "catch-up/index.html:124",
-          "dosing/index.html:120",
-          "ga-calc/index.html:134"
-        ],
-        "runtime_refs": [],
-        "citations": []
-      },
-      "repro_steps": [
-        "Search for shared/analytics-config.js in repo.",
-        "Verify script tag references across route HTML files.",
-        "Load pages in an environment without deploy-time injection and observe missing asset requests."
-      ],
-      "observed": "Multiple pages reference a file that is not present in tracked source.",
-      "expected": "Required runtime assets should be present in source or safely gated when missing.",
-      "risk": "404 errors, config drift, and unpredictable analytics runtime behavior.",
-      "fix_hint": "Commit a safe default config module or harden loader path to handle optional config deterministically.",
       "owner": "frontend"
     },
     {

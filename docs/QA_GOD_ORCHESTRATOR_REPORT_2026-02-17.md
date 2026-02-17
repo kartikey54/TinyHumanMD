@@ -8,9 +8,9 @@ Adversarial rounds executed: 30
 ## Severity Summary
 
 - Blocker: 3
-- Major: 15
+- Major: 14
 - Minor: 2
-- Total confirmed findings: 20
+- Total confirmed findings: 19
 
 ## Runtime Probe Summary
 
@@ -182,16 +182,6 @@ Adversarial rounds executed: 30
 - Code refs: bili/index.html:57, bili/bili.js:171
 - Repro: Open /bili/ and enter age >100h. -> Generate chart and inspect patient point visibility/scaling. -> Review chart x-axis hard cap in bili.js.
 
-### G-TECH-002 [MAJOR] shared/analytics-config.js is referenced but absent from repository
-- Domain: technical
-- Owner: frontend
-- Observed: Multiple pages reference a file that is not present in tracked source.
-- Expected: Required runtime assets should be present in source or safely gated when missing.
-- Risk: 404 errors, config drift, and unpredictable analytics runtime behavior.
-- Fix hint: Commit a safe default config module or harden loader path to handle optional config deterministically.
-- Code refs: shared/analytics-config.js, index.html:338, growth/index.html:175, bili/index.html:141, catch-up/index.html:124, dosing/index.html:120, ga-calc/index.html:134
-- Repro: Search for shared/analytics-config.js in repo. -> Verify script tag references across route HTML files. -> Load pages in an environment without deploy-time injection and observe missing asset requests.
-
 ### G-TECH-003 [MAJOR] Security header baseline missing CSP and HSTS directives in _headers
 - Domain: technical
 - Owner: ops
@@ -236,33 +226,33 @@ Adversarial rounds executed: 30
 
 | Round | Submitted | New Findings | Blockers | Majors | Minors | Judge |
 |---|---:|---:|---:|---:|---:|---|
-| 1 | 20 | 20 | 3 | 15 | 2 | accepted |
-| 2 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 3 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 4 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 5 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 6 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 7 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 8 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 9 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 10 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 11 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 12 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 13 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 14 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 15 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 16 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 17 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 18 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 19 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 20 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 21 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 22 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 23 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 24 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 25 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 26 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 27 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 28 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 29 | 20 | 0 | 3 | 15 | 2 | accepted |
-| 30 | 20 | 0 | 3 | 15 | 2 | accepted |
+| 1 | 19 | 19 | 3 | 14 | 2 | accepted |
+| 2 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 3 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 4 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 5 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 6 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 7 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 8 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 9 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 10 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 11 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 12 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 13 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 14 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 15 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 16 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 17 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 18 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 19 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 20 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 21 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 22 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 23 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 24 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 25 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 26 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 27 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 28 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 29 | 19 | 0 | 3 | 14 | 2 | accepted |
+| 30 | 19 | 0 | 3 | 14 | 2 | accepted |

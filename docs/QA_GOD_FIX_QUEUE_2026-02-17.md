@@ -19,8 +19,7 @@ Date: 2026-02-17
 | 13 | G-OPS-001 | major | ops | Use explicit project separation and deploy commands without mutable config swaps. | Environment configs should clearly separate targets and avoid mutable swap-side effects. |
 | 14 | G-RUNTIME-003 | major | ops | Introduce versioned asset strategy before retaining immutable 1y cache semantics. | Immutable caching should accompany content-hashed/versioned asset paths. |
 | 15 | G-TECH-001 | major | frontend | Synchronize axis bounds with validated input limits and threshold data range. | Visualization domain should cover accepted input domain or enforce stricter input limits. |
-| 16 | G-TECH-002 | major | frontend | Commit a safe default config module or harden loader path to handle optional config deterministically. | Required runtime assets should be present in source or safely gated when missing. |
-| 17 | G-TECH-003 | major | ops | Add CSP and HSTS directives with staged rollout/testing to avoid breaking required assets. | Production header baseline should include CSP and HSTS (where deployment supports HTTPS-only). |
-| 18 | G-TECH-004 | major | ops | Adopt build-time content hashing or explicit version query strategy and update cache policy accordingly. | Immutable caching should be paired with hashed or versioned asset paths. |
-| 19 | G-CONTENT-001 | minor | seo | Generate sitemap and metadata timestamps from a single release pipeline source. | Sitemap/page metadata should reflect a consistent release-date governance process. |
-| 20 | G-TECH-005 | minor | ops | Generate precache manifest during build or add automated cache-manifest consistency checks. | Critical cache manifests should be generated or validated automatically. |
+| 16 | G-TECH-003 | major | ops | Add CSP and HSTS directives with staged rollout/testing to avoid breaking required assets. | Production header baseline should include CSP and HSTS (where deployment supports HTTPS-only). |
+| 17 | G-TECH-004 | major | ops | Adopt build-time content hashing or explicit version query strategy and update cache policy accordingly. | Immutable caching should be paired with hashed or versioned asset paths. |
+| 18 | G-CONTENT-001 | minor | seo | Generate sitemap and metadata timestamps from a single release pipeline source. | Sitemap/page metadata should reflect a consistent release-date governance process. |
+| 19 | G-TECH-005 | minor | ops | Generate precache manifest during build or add automated cache-manifest consistency checks. | Critical cache manifests should be generated or validated automatically. |

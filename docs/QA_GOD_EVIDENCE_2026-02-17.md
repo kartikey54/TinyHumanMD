@@ -104,10 +104,6 @@ Date: 2026-02-17
 - Title: Bilirubin chart x-axis cap (100h) conflicts with UI input range (0-168h)
 - Code refs: bili/index.html:57, bili/bili.js:171
 
-### G-TECH-002
-- Title: shared/analytics-config.js is referenced but absent from repository
-- Code refs: shared/analytics-config.js, index.html:338, growth/index.html:175, bili/index.html:141, catch-up/index.html:124, dosing/index.html:120, ga-calc/index.html:134
-
 ### G-TECH-003
 - Title: Security header baseline missing CSP and HSTS directives in _headers
 - Code refs: _headers:3, _headers:4, _headers:5
