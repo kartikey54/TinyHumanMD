@@ -1,5 +1,5 @@
 /* TinyHumanMD Service Worker — app-shell offline caching + locale network-first */
-var CACHE_NAME = 'tinyhumanmd-v4';
+var CACHE_NAME = 'tinyhumanmd-v5';
 var ASSETS = [
   '/',
   '/index.html',
