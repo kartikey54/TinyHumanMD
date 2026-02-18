@@ -4,13 +4,17 @@
   "description": "Pediatric clinical toolkit and vaccine calculator",
   "scripts": {
     "build": "echo 'Building TinyHumanMD static site'",
+    "test:catchup:age": "node --test scripts/tests/catchup-age-ranges.test.mjs",
     "deploy:staging": "./scripts/deploy.sh",
     "deploy:prod": "./scripts/deploy.sh && echo 'Choose option 2 for production'",
+    "deploy:catchup:prod": "./scripts/catchup-age-prod-orchestrator.sh",
     "dev": "wrangler pages dev .",
     "staging": "wrangler pages dev . --config staging-wrangler.toml",
     "qa:god": "node scripts/qa-god-orchestrator.mjs",
     "qa:mobile": "node scripts/mobile-ux-orchestrator.mjs",
     "qa:mobile:apply": "node scripts/mobile-ux-orchestrator.mjs --apply",
+    "qa:peds:discover": "node scripts/peds-domain-discovery.mjs",
+    "qa:peds:orchestrate1000": "node scripts/peds-1000-quality-orchestrator.mjs",
     "qa:peds:intel": "node scripts/peds-strategy-orchestrator.mjs",
     "qa:peds:intel:refresh": "PEDS_INTEL_FORCE_REFRESH=1 node scripts/peds-strategy-orchestrator.mjs",
     "qa:peds:intel:offline": "PEDS_INTEL_SKIP_NETWORK=1 node scripts/peds-strategy-orchestrator.mjs"
