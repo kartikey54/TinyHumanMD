@@ -135,13 +135,25 @@ if [ "$STAGING_ONLY" -eq 1 ]; then
   DEPLOY_ARGS+=("--staging-only")
 fi
 
+DEPLOY_ARGS_STR=""
+if [ "${#DEPLOY_ARGS[@]}" -gt 0 ]; then
+  DEPLOY_ARGS_STR="${DEPLOY_ARGS[*]}"
+fi
+
 info "Running gated deploy orchestrator (ORCH_ASSUME_YES=1, ALLOW_EXCESS_FEATURES=1)"
 (
   cd "$REPO_ROOT"
-  TEST_CMD="npm run test:catchup:age" \
-  ALLOW_EXCESS_FEATURES=1 \
-  ORCH_ASSUME_YES=1 \
-  ./scripts/deploy-orchestrator.sh "${DEPLOY_ARGS[@]}"
+  if [ "${#DEPLOY_ARGS[@]}" -gt 0 ]; then
+    TEST_CMD="npm run test:catchup:age" \
+    ALLOW_EXCESS_FEATURES=1 \
+    ORCH_ASSUME_YES=1 \
+    ./scripts/deploy-orchestrator.sh "${DEPLOY_ARGS[@]}"
+  else
+    TEST_CMD="npm run test:catchup:age" \
+    ALLOW_EXCESS_FEATURES=1 \
+    ORCH_ASSUME_YES=1 \
+    ./scripts/deploy-orchestrator.sh
+  fi
 )
 
 STAGING_ALIAS="$(grep -E '^staging_alias:' "$SUMMARY_LOG" | tail -n 1 | sed 's/^staging_alias:[[:space:]]*//' || true)"
@@ -224,7 +236,7 @@ cat > "$REPORT_PATH" <<REPORT
 
 - npm run test:catchup:age
 - npm run build
-- TEST_CMD="npm run test:catchup:age" ALLOW_EXCESS_FEATURES=1 ORCH_ASSUME_YES=1 ./scripts/deploy-orchestrator.sh ${DEPLOY_ARGS[*]}
+- TEST_CMD="npm run test:catchup:age" ALLOW_EXCESS_FEATURES=1 ORCH_ASSUME_YES=1 ./scripts/deploy-orchestrator.sh ${DEPLOY_ARGS_STR}
 
 ## Deployment Targets
 
