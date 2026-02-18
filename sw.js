@@ -1,12 +1,12 @@
 /* TinyHumanMD Service Worker — app-shell offline caching + locale network-first */
-var CACHE_NAME = 'tinyhumanmd-v5';
+var CACHE_NAME = 'tinyhumanmd-v6';
 var ASSETS = [
   '/',
   '/index.html',
   '/app.js',
   '/styles.css',
   '/shared/design.css',
-  '/shared/nav.js',
+  '/shared/nav.js?v=20260218-navfix',
   '/shared/lms.js',
   '/shared/storage.js',
   '/shared/chart-helpers.js',

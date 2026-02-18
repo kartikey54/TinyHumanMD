@@ -1,0 +1,791 @@
+{
+  "generated_at": "2026-02-18T03:49:10.516Z",
+  "out_date": "2026-02-18",
+  "config": {
+    "strict": true,
+    "include_optional": false,
+    "rounds": 20,
+    "required_context_files": [
+      "docs/QA_GOD_FIX_QUEUE_2026-02-17.md",
+      "docs/WEBSITE_REVIEW_2026-02-17.md",
+      "docs/PEDS_GTM_PLAN_2026-02-17.md"
+    ],
+    "optional_context_files": []
+  },
+  "sources": [
+    {
+      "id": "docs-qa-god-fix-queue-2026-02-17-md",
+      "path": "docs/QA_GOD_FIX_QUEUE_2026-02-17.md",
+      "type": "md",
+      "required": true,
+      "exists": true,
+      "loaded_at": "2026-02-18T03:49:10.492Z",
+      "hash": "9c6c586f34"
+    },
+    {
+      "id": "docs-website-review-2026-02-17-md",
+      "path": "docs/WEBSITE_REVIEW_2026-02-17.md",
+      "type": "md",
+      "required": true,
+      "exists": true,
+      "loaded_at": "2026-02-18T03:49:10.493Z",
+      "hash": "ffe2f9b9cd"
+    },
+    {
+      "id": "docs-peds-gtm-plan-2026-02-17-md",
+      "path": "docs/PEDS_GTM_PLAN_2026-02-17.md",
+      "type": "md",
+      "required": true,
+      "exists": true,
+      "loaded_at": "2026-02-18T03:49:10.493Z",
+      "hash": "1c2b1938aa"
+    }
+  ],
+  "warnings": [],
+  "actions": [
+    {
+      "action_id": "action-g-legal-001-strip-dob-date-fields-from-analytics-event",
+      "title": "Strip DOB/date fields from analytics events and retain only coarse, non-identifying derived categories.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:7"
+      ],
+      "evidence_refs": [],
+      "owner": "analytics",
+      "severity": "blocker",
+      "priority_score": 85,
+      "acceptance_criteria": [
+        "Potentially identifying/date-sensitive clinical inputs should be excluded or strongly minimized from analytics payloads."
+      ],
+      "risk_summary": "Strip DOB/date fields from analytics events and retain only coarse, non-identifying derived categories.",
+      "dependencies": [
+        "action-g-cross-001-harmonize-legal-language-with-actual-produ",
+        "action-g-legal-002-align-copy-and-policy-with-actual-behavior",
+        "action-g-legal-003-introduce-explicit-consent-state-gate-and-",
+        "action-g-tech-004-adopt-build-time-content-hashing-or-explic"
+      ],
+      "gates": [
+        "G-LEGAL-001"
+      ],
+      "domains": [
+        "legal",
+        "medical"
+      ],
+      "gtm_alignment": "medium",
+      "wave": "wave_0",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-LEGAL-001",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-med-002-add-patient-age-input-evaluate-med-minage-",
+      "title": "Add patient age input, evaluate med.minAge rules before output, and block/flag ineligible results.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:9"
+      ],
+      "evidence_refs": [],
+      "owner": "logic",
+      "severity": "blocker",
+      "priority_score": 80,
+      "acceptance_criteria": [
+        "Medication outputs with age restrictions should require age input and enforce hard-stop/guardrails."
+      ],
+      "risk_summary": "Add patient age input, evaluate med.minAge rules before output, and block/flag ineligible results.",
+      "dependencies": [],
+      "gates": [
+        "G-MED-002"
+      ],
+      "domains": [],
+      "gtm_alignment": "high",
+      "wave": "wave_0",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-MED-002",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-med-001-add-per-dose-date-capture-and-validation-p",
+      "title": "Add per-dose date capture and validation pipeline before forecasting.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:8"
+      ],
+      "evidence_refs": [],
+      "owner": "logic",
+      "severity": "blocker",
+      "priority_score": 70,
+      "acceptance_criteria": [
+        "Catch-up planning should capture date-aware prior dose validity when claiming interval-sensitive planning."
+      ],
+      "risk_summary": "Add per-dose date capture and validation pipeline before forecasting.",
+      "dependencies": [],
+      "gates": [
+        "G-MED-001"
+      ],
+      "domains": [
+        "medical",
+        "ops"
+      ],
+      "gtm_alignment": "low",
+      "wave": "wave_0",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-MED-001",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-cross-001-harmonize-legal-language-with-actual-produ",
+      "title": "Harmonize legal language with actual product intent and schema declarations.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:10"
+      ],
+      "evidence_refs": [],
+      "owner": "legal",
+      "severity": "major",
+      "priority_score": 50,
+      "acceptance_criteria": [
+        "Legal, product, and structured-data positioning should be coherent and non-contradictory."
+      ],
+      "risk_summary": "Harmonize legal language with actual product intent and schema declarations.",
+      "dependencies": [
+        "action-g-content-001-generate-sitemap-and-metadata-timestamps-f",
+        "action-g-med-001-add-per-dose-date-capture-and-validation-p",
+        "action-g-med-002-add-patient-age-input-evaluate-med-minage-",
+        "action-g-med-003-replace-hardcoded-thresholds-with-validate",
+        "action-g-ops-001-use-explicit-project-separation-and-deploy",
+        "action-g-runtime-003-introduce-versioned-asset-strategy-before-",
+        "action-g-tech-001-synchronize-axis-bounds-with-validated-inp",
+        "action-g-tech-003-add-csp-and-hsts-directives-with-staged-ro",
+        "action-g-tech-004-adopt-build-time-content-hashing-or-explic",
+        "action-g-tech-005-generate-precache-manifest-during-build-or"
+      ],
+      "gates": [
+        "G-CROSS-001"
+      ],
+      "domains": [
+        "legal",
+        "product",
+        "technical"
+      ],
+      "gtm_alignment": "high",
+      "wave": "wave_1",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-CROSS-001",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-med-004-persist-calculation-context-including-usef",
+      "title": "Persist calculation context (including useFenton/fentonGaWeeks) and pass through tab redraw calls.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:16"
+      ],
+      "evidence_refs": [],
+      "owner": "logic",
+      "severity": "major",
+      "priority_score": 50,
+      "acceptance_criteria": [
+        "Preterm/Fenton mode should persist across tab interactions."
+      ],
+      "risk_summary": "Persist calculation context (including useFenton/fentonGaWeeks) and pass through tab redraw calls.",
+      "dependencies": [],
+      "gates": [
+        "G-MED-004"
+      ],
+      "domains": [],
+      "gtm_alignment": "high",
+      "wave": "wave_2",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-MED-004",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-med-006-either-implement-bmi-for-age-calculations-",
+      "title": "Either implement BMI-for-age calculations and UI or remove BMI claims from metadata/content.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:18"
+      ],
+      "evidence_refs": [],
+      "owner": "content",
+      "severity": "major",
+      "priority_score": 50,
+      "acceptance_criteria": [
+        "Public capability statements should match implemented calculator behavior."
+      ],
+      "risk_summary": "Either implement BMI-for-age calculations and UI or remove BMI claims from metadata/content.",
+      "dependencies": [
+        "action-g-content-001-generate-sitemap-and-metadata-timestamps-f",
+        "action-g-med-001-add-per-dose-date-capture-and-validation-p",
+        "action-g-med-002-add-patient-age-input-evaluate-med-minage-",
+        "action-g-med-003-replace-hardcoded-thresholds-with-validate",
+        "action-g-ops-001-use-explicit-project-separation-and-deploy",
+        "action-g-runtime-003-introduce-versioned-asset-strategy-before-",
+        "action-g-tech-001-synchronize-axis-bounds-with-validated-inp",
+        "action-g-tech-003-add-csp-and-hsts-directives-with-staged-ro",
+        "action-g-tech-004-adopt-build-time-content-hashing-or-explic",
+        "action-g-tech-005-generate-precache-manifest-during-build-or"
+      ],
+      "gates": [
+        "G-MED-006"
+      ],
+      "domains": [
+        "legal",
+        "product"
+      ],
+      "gtm_alignment": "high",
+      "wave": "wave_1",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-MED-006",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-legal-002-align-copy-and-policy-with-actual-behavior",
+      "title": "Align copy and policy with actual behavior or disable tracking paths that contradict current statements.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:11"
+      ],
+      "evidence_refs": [],
+      "owner": "legal",
+      "severity": "major",
+      "priority_score": 40,
+      "acceptance_criteria": [
+        "Public privacy claims should accurately reflect active telemetry behavior."
+      ],
+      "risk_summary": "Align copy and policy with actual behavior or disable tracking paths that contradict current statements.",
+      "dependencies": [
+        "action-g-content-001-generate-sitemap-and-metadata-timestamps-f",
+        "action-g-cross-001-harmonize-legal-language-with-actual-produ",
+        "action-g-legal-003-introduce-explicit-consent-state-gate-and-",
+        "action-g-med-001-add-per-dose-date-capture-and-validation-p",
+        "action-g-med-002-add-patient-age-input-evaluate-med-minage-",
+        "action-g-med-003-replace-hardcoded-thresholds-with-validate",
+        "action-g-ops-001-use-explicit-project-separation-and-deploy",
+        "action-g-runtime-003-introduce-versioned-asset-strategy-before-",
+        "action-g-tech-001-synchronize-axis-bounds-with-validated-inp",
+        "action-g-tech-003-add-csp-and-hsts-directives-with-staged-ro",
+        "action-g-tech-004-adopt-build-time-content-hashing-or-explic",
+        "action-g-tech-005-generate-precache-manifest-during-build-or"
+      ],
+      "gates": [
+        "G-LEGAL-002"
+      ],
+      "domains": [
+        "legal"
+      ],
+      "gtm_alignment": "low",
+      "wave": "wave_1",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-LEGAL-002",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-legal-003-introduce-explicit-consent-state-gate-and-",
+      "title": "Introduce explicit consent state gate and remove implicit hardcoded production measurement defaults.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:12"
+      ],
+      "evidence_refs": [],
+      "owner": "legal",
+      "severity": "major",
+      "priority_score": 40,
+      "acceptance_criteria": [
+        "Consent-sensitive tracking should be gated and fallback IDs should not silently activate in production paths."
+      ],
+      "risk_summary": "Introduce explicit consent state gate and remove implicit hardcoded production measurement defaults.",
+      "dependencies": [
+        "action-g-cross-001-harmonize-legal-language-with-actual-produ",
+        "action-g-legal-002-align-copy-and-policy-with-actual-behavior",
+        "action-g-tech-004-adopt-build-time-content-hashing-or-explic"
+      ],
+      "gates": [
+        "G-LEGAL-003"
+      ],
+      "domains": [
+        "legal",
+        "product",
+        "technical"
+      ],
+      "gtm_alignment": "medium",
+      "wave": "wave_1",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-LEGAL-003",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-legal-004-add-explicit-pre-init-dnt-gate-or-remove-c",
+      "title": "Add explicit pre-init DNT gate or remove claims implying DNT-based suppression.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:13"
+      ],
+      "evidence_refs": [],
+      "owner": "legal",
+      "severity": "major",
+      "priority_score": 40,
+      "acceptance_criteria": [
+        "If DNT is represented as respected behavior, analytics init should branch accordingly."
+      ],
+      "risk_summary": "Add explicit pre-init DNT gate or remove claims implying DNT-based suppression.",
+      "dependencies": [
+        "action-g-content-001-generate-sitemap-and-metadata-timestamps-f",
+        "action-g-cross-001-harmonize-legal-language-with-actual-produ",
+        "action-g-legal-002-align-copy-and-policy-with-actual-behavior",
+        "action-g-legal-003-introduce-explicit-consent-state-gate-and-",
+        "action-g-med-001-add-per-dose-date-capture-and-validation-p",
+        "action-g-med-002-add-patient-age-input-evaluate-med-minage-",
+        "action-g-med-003-replace-hardcoded-thresholds-with-validate",
+        "action-g-ops-001-use-explicit-project-separation-and-deploy",
+        "action-g-runtime-003-introduce-versioned-asset-strategy-before-",
+        "action-g-tech-001-synchronize-axis-bounds-with-validated-inp",
+        "action-g-tech-003-add-csp-and-hsts-directives-with-staged-ro",
+        "action-g-tech-004-adopt-build-time-content-hashing-or-explic",
+        "action-g-tech-005-generate-precache-manifest-during-build-or"
+      ],
+      "gates": [
+        "G-LEGAL-004"
+      ],
+      "domains": [
+        "legal"
+      ],
+      "gtm_alignment": "low",
+      "wave": "wave_1",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-LEGAL-004",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-legal-005-move-geolocation-behind-first-party-endpoi",
+      "title": "Move geolocation behind first-party endpoint or approved provider with explicit HTTPS and governance controls.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:14"
+      ],
+      "evidence_refs": [],
+      "owner": "ops",
+      "severity": "major",
+      "priority_score": 40,
+      "acceptance_criteria": [
+        "Production telemetry should use secure, policy-approved geolocation providers and explicit contractual limits."
+      ],
+      "risk_summary": "Move geolocation behind first-party endpoint or approved provider with explicit HTTPS and governance controls.",
+      "dependencies": [
+        "action-g-cross-001-harmonize-legal-language-with-actual-produ",
+        "action-g-legal-002-align-copy-and-policy-with-actual-behavior",
+        "action-g-legal-003-introduce-explicit-consent-state-gate-and-",
+        "action-g-tech-004-adopt-build-time-content-hashing-or-explic"
+      ],
+      "gates": [
+        "G-LEGAL-005"
+      ],
+      "domains": [
+        "legal",
+        "ops",
+        "product"
+      ],
+      "gtm_alignment": "medium",
+      "wave": "wave_1",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-LEGAL-005",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-med-003-replace-hardcoded-thresholds-with-validate",
+      "title": "Replace hardcoded thresholds with validated constants and add unit tests for boundary days.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:15"
+      ],
+      "evidence_refs": [],
+      "owner": "logic",
+      "severity": "major",
+      "priority_score": 40,
+      "acceptance_criteria": [
+        "Term classifications should map accurately to accepted gestational age bins."
+      ],
+      "risk_summary": "Replace hardcoded thresholds with validated constants and add unit tests for boundary days.",
+      "dependencies": [],
+      "gates": [
+        "G-MED-003"
+      ],
+      "domains": [
+        "medical",
+        "technical"
+      ],
+      "gtm_alignment": "medium",
+      "wave": "wave_1",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-MED-003",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-med-005-either-constrain-accepted-age-to-supported",
+      "title": "Either constrain accepted age to supported data range or add explicitly validated extended curves.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:17"
+      ],
+      "evidence_refs": [],
+      "owner": "logic",
+      "severity": "major",
+      "priority_score": 40,
+      "acceptance_criteria": [
+        "Input range and modeled threshold domain should remain aligned or explicitly flagged as extrapolation."
+      ],
+      "risk_summary": "Either constrain accepted age to supported data range or add explicitly validated extended curves.",
+      "dependencies": [],
+      "gates": [
+        "G-MED-005"
+      ],
+      "domains": [],
+      "gtm_alignment": "medium",
+      "wave": "wave_2",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-MED-005",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-ops-001-use-explicit-project-separation-and-deploy",
+      "title": "Use explicit project separation and deploy commands without mutable config swaps.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:19"
+      ],
+      "evidence_refs": [],
+      "owner": "ops",
+      "severity": "major",
+      "priority_score": 40,
+      "acceptance_criteria": [
+        "Environment configs should clearly separate targets and avoid mutable swap-side effects."
+      ],
+      "risk_summary": "Use explicit project separation and deploy commands without mutable config swaps.",
+      "dependencies": [],
+      "gates": [
+        "G-OPS-001"
+      ],
+      "domains": [
+        "ops"
+      ],
+      "gtm_alignment": "low",
+      "wave": "wave_2",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-OPS-001",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-runtime-003-introduce-versioned-asset-strategy-before-",
+      "title": "Introduce versioned asset strategy before retaining immutable 1y cache semantics.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:20"
+      ],
+      "evidence_refs": [],
+      "owner": "ops",
+      "severity": "major",
+      "priority_score": 40,
+      "acceptance_criteria": [
+        "Immutable caching should accompany content-hashed/versioned asset paths."
+      ],
+      "risk_summary": "Introduce versioned asset strategy before retaining immutable 1y cache semantics.",
+      "dependencies": [],
+      "gates": [
+        "G-RUNTIME-003"
+      ],
+      "domains": [
+        "ops",
+        "product",
+        "technical"
+      ],
+      "gtm_alignment": "medium",
+      "wave": "wave_2",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-RUNTIME-003",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-tech-001-synchronize-axis-bounds-with-validated-inp",
+      "title": "Synchronize axis bounds with validated input limits and threshold data range.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:21"
+      ],
+      "evidence_refs": [],
+      "owner": "frontend",
+      "severity": "major",
+      "priority_score": 40,
+      "acceptance_criteria": [
+        "Visualization domain should cover accepted input domain or enforce stricter input limits."
+      ],
+      "risk_summary": "Synchronize axis bounds with validated input limits and threshold data range.",
+      "dependencies": [],
+      "gates": [
+        "G-TECH-001"
+      ],
+      "domains": [],
+      "gtm_alignment": "low",
+      "wave": "wave_2",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-TECH-001",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-tech-003-add-csp-and-hsts-directives-with-staged-ro",
+      "title": "Add CSP and HSTS directives with staged rollout/testing to avoid breaking required assets.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:22"
+      ],
+      "evidence_refs": [],
+      "owner": "ops",
+      "severity": "major",
+      "priority_score": 40,
+      "acceptance_criteria": [
+        "Production header baseline should include CSP and HSTS (where deployment supports HTTPS-only)."
+      ],
+      "risk_summary": "Add CSP and HSTS directives with staged rollout/testing to avoid breaking required assets.",
+      "dependencies": [],
+      "gates": [
+        "G-TECH-003"
+      ],
+      "domains": [
+        "ops",
+        "product",
+        "technical"
+      ],
+      "gtm_alignment": "medium",
+      "wave": "wave_2",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-TECH-003",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-tech-004-adopt-build-time-content-hashing-or-explic",
+      "title": "Adopt build-time content hashing or explicit version query strategy and update cache policy accordingly.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:23"
+      ],
+      "evidence_refs": [],
+      "owner": "ops",
+      "severity": "major",
+      "priority_score": 40,
+      "acceptance_criteria": [
+        "Immutable caching should be paired with hashed or versioned asset paths."
+      ],
+      "risk_summary": "Adopt build-time content hashing or explicit version query strategy and update cache policy accordingly.",
+      "dependencies": [],
+      "gates": [
+        "G-TECH-004"
+      ],
+      "domains": [
+        "legal",
+        "ops",
+        "product",
+        "technical"
+      ],
+      "gtm_alignment": "medium",
+      "wave": "wave_1",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-TECH-004",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-content-001-generate-sitemap-and-metadata-timestamps-f",
+      "title": "Generate sitemap and metadata timestamps from a single release pipeline source.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:24"
+      ],
+      "evidence_refs": [],
+      "owner": "seo",
+      "severity": "minor",
+      "priority_score": 20,
+      "acceptance_criteria": [
+        "Sitemap/page metadata should reflect a consistent release-date governance process."
+      ],
+      "risk_summary": "Generate sitemap and metadata timestamps from a single release pipeline source.",
+      "dependencies": [
+        "action-g-med-001-add-per-dose-date-capture-and-validation-p",
+        "action-g-med-002-add-patient-age-input-evaluate-med-minage-",
+        "action-g-med-003-replace-hardcoded-thresholds-with-validate",
+        "action-g-ops-001-use-explicit-project-separation-and-deploy",
+        "action-g-runtime-003-introduce-versioned-asset-strategy-before-",
+        "action-g-tech-001-synchronize-axis-bounds-with-validated-inp",
+        "action-g-tech-003-add-csp-and-hsts-directives-with-staged-ro",
+        "action-g-tech-004-adopt-build-time-content-hashing-or-explic",
+        "action-g-tech-005-generate-precache-manifest-during-build-or"
+      ],
+      "gates": [
+        "G-CONTENT-001"
+      ],
+      "domains": [
+        "ops",
+        "product"
+      ],
+      "gtm_alignment": "medium",
+      "wave": "wave_3",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-CONTENT-001",
+      "merge_notes": []
+    },
+    {
+      "action_id": "action-g-tech-005-generate-precache-manifest-during-build-or",
+      "title": "Generate precache manifest during build or add automated cache-manifest consistency checks.",
+      "source_refs": [
+        "docs/QA_GOD_FIX_QUEUE_2026-02-17.md:25"
+      ],
+      "evidence_refs": [],
+      "owner": "ops",
+      "severity": "minor",
+      "priority_score": 20,
+      "acceptance_criteria": [
+        "Critical cache manifests should be generated or validated automatically."
+      ],
+      "risk_summary": "Generate precache manifest during build or add automated cache-manifest consistency checks.",
+      "dependencies": [],
+      "gates": [
+        "G-TECH-005"
+      ],
+      "domains": [
+        "ops",
+        "technical"
+      ],
+      "gtm_alignment": "low",
+      "wave": "wave_3",
+      "status": "proposed",
+      "source_set": [
+        "merged"
+      ],
+      "preferred_gate": "G-TECH-005",
+      "merge_notes": []
+    }
+  ],
+  "waves": [
+    {
+      "wave_id": "wave_0",
+      "goal": "Blocker risk containment and release-safety preconditions",
+      "entry_criteria": [
+        "Backlog normalized",
+        "Blocker actions identified"
+      ],
+      "exit_criteria": [
+        "All blocker acceptance criteria passed",
+        "No unresolved blocker dependencies"
+      ],
+      "items": [
+        "action-g-legal-001-strip-dob-date-fields-from-analytics-event",
+        "action-g-med-002-add-patient-age-input-evaluate-med-minage-",
+        "action-g-med-001-add-per-dose-date-capture-and-validation-p"
+      ],
+      "owner_load": {
+        "analytics": 1,
+        "logic": 2
+      }
+    },
+    {
+      "wave_id": "wave_1",
+      "goal": "Major medical/legal correctness and contradiction removal",
+      "entry_criteria": [
+        "Wave 0 complete or explicitly waived"
+      ],
+      "exit_criteria": [
+        "Major medical/legal actions meet acceptance criteria"
+      ],
+      "items": [
+        "action-g-cross-001-harmonize-legal-language-with-actual-produ",
+        "action-g-med-006-either-implement-bmi-for-age-calculations-",
+        "action-g-legal-002-align-copy-and-policy-with-actual-behavior",
+        "action-g-legal-003-introduce-explicit-consent-state-gate-and-",
+        "action-g-legal-004-add-explicit-pre-init-dnt-gate-or-remove-c",
+        "action-g-legal-005-move-geolocation-behind-first-party-endpoi",
+        "action-g-med-003-replace-hardcoded-thresholds-with-validate",
+        "action-g-tech-004-adopt-build-time-content-hashing-or-explic"
+      ],
+      "owner_load": {
+        "legal": 4,
+        "content": 1,
+        "ops": 2,
+        "logic": 1
+      }
+    },
+    {
+      "wave_id": "wave_2",
+      "goal": "Remaining major technical/ops hardening",
+      "entry_criteria": [
+        "Wave 1 complete"
+      ],
+      "exit_criteria": [
+        "Infrastructure and runtime major gates satisfied"
+      ],
+      "items": [
+        "action-g-med-004-persist-calculation-context-including-usef",
+        "action-g-med-005-either-constrain-accepted-age-to-supported",
+        "action-g-ops-001-use-explicit-project-separation-and-deploy",
+        "action-g-runtime-003-introduce-versioned-asset-strategy-before-",
+        "action-g-tech-001-synchronize-axis-bounds-with-validated-inp",
+        "action-g-tech-003-add-csp-and-hsts-directives-with-staged-ro"
+      ],
+      "owner_load": {
+        "logic": 2,
+        "ops": 3,
+        "frontend": 1
+      }
+    },
+    {
+      "wave_id": "wave_3",
+      "goal": "Minor governance, SEO, and process stabilization",
+      "entry_criteria": [
+        "Major waves complete"
+      ],
+      "exit_criteria": [
+        "Minor actions triaged and scheduled with owners"
+      ],
+      "items": [
+        "action-g-content-001-generate-sitemap-and-metadata-timestamps-f",
+        "action-g-tech-005-generate-precache-manifest-during-build-or"
+      ],
+      "owner_load": {
+        "seo": 1,
+        "ops": 1
+      }
+    }
+  ]
+}
